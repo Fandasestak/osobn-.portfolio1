@@ -1,0 +1,199 @@
+  <!doctype html>
+  <html lang="cs">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Šesty</title>
+    <link rel="shortcut icon" href="fsLogo4.svg" type="image/x-icon">
+    <link href='https://cdn.boxicons.com/fonts/brands/boxicons-brands.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <div class="brand">
+          <div class="logo-wrap">
+
+            
+            <div id="logoHolder" class="logo-scratch" title="Scorpio Holding owner">
+              <div id="logoSVGWrap" class="logo-rotate" style="width:72px;height:72px;display:grid;place-items:center">
+                <a href="#home"><img src="fsLogo5.svg" alt="Logo" id="sestySVG" style="width:48px;height:48px;user-select:none;pointer-events:none"></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="brand-text">
+            <div style="font-weight:700">Šesty</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.6)">František Šesták</div>
+          </div>
+        </div>
+
+
+        <div style="display:flex;gap:10px;align-items:center" class="desktop-nav">
+          <nav class="nav">
+            
+            <a href="https://sesty.dev">Domů</a>
+            <a href="#aboutme">O mně</a>
+            <a href="#projects">Projekty</a>
+            <a href="#contact">Kontakt</a>
+          </nav>
+          
+        </div>
+
+        <div class="hamburger-button" id="hamburgerButton">
+                <span class="hamburger-icon"></span>
+            </div>
+
+      </header>
+
+      <nav class="mobile-menu" id="mobileMenu">
+        <a href="https://sesty.dev">Domů</a>
+        <a href="#aboutme">O mně</a>
+        <a href="#projects">Projekty</a>
+        <a href="#contact">Kontakt</a>
+      </nav>
+
+
+      <div class="hscroller" id="scroller" tabindex="0">
+        <section class="panel" id="home">
+          <div class="card">
+            <h1 class="modern">Domů</h1>
+            <div class="modern_text" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+               <p class="modern_text">Vítejte v mém portfoliu, v rychlosti se vám představím:</p>
+            </div>
+           
+            <div style="margin-top:18px;display:flex;gap:12px;justify-content:center">
+              <a class="cta" href="#projects" style="text-decoration:none">Projekty</a>
+              <a class="cta" href="#aboutme" style="text-decoration:none"><box-icon name='right-arrow-alt' animation='tada' color='#aa8541' width="100px"></box-icon></a>
+            </div>
+          </div>
+        </section>
+</header>
+       
+        <section class="panel" id="aboutme">
+          
+          <div class="card">
+            <h1 class="modern">O mně</h1>
+            <div class="modern_text" style="display: flex; justify-content: center; align-items: center;">
+               <p class="modern_text">Takže... Učím se programovat a designovat webové stránky (HTML, CSS, JS), i programovat v ☕︎ webové aplikace. Zde je i reference na mého kamaráda <a href="https://skymmel.eu/" style="color: #aa8541">Vojtou Wilhelmem Skybou</a>, který mi s webem pomáhal.</p>
+            </div>
+            <div class="ref" style="margin-top:18px;display:flex;gap:12px;justify-content:center">
+              <button class="cta" onclick="downloadCV()">Životopis (𝟐𝟎𝟐𝟓)</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" id="projects">
+          <div class="card">
+            <h1 class="modern">Projekty</h1>
+            <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+              <h2 style="align-items: left; justify-content: left;" class="modern_text">Moje firma</h2>
+              <img src="projekt1.png" width="80%" class="obrazek" style="border:5px solid #2362de; border-radius: 10px;">
+              <a href="" style="color:#aa8541" >Scorpio.company</a>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel" id="contact">
+          <div class="card obrazek">
+            <h1 class="modern">Kontaktuj mě...</h1>
+              <div class="social-media" style="display: flex; justify-content: center; align-items: center; gap: 30px; margin-top: 20px; width: 100%;">
+                <a href="mailto:frantisek.sestak@tutamail.com" class="la" title="frantisek.sestak@tutamail.com"><box-icon name='gmail' type='logo' animation='tada' color='#aa8541' ></box-icon></a>
+                <a href="tel:+420602813911" class="la" title="+420 602 813 911"><box-icon name='phone-call' type='solid' animation='tada' color='#ffffff' ></box-icon></a>
+                <a href="https://www.instagram.com/fsestak9" class="la" title="@fsestak9"><box-icon name='instagram' type='logo' color='#aa8541'animation="tada"></box-icon></a>
+                <a href="https://github.com/Fandasestak" class="la" title="Github link:"><box-icon name='github' type='logo' color='#ffffff'animation="tada"></box-icon></a>
+              </div> 
+          </div>
+        </section>
+      </div>
+
+      <div class="three-wrap" id="threewrap"></div>
+      <div class="blob a"></div>
+      <div class="blob b"></div>
+    </div>
+    <!-- 3D obrázek reagující na pohyb myši -->
+     
+    <script>
+
+      document.addEventListener('DOMContentLoaded', () => {
+            const hamburgerButton = document.getElementById('hamburgerButton');
+            const mobileMenu = document.getElementById('mobileMenu');
+            
+            // Získáme odkazy uvnitř mobilního menu pro automatické zavření
+            const mobileMenuLinks = mobileMenu ? mobileMenu.querySelectorAll('a') : [];
+
+            function toggleMenu() {
+                if (!hamburgerButton || !mobileMenu) return;
+
+                // Přepíná třídu 'open' (pro animaci X)
+                hamburgerButton.classList.toggle('open');
+                // Přepíná třídu 'open' (pro vysunutí/zasunutí menu)
+                mobileMenu.classList.toggle('open');
+                
+                // Zabrání scrollování stránky pod menu
+                document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+            }
+
+            // 1. Přidání posluchače na kliknutí pro hamburger tlačítko
+            if (hamburgerButton) {
+                hamburgerButton.addEventListener('click', toggleMenu);
+            }
+
+            // 2. Zavření menu po kliknutí na odkaz
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    setTimeout(() => {
+                        if (mobileMenu.classList.contains('open')) {
+                            toggleMenu(); 
+                        }
+                    }, 200); 
+                });
+            });
+        });
+
+
+
+
+      // 1) Vertical wheel -> horizontal scroll mapping
+      const scroller = document.getElementById('scroller');
+      scroller.addEventListener('wheel', (e)=>{
+        // Prevent vertical page scroll
+        if(Math.abs(e.deltaY) > Math.abs(e.deltaX)){
+          e.preventDefault();
+          scroller.scrollBy({left: e.deltaY * 1, behavior: 'auto'});
+        }
+      }, {passive:false});
+
+      // keyboard navigation
+      window.addEventListener('keydown', (e)=>{ if(e.key==='ArrowRight') scroller.scrollBy({left: scroller.clientWidth, behavior:'smooth'}); if(e.key==='ArrowLeft') scroller.scrollBy({left:-scroller.clientWidth, behavior:'smooth'}) });
+      function scrollNext(){ scroller.scrollBy({left: scroller.clientWidth, behavior: 'smooth'}) }
+      window.scrollNext = scrollNext;
+  overlay.addEventListener('click',()=>{
+    mobileNav.style.display='none';
+    overlay.classList.remove('show');
+    hamburgerBtn.classList.remove('open');
+  });
+
+      function downloadCV() {
+    const link = document.createElement('a');
+    link.href = 'zivotopis.pdf'; // název a cesta k tvému PDF
+    link.download = 'Životopis';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+  window.downloadCV = downloadCV;
+      
+      // lights
+      const hemi = new THREE.HemisphereLight(0xffffff, 0x222222, 0.6);
+      scene.add(hemi);
+      const dir = new THREE.DirectionalLight(0xffffff, 0.8);
+      dir.position.set(5,10,7);
+      scene.add(dir);
+      const amb = new THREE.AmbientLight(0xffffff, 0.4);
+      scene.add(amb);
+      
+      </script>
+  </body>
+  </html>
