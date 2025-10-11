@@ -558,3 +558,80 @@
         pointer-events: none;
         z-index: 0;
       }
+
+  /* ------------------------------------------------------------------ */
+  /* Improved responsive breakpoints (mobile -> tablet -> desktop -> wide) */
+  /* These override and refine earlier rules to ensure consistent layout */
+  /* ------------------------------------------------------------------ */
+
+  /* Base adjustments for very small phones */
+  @media (max-width: 420px) {
+    html { font-size: 14px; }
+    header { height: 72px; padding: 10px 14px; }
+    .brand-text { display: none; }
+    .hamburger-button { display: block; }
+    .desktop-nav { display: none !important; }
+    .panel { padding: 20px; height: auto; }
+    .card { width: calc(100% - 28px); padding: 18px; border-radius: 14px; box-shadow: 0 18px 50px rgba(0,0,0,0.55); }
+    h1 { font-size: 28px; }
+    p { font-size: 0.9rem; }
+    .obrazek { width: 80%; }
+    .blob.a, .blob.b { display: none; }
+    .three-wrap { display: none; }
+  }
+
+  /* Small phones / large phones */
+  @media (min-width: 421px) and (max-width: 650px) {
+    html { font-size: 15px; }
+    header { height: 78px; padding: 12px 18px; }
+    .card { width: calc(100% - 46px); padding: 20px; }
+    h1 { font-size: 34px; }
+    .panel { padding: 28px; }
+    .blob.a, .blob.b { opacity: 0.45; transform: scale(0.9); }
+    .three-wrap { display: none; }
+  }
+
+  /* Tablet portrait / small tablets */
+  @media (min-width: 651px) and (max-width: 900px) {
+    html { font-size: 15.5px; }
+    header { height: 86px; padding: 14px 24px; }
+    .card { width: min(760px, 90%); padding: 22px; }
+    h1 { font-size: 38px; }
+    .panel { padding: 36px; }
+    .three-wrap { display: none; }
+    .blob.a { width: 380px; height: 380px; left:-6%; top:6%; }
+    .blob.b { width: 320px; height: 320px; right:-4%; top:-4%; }
+  }
+
+  /* Desktop - show 3D canvas and larger layout */
+  @media (min-width: 901px) and (max-width: 1440px) {
+    html { font-size: 16px; }
+    header { height: 92px; padding: 16px 36px; }
+    .brand-text { display: flex; }
+    .hamburger-button { display: none; }
+    .desktop-nav { display: flex !important; }
+    .card { width: min(920px, 80%); padding: 26px; }
+    h1 { font-size: clamp(34px, 3.2vw, 48px); }
+    .panel { padding: 48px; height: calc(100vh - 92px); }
+    .blob.a { display: block; opacity: .7; }
+    .blob.b { display: block; opacity: .7; }
+    .three-wrap { display: block; }
+  }
+
+  /* Wide desktop / large screens */
+  @media (min-width: 1441px) {
+    html { font-size: 17px; }
+    header { height: 104px; padding: 20px 48px; }
+    .card { width: min(1100px, 76%); padding: 32px; border-radius: 20px; }
+    h1 { font-size: clamp(40px, 2.6vw, 64px); }
+    .panel { padding: 64px; }
+    .blob.a { width: 640px; height: 640px; left:-10%; top:6%; }
+    .blob.b { width: 520px; height: 520px; right:-8%; top:-8%; }
+    .three-wrap { display: block; }
+  }
+
+  /* Accessibility: reduce motion for users who prefer reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    .blob { animation: none !important; }
+    .hscroller { scroll-behavior: auto; }
+  }
