@@ -57,6 +57,13 @@
         z-index:20;
         scroll-padding: 0;
         -webkit-overflow-scrolling: touch;
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE and Edge */
+      }
+      
+      /* Hide scrollbar for Chrome, Safari and Opera */
+      .hscroller::-webkit-scrollbar {
+        display: none;
       }
       
       /* Prevent vertical scrolling on mobile */
@@ -68,10 +75,12 @@
           overflow: hidden;
         }
         .hscroller {
-          scroll-snap-type: x proximity;
+          scroll-snap-type: x mandatory;
           scroll-snap-stop: always;
           overflow-x: scroll;
           overscroll-behavior-x: contain;
+          touch-action: pan-x pinch-zoom;
+          -webkit-overflow-scrolling: touch;
         }
       }
       .sesty_nadpis {
@@ -315,19 +324,30 @@
         }
       }
       @media (min-width: 961px) and (max-width:1025px) {
-        .blob.a {
-          display: none;
+        .card {
+          width: min(920px, 92%);
+          height: auto;
+          padding: 28px;
+          border-radius: 18px;
+          border: 1px solid rgba(255, 255, 255, 0);
+          background-color: rgb(0, 0, 0);
+          position: relative;
+          z-index: 30;
+          opacity:40%;
+          color: #05060a;
+          scroll-behavior: none;
         }
-        .blob.b {
-          display: none;
-      }
+        .sesty_nadpis { 
+            font-size: 700;
+            color: #ffffff;
+        }
     }
       @media (min-width: 1025px) {
         .blob.a {
-          display: none;
+          display: flex;
         }
         .blob.b {
-          display: none;
+          display: flex;
         }
         .desktop-nav {
           display: flex;
@@ -351,6 +371,12 @@
           text-align: center;
           justify-content: center;
 
+        }
+        .blob.a {
+          display: flex;
+        }
+        .blob.b {
+          display: flex;
         }
         .card {
           width: min(920px, 92%);
@@ -623,7 +649,20 @@
     h1 { font-size: 28px; }
     p { font-size: 0.9rem; }
     .obrazek { width: 80%; }
-    .blob.a, .blob.b { display: none; }
+    .blob.a { 
+      display: block;
+      width: 280px;
+      height: 280px;
+      opacity: 0.4;
+      left: -15%;
+    }
+    .blob.b { 
+      display: block;
+      width: 240px;
+      height: 240px;
+      opacity: 0.4;
+      right: -15%;
+    }
     .three-wrap { display: none; }
     
     /* Zajistí, že obsah je vždy viditelný pod fixed header */
