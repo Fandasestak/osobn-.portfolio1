@@ -167,32 +167,43 @@
       const scroller = document.getElementById('scroller');
 
 
-      // Desktop & touchpad: wheel/touchpad scroll posune přesně o jeden panel na gesto
+      // Desktop & touchpad: wheel/touchpad scroll s upravenou logikou směru
       let wheelLock = false;
-      let wheelAccum = 0; // akumulátor deltaY
+      let wheelAccum = 0;
       let wheelTimer = null;
-      const WHEEL_THRESHOLD = 80; // práh pro vyvolání posunu (nižší pro citlivé touchpady)
+      let lastScrollLeft = scroller.scrollLeft;
+      const WHEEL_THRESHOLD = 80;
+      const panelCount = document.querySelectorAll('.panel').length;
 
       scroller.addEventListener('wheel', (e) => {
-        if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return; // ignoruj horizontální
+        if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
         e.preventDefault();
-        // pokud je zamčeno, ignoruj
         if (wheelLock) return;
 
-        // akumuluj a čekej krátce na konec gesture
         wheelAccum += e.deltaY;
         clearTimeout(wheelTimer);
         wheelTimer = setTimeout(() => {
-          // rozhodneme podle směru akumulátoru
           if (Math.abs(wheelAccum) >= WHEEL_THRESHOLD) {
             wheelLock = true;
-            if (wheelAccum > 0) scroller.scrollBy({left: scroller.clientWidth, behavior: 'smooth'});
-            else scroller.scrollBy({left: -scroller.clientWidth, behavior: 'smooth'});
-            // uvolnit zámek po animaci
+            
+            const currentPanel = Math.round(scroller.scrollLeft / scroller.clientWidth);
+            const isLastPanel = currentPanel >= panelCount - 1;
+            
+            // Scroll nahoru (negative deltaY) -> doleva
+            // Scroll dolů (positive deltaY) -> doprava
+            // Na poslední sekci při scrollu nahoru zůstáváme
+            if (wheelAccum < 0 && !isLastPanel) {
+              // Scroll nahoru a nejsme na poslední sekci -> doleva
+              scroller.scrollBy({left: -scroller.clientWidth, behavior: 'smooth'});
+            } else if (wheelAccum > 0 && currentPanel < panelCount - 1) {
+              // Scroll dolů a nejsme na poslední sekci -> doprava
+              scroller.scrollBy({left: scroller.clientWidth, behavior: 'smooth'});
+            }
+            
             setTimeout(() => { wheelLock = false; }, 100);
           }
           wheelAccum = 0;
-        }, 10); // 120ms debounce pro touchpad gesture
+        }, 10);
       }, {passive:false});
 
       // 2) Mobile: swipe/scroll always moves by one panel right
