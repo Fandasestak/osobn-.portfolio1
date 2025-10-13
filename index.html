@@ -11,8 +11,8 @@
   </head>
   <body>
     <div class="app">
-      <!-- three-bg je teď v pozadí (z-index:0) aby canvas nebyl schovaný za backgroundem -->
-      <div id="three-bg" class="three-wrap" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:0;pointer-events:none;overflow:hidden;"></div>
+      <!-- 3D Background Container -->
+      <div id="bg-effect" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;"></div>
       <header>
         <div class="brand">
           <div class="logo-wrap">
@@ -114,14 +114,90 @@
       <div class="blob a"></div>
       <div class="blob b"></div>
     </div>
-  <!-- 3D obrázek reagující na pohyb myši -->
-
-  <!-- THREE.js + FontLoader/TextGeometry (r152) -->
-  <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r152/build/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r152/examples/js/loaders/FontLoader.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/mrdoob/three.js@r152/examples/js/geometries/TextGeometry.js"></script>
-
+  <!-- THREE.js Background Effect -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  
   <script>
+    // 3D Background Effect
+    document.addEventListener('DOMContentLoaded', function() {
+      const container = document.getElementById('bg-effect');
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      
+      const renderer = new THREE.WebGLRenderer({ 
+        antialias: true, 
+        alpha: true 
+      });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setClearColor(0x000000, 0);
+      container.appendChild(renderer.domElement);
+
+      // Vytvoření geometrie částic
+      const geometry = new THREE.BufferGeometry();
+      const particleCount = 1500;
+      const positions = new Float32Array(particleCount * 3);
+      
+      for(let i = 0; i < particleCount * 3; i += 3) {
+        positions[i] = (Math.random() - 0.5) * 60; // x
+        positions[i + 1] = (Math.random() - 0.5) * 60; // y
+        positions[i + 2] = (Math.random() - 0.5) * 60; // z
+      }
+      
+      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+      // Materiál částic
+      const material = new THREE.PointsMaterial({
+        size: 0.1,
+        color: 0x3b82f6, // modrá barva
+        transparent: true,
+        opacity: 0.6,
+        blending: THREE.AdditiveBlending
+      });
+
+      // Vytvoření systému částic
+      const particles = new THREE.Points(geometry, material);
+      scene.add(particles);
+
+      camera.position.z = 30;
+
+      let mouseX = 0;
+      let mouseY = 0;
+      let targetX = 0;
+      let targetY = 0;
+
+      // Animace
+      function animate() {
+        requestAnimationFrame(animate);
+        
+        // Plynulá rotace
+        particles.rotation.x += 0.0003;
+        particles.rotation.y += 0.0005;
+
+        // Sledování myši
+        particles.rotation.x += (targetY - particles.rotation.x) * 0.05;
+        particles.rotation.y += (targetX - particles.rotation.y) * 0.05;
+        
+        renderer.render(scene, camera);
+      }
+
+      // Interakce s myší
+      document.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+        mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+        
+        targetX = mouseX * 0.5;
+        targetY = mouseY * 0.5;
+      });
+
+      // Responzivita
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+
+      animate();
+    });
 
       document.addEventListener('DOMContentLoaded', () => {
             const hamburgerButton = document.getElementById('hamburgerButton');
@@ -187,26 +263,27 @@
             wheelLock = true;
             
             const currentPanel = Math.round(scroller.scrollLeft / scroller.clientWidth);
+            const isFirstPanel = currentPanel <= 0;
             const isLastPanel = currentPanel >= panelCount - 1;
             
-            // Scroll nahoru (negative deltaY) -> doleva
-            // Scroll dolů (positive deltaY) -> doprava
-            // Na poslední sekci při scrollu nahoru zůstáváme
-            if (wheelAccum < 0 && !isLastPanel) {
-              // Scroll nahoru a nejsme na poslední sekci -> doleva
-              scroller.scrollBy({left: -scroller.clientWidth, behavior: 'smooth'});
-            } else if (wheelAccum > 0 && currentPanel < panelCount - 1) {
-              // Scroll dolů a nejsme na poslední sekci -> doprava
-              scroller.scrollBy({left: scroller.clientWidth, behavior: 'smooth'});
+            // Povolení scrollování v obou směrech
+            if (wheelAccum < 0) { // scroll nahoru/zpět
+              if (!isFirstPanel) { // není první panel, můžeme jít zpět
+                scroller.scrollBy({left: -scroller.clientWidth, behavior: 'smooth'});
+              }
+            } else { // scroll dolů/vpřed
+              if (!isLastPanel) { // není poslední panel, můžeme jít vpřed
+                scroller.scrollBy({left: scroller.clientWidth, behavior: 'smooth'});
+              }
             }
             
-            setTimeout(() => { wheelLock = false; }, 100);
+            setTimeout(() => { wheelLock = false; }, 300); // delší pauza pro plynulejší scrollování
           }
           wheelAccum = 0;
         }, 10);
       }, {passive:false});
 
-      // 2) Mobile: swipe/scroll always moves by one panel right
+      // 2) Mobile: swipe/scroll in both directions based on touch movement
       let touchStartX = 0;
       let touchStartY = 0;
       let touchMoved = false;
@@ -218,12 +295,27 @@
         }
       });
       scroller.addEventListener('touchmove', function(e) {
-        touchMoved = true;
+        if (e.touches.length === 1) {
+          const touchEndX = e.touches[0].clientX;
+          const diffX = touchStartX - touchEndX;
+          
+          // Určí směr scrollu podle rozdílu v X souřadnici
+          if (Math.abs(diffX) > 50) { // minimální práh pro scroll
+            touchMoved = true;
+          }
+        }
       });
       scroller.addEventListener('touchend', function(e) {
-        if (!touchMoved) return;
-        // Always scroll by one panel right regardless of swipe size
-        scroller.scrollBy({left: scroller.clientWidth, behavior: 'smooth'});
+        if (!touechMovd) return;
+        const touchEndX = e.changedTouches[0].clientX;
+        const diffX = touchStartX - touchEndX;
+        
+        // Scroll podle směru swipe
+        if (diffX > 50) { // swipe doleva
+          scroller.scrollBy({left: scroller.clientWidth, behavior: 'smooth'});
+        } else if (diffX < -50) { // swipe doprava
+          scroller.scrollBy({left: -scroller.clientWidth, behavior: 'smooth'});
+        }
       });
 
       // keyboard navigation
@@ -241,113 +333,138 @@
   }
   window.downloadCV = downloadCV;
       
-      // 3D text 'FŠ' - responsivně (zapnuto i na menších obrazovkách)
-      (function initThreeText() {
-        const MIN_WIDTH = 1025; // 3D se zobrazí pouze při šířce okna 1025px a více
+      // 3D inicializace
+      (function init3D() {
+        const MIN_WIDTH = 1025;
         if (window.innerWidth < MIN_WIDTH) return;
 
+        // Nastavení scény
         const threeBg = document.getElementById('three-bg');
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({alpha: true, antialias: true});
-        renderer.setPixelRatio(window.devicePixelRatio || 1);
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        
+        // Renderer s průhledností a antialiasingem
+        const renderer = new THREE.WebGLRenderer({
+          alpha: true,
+          antialias: true
+        });
+        renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.domElement.style.pointerEvents = 'none';
-        renderer.domElement.style.position = 'fixed';
-        renderer.domElement.style.top = '0';
-        renderer.domElement.style.left = '0';
-        renderer.domElement.style.zIndex = '0'; // zajistí, že canvas není schovaný za backgroundem
+        renderer.domElement.style.cssText = 'position:fixed;top:0;left:0;z-index:0;pointer-events:none';
         threeBg.appendChild(renderer.domElement);
- 
-        // lights
-        const hemi = new THREE.HemisphereLight(0xffffff, 0x222222, 1.2);
-        scene.add(hemi);
-        const dir = new THREE.DirectionalLight(0xffffff, 0.8);
-        dir.position.set(5, 10, 7);
-        scene.add(dir);
 
-        // responsivní velikost textu podle šířky okna
-        let baseSize = Math.max(8, Math.min(18, window.innerWidth / 120));
-        camera.position.z = baseSize * 2.8;
+        // Světla pro realistické stínování
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+        scene.add(ambientLight);
+        
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        directionalLight.position.set(5, 5, 5);
+        scene.add(directionalLight);
 
+        const pointLight = new THREE.PointLight(0xaa8541, 1, 100);
+        pointLight.position.set(-5, 5, 5);
+        scene.add(pointLight);
+
+        // Nastavení velikosti podle viewportu
+        let baseSize = Math.max(6, Math.min(16, window.innerWidth / 100));
+        camera.position.z = baseSize * 4;
+
+        // Načtení fontu a vytvoření 3D textu
         const loader = new THREE.FontLoader();
-        loader.load('https://cdn.jsdelivr.net/gh/mrdoob/three.js@r152/examples/fonts/helvetiker_bold.typeface.json', function (font) {
-          let geom = new THREE.TextGeometry('FŠ', {
+        loader.load('https://cdn.jsdelivr.net/gh/mrdoob/three.js@r152/examples/fonts/helvetiker_bold.typeface.json', function(font) {
+          // 3D text
+          const textGeometry = new THREE.TextGeometry('FŠ', {
             font: font,
             size: baseSize,
-            height: baseSize * 0.15,
-            curveSegments: 8,
+            height: baseSize * 0.2,
+            curveSegments: 12,
             bevelEnabled: true,
             bevelThickness: baseSize * 0.05,
             bevelSize: baseSize * 0.03,
-            bevelSegments: 4
+            bevelSegments: 5
           });
-          geom.center();
-          // kontrastní barva aby byl text dobře vidět na tmavém pozadí
-          const mat = new THREE.MeshStandardMaterial({color: 0xaa8541, metalness: 0.9, roughness: 0.15});
-          const mesh = new THREE.Mesh(geom, mat);
-          scene.add(mesh);
+          textGeometry.center();
 
-          // --- add a torus-knot as a 3D object beside the text ---
-          const torusGeo = new THREE.TorusKnotGeometry(baseSize * 0.7, baseSize * 0.18, 160, 32);
-          const torusMat = new THREE.MeshStandardMaterial({
+          const textMaterial = new THREE.MeshStandardMaterial({
+            color: 0xaa8541,
+            metalness: 0.8,
+            roughness: 0.2,
+            emissive: 0x553311,
+            emissiveIntensity: 0.1
+          });
+          
+          const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+          scene.add(textMesh);
+
+          // Torus knot s komplexnější geometrií
+          const torusGeometry = new THREE.TorusKnotGeometry(
+            baseSize * 0.6,  // radius
+            baseSize * 0.2,  // tube
+            128,            // tubularSegments
+            32,             // radialSegments
+            2,              // p
+            3               // q
+          );
+
+          const torusMaterial = new THREE.MeshPhysicalMaterial({
             color: 0x3b82f6,
             metalness: 0.7,
-            roughness: 0.12,
+            roughness: 0.2,
+            clearcoat: 0.3,
+            clearcoatRoughness: 0.25,
             emissive: 0x002244,
-            emissiveIntensity: 0.08,
+            emissiveIntensity: 0.2
           });
-          const torus = new THREE.Mesh(torusGeo, torusMat);
-          // position it slightly to the right and a bit closer
-          torus.position.x = baseSize * 1.6;
-          torus.position.z = 0.2;
-          torus.position.y = -baseSize * 0.08;
-          torus.scale.set(1,1,1);
-          scene.add(torus);
 
-          console.log('three-text initialized'); // jednoduchý debug
+          const torusMesh = new THREE.Mesh(torusGeometry, torusMaterial);
+          torusMesh.position.set(baseSize * 2, 0, baseSize * 0.5);
+          scene.add(torusMesh);
 
-          // mouse react and simple orbital movement for both meshes
-          let targetRotX = 0, targetRotY = 0;
+          // Interaktivita s myší
+          let targetRotation = { x: 0, y: 0 };
           document.addEventListener('mousemove', (e) => {
-            const nx = (e.clientX / window.innerWidth) * 2 - 1;
-            const ny = (e.clientY / window.innerHeight) * 2 - 1;
-            targetRotY = nx * 0.6;
-            targetRotX = ny * 0.25;
+            const mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+            const mouseY = (e.clientY / window.innerHeight) * 2 - 1;
+            targetRotation.y = mouseX * 0.5;
+            targetRotation.x = mouseY * 0.3;
           });
 
-          let t = 0;
-          function animate3() {
-            requestAnimationFrame(animate3);
-            t += 0.01;
-            // smooth follow of mouse
-            mesh.rotation.y += (targetRotY - mesh.rotation.y) * 0.08;
-            mesh.rotation.x += (targetRotX - mesh.rotation.x) * 0.08;
-            // torus: rotate and float
-            torus.rotation.x += 0.01;
-            torus.rotation.y += 0.018;
-            torus.position.y = Math.sin(t * 0.9) * (baseSize * 0.06);
-            torus.position.x = baseSize * 1.6 + Math.sin(t * 0.6) * (baseSize * 0.08);
+          // Animační smyčka
+          let time = 0;
+          function animate() {
+            requestAnimationFrame(animate);
+            time += 0.016;
+
+            // Plynulá rotace textu podle pohybu myši
+            textMesh.rotation.x += (targetRotation.x - textMesh.rotation.x) * 0.05;
+            textMesh.rotation.y += (targetRotation.y - textMesh.rotation.y) * 0.05;
+
+            // Komplexní animace torus knotu
+            torusMesh.rotation.x += 0.01;
+            torusMesh.rotation.y += 0.015;
+            torusMesh.position.y = Math.sin(time) * (baseSize * 0.1);
+            torusMesh.position.x = baseSize * 2 + Math.sin(time * 0.8) * (baseSize * 0.15);
 
             renderer.render(scene, camera);
           }
-          animate3();
+          animate();
 
-          // resize: přeškálování textu a kamera
+          // Responzivní přizpůsobení
           function onResize() {
-            const w = window.innerWidth;
-            const h = window.innerHeight;
-            renderer.setSize(w, h);
-            camera.aspect = w / h;
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            
+            camera.aspect = width / height;
             camera.updateProjectionMatrix();
+            renderer.setSize(width, height);
 
-            const newSize = Math.max(8, Math.min(18, w / 120));
+            const newSize = Math.max(6, Math.min(16, width / 100));
             const scale = newSize / baseSize;
-            mesh.scale.set(scale, scale, scale);
-            // adjust torus size/position consistently
-            torus.scale.set(scale, scale, scale);
-            torus.position.x = newSize * 1.6;
-            camera.position.z = newSize * 2.8;
+            
+            textMesh.scale.set(scale, scale, scale);
+            torusMesh.scale.set(scale, scale, scale);
+            torusMesh.position.x = newSize * 2;
+            camera.position.z = newSize * 4;
           }
           window.addEventListener('resize', onResize);
         });
