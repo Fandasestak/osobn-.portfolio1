@@ -344,10 +344,10 @@
     }
       @media (min-width: 1025px) {
         .blob.a {
-          display: flex;
+          display: none;
         }
         .blob.b {
-          display: flex;
+          display: none;
         }
         .desktop-nav {
           display: flex;
@@ -371,12 +371,6 @@
           text-align: center;
           justify-content: center;
 
-        }
-        .blob.a {
-          display: flex;
-        }
-        .blob.b {
-          display: flex;
         }
         .card {
           width: min(920px, 92%);
@@ -649,20 +643,6 @@
     h1 { font-size: 28px; }
     p { font-size: 0.9rem; }
     .obrazek { width: 80%; }
-    .blob.a { 
-      display: block;
-      width: 280px;
-      height: 280px;
-      opacity: 0.4;
-      left: -15%;
-    }
-    .blob.b { 
-      display: block;
-      width: 240px;
-      height: 240px;
-      opacity: 0.4;
-      right: -15%;
-    }
     .three-wrap { display: none; }
     
     /* Zajistí, že obsah je vždy viditelný pod fixed header */
@@ -676,7 +656,7 @@
     .card { width: calc(100% - 46px); padding: 20px; }
     h1 { font-size: 34px; }
     .panel { padding: 28px; }
-    .blob.a, .blob.b { opacity: 0.45; transform: scale(0.9); }
+
     .three-wrap { display: none; }
   }
 
@@ -688,8 +668,6 @@
     h1 { font-size: 38px; }
     .panel { padding: 36px; }
     .three-wrap { display: none; }
-    .blob.a { width: 380px; height: 380px; left:-6%; top:6%; }
-    .blob.b { width: 320px; height: 320px; right:-4%; top:-4%; }
   }
 
   /* Desktop - show 3D canvas and larger layout */
@@ -701,9 +679,7 @@
     .desktop-nav { display: flex !important; }
     .card { width: min(920px, 80%); padding: 26px; }
     h1 { font-size: clamp(34px, 3.2vw, 48px); }
-    .panel { padding: 48px; height: calc(100vh - 92px); }
-    .blob.a { display: block; opacity: .7; }
-    .blob.b { display: block; opacity: .7; }
+    .panel { padding: 48px; height: calc(100vh - 92px); } 
     .three-wrap { display: block; }
   }
 
@@ -714,13 +690,5 @@
     .card { width: min(1100px, 76%); padding: 32px; border-radius: 20px; }
     h1 { font-size: clamp(40px, 2.6vw, 64px); }
     .panel { padding: 64px; }
-    .blob.a { width: 640px; height: 640px; left:-10%; top:6%; }
-    .blob.b { width: 520px; height: 520px; right:-8%; top:-8%; }
     .three-wrap { display: block; }
-  }
-
-  /* Accessibility: reduce motion for users who prefer reduced motion */
-  @media (prefers-reduced-motion: reduce) {
-    .blob { animation: none !important; }
-    .hscroller { scroll-behavior: auto; }
   }
