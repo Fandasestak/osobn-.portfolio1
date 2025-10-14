@@ -11,8 +11,8 @@
   </head>
   <body>
     <div class="app">
-      <!-- 3D Background Container -->
-      <div id="bg-effect" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;"></div>
+      <!-- three-bg je teď v popředí s vyšším z-indexem -->
+      <div id="three-bg" class="three-wrap" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:10;pointer-events:none;overflow:hidden;"></div>
       <header>
         <div class="brand">
           <div class="logo-wrap">
@@ -61,7 +61,7 @@
         <section class="panel" id="home">
           <div class="card">
             <h1 class="modern">Domů</h1>
-            <div class="modern_text" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+            <div class="modern_text bar" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
                <p class="modern_text">Vítejte v mém portfoliu, v rychlosti se vám představím:</p>
             </div>
            
@@ -114,91 +114,10 @@
       <div class="blob a"></div>
       <div class="blob b"></div>
     </div>
-  <!-- THREE.js Background Effect -->
+  <!-- THREE.js pro 3D pozadí -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  
+
   <script>
-    // 3D Background Effect
-    document.addEventListener('DOMContentLoaded', function() {
-      const container = document.getElementById('bg-effect');
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-      
-      const renderer = new THREE.WebGLRenderer({ 
-        antialias: true, 
-        alpha: true 
-      });
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setClearColor(0x000000, 0);
-      container.appendChild(renderer.domElement);
-
-      // Vytvoření geometrie částic
-      const geometry = new THREE.BufferGeometry();
-      const particleCount = 1500;
-      const positions = new Float32Array(particleCount * 3);
-      
-      for(let i = 0; i < particleCount * 3; i += 3) {
-        positions[i] = (Math.random() - 0.5) * 60; // x
-        positions[i + 1] = (Math.random() - 0.5) * 60; // y
-        positions[i + 2] = (Math.random() - 0.5) * 60; // z
-      }
-      
-      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-
-      // Materiál částic
-      const material = new THREE.PointsMaterial({
-        size: 0.1,
-        color: 0x3b82f6, // modrá barva
-        transparent: true,
-        opacity: 0.6,
-        blending: THREE.AdditiveBlending
-      });
-
-      // Vytvoření systému částic
-      const particles = new THREE.Points(geometry, material);
-      scene.add(particles);
-
-      camera.position.z = 30;
-
-      let mouseX = 0;
-      let mouseY = 0;
-      let targetX = 0;
-      let targetY = 0;
-
-      // Animace
-      function animate() {
-        requestAnimationFrame(animate);
-        
-        // Plynulá rotace
-        particles.rotation.x += 0.0003;
-        particles.rotation.y += 0.0005;
-
-        // Sledování myši
-        particles.rotation.x += (targetY - particles.rotation.x) * 0.05;
-        particles.rotation.y += (targetX - particles.rotation.y) * 0.05;
-        
-        renderer.render(scene, camera);
-      }
-
-      // Interakce s myší
-      document.addEventListener('mousemove', (e) => {
-        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-        mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
-        
-        targetX = mouseX * 0.5;
-        targetY = mouseY * 0.5;
-      });
-
-      // Responzivita
-      window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-      });
-
-      animate();
-    });
-
       document.addEventListener('DOMContentLoaded', () => {
             const hamburgerButton = document.getElementById('hamburgerButton');
             const mobileMenu = document.getElementById('mobileMenu');
@@ -243,7 +162,6 @@
       const scroller = document.getElementById('scroller');
 
 
-      // Desktop & touchpad: wheel/touchpad scroll s upravenou logikou směru
       let wheelLock = false;
       let wheelAccum = 0;
       let wheelTimer = null;
@@ -277,7 +195,7 @@
               }
             }
             
-            setTimeout(() => { wheelLock = false; }, 300); // delší pauza pro plynulejší scrollování
+            setTimeout(() => { wheelLock = false; }, 100); // delší pauza pro plynulejší scrollování
           }
           wheelAccum = 0;
         }, 10);
@@ -314,7 +232,7 @@
         if (diffX > 50) { // swipe doleva
           scroller.scrollBy({left: scroller.clientWidth, behavior: 'smooth'});
         } else if (diffX < -50) { // swipe doprava
-          scroller.scrollBy({left: -scroller.clientWidth, behavior: 'smooth'});
+          scroller.scrollBy({right: -scroller.clientWidth, behavior: 'smooth'});
         }
       });
 
@@ -333,140 +251,206 @@
   }
   window.downloadCV = downloadCV;
       
-      // 3D inicializace
-      (function init3D() {
-        const MIN_WIDTH = 1025;
-        if (window.innerWidth < MIN_WIDTH) return;
+      // 3D background only for desktop (width >= 1025px)
+      (function createBackground() {
+        // Check screen width before initializing 3D effect
+        if (window.innerWidth < 1025) {
+          const container = document.getElementById('three-bg');
+          if (container) container.style.display = 'none';
+          return;
+        }
 
-        // Nastavení scény
-        const threeBg = document.getElementById('three-bg');
+        const container = document.getElementById('three-bg');
+        if (container) container.style.display = 'block';
         const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         
-        // Renderer s průhledností a antialiasingem
-        const renderer = new THREE.WebGLRenderer({
+        const renderer = new THREE.WebGLRenderer({ 
           alpha: true,
-          antialias: true
+          antialias: true 
         });
-        renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.domElement.style.cssText = 'position:fixed;top:0;left:0;z-index:0;pointer-events:none';
-        threeBg.appendChild(renderer.domElement);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        container.appendChild(renderer.domElement);
 
-        // Světla pro realistické stínování
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+        // Světla
+        const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
         scene.add(ambientLight);
-        
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-        directionalLight.position.set(5, 5, 5);
+
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
+        directionalLight.position.set(1, 1, 1);
         scene.add(directionalLight);
 
-        const pointLight = new THREE.PointLight(0xaa8541, 1, 100);
-        pointLight.position.set(-5, 5, 5);
+        const pointLight = new THREE.PointLight(0xffffff, 1.0);
+        pointLight.position.set(0, 0, 5);
         scene.add(pointLight);
 
-        // Nastavení velikosti podle viewportu
-        let baseSize = Math.max(6, Math.min(16, window.innerWidth / 100));
-        camera.position.z = baseSize * 4;
+        // Vytvoření částic
+        const particles = [];
+        const particleCount = 1500; // Zvýšený počet částic pro lepší detail písmena F
+        const colors = [0xffffff, 0x3b82f6, 0xaa8541]; // Bílá, modrá, zlatá
+        
+        // Vytvoření sítě bodů pro písmeno "F"
+        function generateLetterPoints() {
+          const points = [];
+          const letterHeight = 3.0; // Větší výška pro výraznější písmeno
+          const letterWidth = 2.0; // Širší písmeno pro lepší čitelnost
+          const thickness = 0.4; // Tloušťka čar písmena
+          
+          // Vertikální čára
+          for(let y = -letterHeight/2; y <= letterHeight/2; y += 0.05) {
+            for(let x = -thickness/2; x <= thickness/2; x += 0.05) {
+              points.push([x, y, 0]);
+            }
+          }
+          
+          // Horní horizontální čára
+          for(let x = -thickness/2; x <= letterWidth; x += 0.05) {
+            for(let y = letterHeight/2 - thickness/2; y <= letterHeight/2 + thickness/2; y += 0.05) {
+              points.push([x, y, 0]);
+            }
+          }
+          
+          // Střední horizontální čára (kratší)
+          for(let x = -thickness/2; x <= letterWidth * 0.7; x += 0.05) {
+            for(let y = 0 - thickness/2; y <= 0 + thickness/2; y += 0.05) {
+              points.push([x, y, 0]);
+            }
+          }
+          return points;
+          return points;
+        }
 
-        // Načtení fontu a vytvoření 3D textu
-        const loader = new THREE.FontLoader();
-        loader.load('https://cdn.jsdelivr.net/gh/mrdoob/three.js@r152/examples/fonts/helvetiker_bold.typeface.json', function(font) {
-          // 3D text
-          const textGeometry = new THREE.TextGeometry('FŠ', {
-            font: font,
-            size: baseSize,
-            height: baseSize * 0.2,
-            curveSegments: 12,
-            bevelEnabled: true,
-            bevelThickness: baseSize * 0.05,
-            bevelSize: baseSize * 0.03,
-            bevelSegments: 5
-          });
-          textGeometry.center();
+        const letterPoints = generateLetterPoints();
+          const geometry = new THREE.SphereGeometry(0.03, 32, 32); // Ještě větší a detailnější kuličky
+        
+        for (let i = 0; i < particleCount; i++) {
+          const material = new THREE.MeshPhongMaterial({
+            color: colors[Math.floor(Math.random() * colors.length)],
+            shininess: 250,
+            opacity: 1,
+            transparent: false,
+            emissive: colors[Math.floor(Math.random() * colors.length)],
+            emissiveIntensity: 0.3
+          });          const particle = new THREE.Mesh(geometry, material);
+          
+          // Náhodná počáteční pozice v užším prostoru pro rychlejší formování
+          particle.position.set(
+            Math.random() * 20 - 10,
+            Math.random() * 20 - 10,
+            Math.random() * 10 - 5
+          );
+          
+          // Každá částice dostane cílovou pozici z písmen
+          const targetPoint = letterPoints[i % letterPoints.length];
+          particle.targetPosition = new THREE.Vector3(...targetPoint);
+          
+          // Uložení původní pozice pro návrat
+          particle.originalPosition = particle.position.clone();
+          
+          // Přidání náhodné rychlosti pro rozlet
+          particle.velocity = new THREE.Vector3(
+            (Math.random() - 0.5) * 0.05,
+            (Math.random() - 0.5) * 0.05,
+            (Math.random() - 0.5) * 0.05
+          );
+          
+          particles.push(particle);
+          scene.add(particle);
+        }
 
-          const textMaterial = new THREE.MeshStandardMaterial({
-            color: 0xaa8541,
-            metalness: 0.8,
-            roughness: 0.2,
-            emissive: 0x553311,
-            emissiveIntensity: 0.1
+        camera.position.z = 10;
+
+        let isMouseMoving = false;
+        let mouseTimer;
+        let transitionProgress = 0;
+
+        // Animace
+        function animate() {
+          requestAnimationFrame(animate);
+          
+          // Aktualizace přechodu
+          if (isMouseMoving && transitionProgress < 1) {
+            transitionProgress = Math.min(1, transitionProgress + 0.02);
+          } else if (!isMouseMoving && transitionProgress > 0) {
+            transitionProgress = Math.max(0, transitionProgress - 0.01);
+          }
+
+          // Aktualizace částic
+          particles.forEach((particle) => {
+            if (isMouseMoving) {
+              // Když se hýbe myš, všechny částice směřují k písmenům
+              particle.position.lerp(particle.targetPosition, transitionProgress * 0.1);
+              // Mírná rotace během formování písmen
+              particle.rotation.x += 0.005;
+              particle.rotation.y += 0.005;
+            } else {
+              // Když se myš nehýbe, částice se rozletí
+              if (transitionProgress < 0.3) {
+                // Aplikuj uloženou rychlost
+                particle.position.add(particle.velocity);
+                
+                // Přidej náhodný pohyb
+                particle.velocity.x += (Math.random() - 0.5) * 0.01;
+                particle.velocity.y += (Math.random() - 0.5) * 0.01;
+                particle.velocity.z += (Math.random() - 0.5) * 0.01;
+                
+                // Omez rychlost
+                particle.velocity.multiplyScalar(0.99);
+                
+                // Rotace částic při rozletu
+                particle.rotation.x += particle.velocity.length() * 0.2;
+                particle.rotation.y += particle.velocity.length() * 0.2;
+                
+                // Omezení prostoru
+                if (Math.abs(particle.position.x) > 15) {
+                  particle.velocity.x *= -0.8;
+                  particle.position.x *= 0.95;
+                }
+                if (Math.abs(particle.position.y) > 15) {
+                  particle.velocity.y *= -0.8;
+                  particle.position.y *= 0.95;
+                }
+                if (Math.abs(particle.position.z) > 10) {
+                  particle.velocity.z *= -0.8;
+                  particle.position.z *= 0.95;
+                }
+              }
+            }
           });
           
-          const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-          scene.add(textMesh);
+          renderer.render(scene, camera);
+        }
+        
+        animate();
 
-          // Torus knot s komplexnější geometrií
-          const torusGeometry = new THREE.TorusKnotGeometry(
-            baseSize * 0.6,  // radius
-            baseSize * 0.2,  // tube
-            128,            // tubularSegments
-            32,             // radialSegments
-            2,              // p
-            3               // q
-          );
+        // Responzivita
+        window.addEventListener('resize', () => {
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(window.innerWidth, window.innerHeight);
+        });
 
-          const torusMaterial = new THREE.MeshPhysicalMaterial({
-            color: 0x3b82f6,
-            metalness: 0.7,
-            roughness: 0.2,
-            clearcoat: 0.3,
-            clearcoatRoughness: 0.25,
-            emissive: 0x002244,
-            emissiveIntensity: 0.2
-          });
+        // Interaktivita s myší
+        let mouseX = 0;
+        let mouseY = 0;
+        
+        document.addEventListener('mousemove', (event) => {
+          mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+          mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+          
+          // Nastavení příznaku pohybu myši
+          isMouseMoving = true;
+          clearTimeout(mouseTimer);
+          
+          // Timer pro detekci ukončení pohybu
+          mouseTimer = setTimeout(() => {
+            isMouseMoving = false;
+          }, 100);
 
-          const torusMesh = new THREE.Mesh(torusGeometry, torusMaterial);
-          torusMesh.position.set(baseSize * 2, 0, baseSize * 0.5);
-          scene.add(torusMesh);
-
-          // Interaktivita s myší
-          let targetRotation = { x: 0, y: 0 };
-          document.addEventListener('mousemove', (e) => {
-            const mouseX = (e.clientX / window.innerWidth) * 2 - 1;
-            const mouseY = (e.clientY / window.innerHeight) * 2 - 1;
-            targetRotation.y = mouseX * 0.5;
-            targetRotation.x = mouseY * 0.3;
-          });
-
-          // Animační smyčka
-          let time = 0;
-          function animate() {
-            requestAnimationFrame(animate);
-            time += 0.016;
-
-            // Plynulá rotace textu podle pohybu myši
-            textMesh.rotation.x += (targetRotation.x - textMesh.rotation.x) * 0.05;
-            textMesh.rotation.y += (targetRotation.y - textMesh.rotation.y) * 0.05;
-
-            // Komplexní animace torus knotu
-            torusMesh.rotation.x += 0.01;
-            torusMesh.rotation.y += 0.015;
-            torusMesh.position.y = Math.sin(time) * (baseSize * 0.1);
-            torusMesh.position.x = baseSize * 2 + Math.sin(time * 0.8) * (baseSize * 0.15);
-
-            renderer.render(scene, camera);
-          }
-          animate();
-
-          // Responzivní přizpůsobení
-          function onResize() {
-            const width = window.innerWidth;
-            const height = window.innerHeight;
-            
-            camera.aspect = width / height;
-            camera.updateProjectionMatrix();
-            renderer.setSize(width, height);
-
-            const newSize = Math.max(6, Math.min(16, width / 100));
-            const scale = newSize / baseSize;
-            
-            textMesh.scale.set(scale, scale, scale);
-            torusMesh.scale.set(scale, scale, scale);
-            torusMesh.position.x = newSize * 2;
-            camera.position.z = newSize * 4;
-          }
-          window.addEventListener('resize', onResize);
+          camera.position.x += (mouseX * 2 - camera.position.x) * 0.05;
+          camera.position.y += (mouseY * 2 - camera.position.y) * 0.05;
+          camera.lookAt(scene.position);
         });
       })();
       
