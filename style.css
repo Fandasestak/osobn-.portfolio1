@@ -23,10 +23,7 @@
         display:flex;
         align-items:center;
         justify-content:space-between;
-        backdrop-filter:blur(12px) saturate(125%);
-        background:linear-gradient(180deg, rgba(255, 255, 255, 0.176), rgba(255, 255, 255, 0.096));
-        border-bottom:2px solid rgb(254, 254, 254);
-        border-radius: 8px;
+        background:transparent;
         z-index:40;
       }
       .brand {
@@ -392,7 +389,12 @@
           align-items: center;
           flex-direction: column;
           gap: 6px;
+          padding: auto;
+          margin:10px;
           line-height: 1.2;
+        }
+        .desktop-nav {
+          backdrop-filter: blur(16px);
         }
         .cta {
           padding: 8px 14px;
@@ -579,7 +581,7 @@
                 display: block; 
             }
             .three-wrap {
-                display: none; /* Skryje 3D objekt pro šířky <= 1024px */
+                display: none !important; /* Skryje 3D objekt pro šířky <= 1024px */
             }
         }
 
@@ -600,6 +602,9 @@
         /* základní pravidlo pro three-wrap (canvas) */
       .three-wrap {
         position: fixed;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         top: 0;
         left: 0;
         width: 100vw;
@@ -616,10 +621,10 @@
   /* Base adjustments for very small phones */
   @media (max-width: 420px) {
     html { font-size: 14px; }
-    header { height: 72px; padding: 10px 14px; position: fixed; width: 100%; top: 0; left: 0; box-sizing: border-box; }
+    header { height: 72px; padding: 10px 14px; position: fixed; width: 100%; top: 0; left: 0; box-sizing: border-box; backdrop-filter: blur(16px) }
     .brand-text { display: none; }
     .hamburger-button { display: block; }
-    .desktop-nav { display: none !important; }
+    .desktop-nav { display: none }
     .panel { 
       padding: 20px;
       height: 100vh;
@@ -649,46 +654,54 @@
     .app { padding-top: 72px; }
   }
 
-  /* Small phones / large phones */
-  @media (min-width: 421px) and (max-width: 650px) {
-    html { font-size: 15px; }
-    header { height: 78px; padding: 12px 18px; }
-    .card { width: calc(100% - 46px); padding: 20px; }
-    h1 { font-size: 34px; }
-    .panel { padding: 28px; }
-
-    .three-wrap { display: none; }
-  }
 
   /* Tablet portrait / small tablets */
-  @media (min-width: 651px) and (max-width: 900px) {
-    html { font-size: 15.5px; }
-    header { height: 86px; padding: 14px 24px; }
+  @media (min-width: 680px) and (max-width: 1024px) {
     .card { width: min(760px, 90%); padding: 22px; }
-    h1 { font-size: 38px; }
     .panel { padding: 36px; }
-    .three-wrap { display: none; }
-  }
-
-  /* Desktop - show 3D canvas and larger layout */
-  @media (min-width: 901px) and (max-width: 1440px) {
-    html { font-size: 16px; }
-    header { height: 92px; padding: 16px 36px; }
-    .brand-text { display: flex; }
-    .hamburger-button { display: none; }
-    .desktop-nav { display: flex !important; }
-    .card { width: min(920px, 80%); padding: 26px; }
-    h1 { font-size: clamp(34px, 3.2vw, 48px); }
-    .panel { padding: 48px; height: calc(100vh - 92px); } 
-    .three-wrap { display: block; }
+    .desktop-nav { display: flex !important; gap: 10px; align-items: center; color:(255,255,255,0.6); background: ;}
   }
 
   /* Wide desktop / large screens */
-  @media (min-width: 1441px) {
-    html { font-size: 17px; }
-    header { height: 104px; padding: 20px 48px; }
-    .card { width: min(1100px, 76%); padding: 32px; border-radius: 20px; }
-    h1 { font-size: clamp(40px, 2.6vw, 64px); }
-    .panel { padding: 64px; }
-    .three-wrap { display: block; }
+  @media (min-width: 1025px) {
+    .card { 
+      width: min(1100px, 76%); 
+      padding: 32px; 
+      border-radius: 20px;
+      backdrop-filter: none;
+      background: none;
+    }
+    .desktop-nav {
+          backdrop-filter: blur(16px);
+          border-radius: 16px;
+    }
+    .modern_text {backdrop-filter: blur(16px); margin:2px; padding:2px; border-radius: 16px; text-align: center; }
+    
+    .panel { 
+      padding: 64px;
+      backdrop-filter: none;
+      background: none;
+    }
+    .three-wrap { 
+      display: block !important;
+      z-index: 0;
+    }
+    .la box-icon {
+      backdrop-filter: blur(16px);
+      margin:2px;
+      padding:2px;
+      border-radius: 16px;
+    }
+    .brand-text {
+      backdrop-filter: blur(16px);
+      margin:2px;
+      padding:2px;
+      border-radius: 16px;
+    }
+    .logo-rotate {
+      backdrop-filter: blur(16px);
+      margin:2px;
+      padding:2px;
+      border-radius: 16px;
+    }
   }
