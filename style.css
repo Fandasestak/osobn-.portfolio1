@@ -659,7 +659,7 @@
   @media (min-width: 680px) and (max-width: 1024px) {
     .card { width: min(760px, 90%); padding: 22px; }
     .panel { padding: 36px; }
-    .desktop-nav { display: flex !important; gap: 10px; align-items: center; color:(255,255,255,0.6); background: ;}
+    .desktop-nav { display: flex !important; gap: 10px; align-items: center; color:(255,255,255,0.6);}
   }
 
   /* Wide desktop / large screens */
@@ -705,3 +705,4 @@
       border-radius: 16px;
     }
   }
+
