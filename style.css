@@ -684,7 +684,7 @@
     }
     .three-wrap { 
       display: block !important;
-      z-index: 0;
+      z-index: 1;
     }
     .la box-icon {
       backdrop-filter: blur(16px);
@@ -705,4 +705,5 @@
       border-radius: 16px;
     }
   }
+
 
