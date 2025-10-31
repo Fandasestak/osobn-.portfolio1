@@ -8,7 +8,7 @@
    version="1.1"
    id="svg5"
    inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
-   sodipodi:docname="fsLogo4.svg"
+   sodipodi:docname="fsLogo5.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -25,12 +25,12 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="0.38448931"
-     inkscape:cx="-210.66906"
-     inkscape:cy="642.41058"
+     inkscape:cx="416.1364"
+     inkscape:cy="643.711"
      inkscape:window-width="1920"
-     inkscape:window-height="1014"
+     inkscape:window-height="1051"
      inkscape:window-x="-9"
-     inkscape:window-y="28"
+     inkscape:window-y="-9"
      inkscape:window-maximized="1"
      inkscape:current-layer="layer1" />
   <defs
@@ -40,16 +40,16 @@
      inkscape:groupmode="layer"
      id="layer1">
     <rect
-       style="fill:#2362de;fill-rule:evenodd;stroke-width:2;paint-order:markers stroke fill;fill-opacity:1"
+       style="fill:#ffffff;fill-rule:evenodd;stroke-width:2;paint-order:markers stroke fill"
        id="rect241"
        width="43.749729"
        height="229.50716"
        x="46.07407"
-       y="25.54557"
+       y="25.545578"
        rx="2.578125"
        ry="2.5781252" />
     <rect
-       style="fill:#2362de;fill-rule:evenodd;stroke-width:2;paint-order:markers stroke fill;fill-opacity:1"
+       style="fill:#ffffff;fill-rule:evenodd;stroke-width:2;paint-order:markers stroke fill"
        id="rect248"
        width="79.047798"
        height="37.10601"
@@ -58,7 +58,7 @@
        rx="0.85937506"
        ry="5.1562505" />
     <rect
-       style="fill:#2362de;fill-rule:evenodd;stroke-width:2;paint-order:markers stroke fill;fill-opacity:1"
+       style="fill:#ffffff;fill-rule:evenodd;stroke-width:2;paint-order:markers stroke fill"
        id="rect248-6"
        width="79.047798"
        height="37.868755"
@@ -75,6 +75,6 @@
        transform="matrix(85.432468,0,0,34.498777,-6913.6335,-2755.858)"><tspan
          x="81.984375"
          y="86.968742"
-         id="tspan1232">Š</tspan></text>
+         id="tspan22281">Š</tspan></text>
   </g>
 </svg>
