@@ -227,7 +227,7 @@
       }
       .nav a, .mobile-menu a {
         text-decoration:none;
-        padding:8px 6px;
+        padding:20px 6px;
         display:inline-block;
         color:inherit;
       }
@@ -298,7 +298,7 @@
         }
         .sesty_nadpis { 
             font-size: 700;
-            color: #ffffff;
+            color: #ccccccff;
         }
       }
       @media (min-width: 641px) and (max-width:961px) {
@@ -358,10 +358,10 @@
         }
         .sesty_nadpis { 
             font-size: 700;
-            color: #aa8541;
+            color: #ccccccff;
         }
       }
-      @media (max-height:1300px) and (max-width:338px) {
+      @media (max-height:1300px) and (max-width:388px) {
         h1, .modern_text, .modern {
           font-size: 25px;
           display: flex;
@@ -393,9 +393,6 @@
           margin:10px;
           line-height: 1.2;
         }
-        .desktop-nav {
-          backdrop-filter: blur(16px);
-        }
         .cta {
           padding: 8px 14px;
           border-radius: 14px;
@@ -408,7 +405,7 @@
           font-size: 12px;
         }
       }
-      @media (max-height: 400px) {
+      @media (max-height: 470px) {
         .card {
           margin: 10px;
           size: 20px;
@@ -454,7 +451,7 @@
           gap: 6px;
         }
       }
-      @media (max-height: 500px) {
+      @media (min-height: 400px) {
         .card {
           margin: 2px;
           size: 20px;
@@ -478,6 +475,10 @@
           align-items: center;
           flex-direction: column;
           gap: 6px;
+        }
+        .social-media box-icon {
+          width: 20px;
+          height: 20px;
         }
       }
 
@@ -599,20 +600,6 @@
             }
         }
 
-        /* základní pravidlo pro three-wrap (canvas) */
-      .three-wrap {
-        position: fixed;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        pointer-events: none;
-        z-index: 0;
-      }
-
   /* ------------------------------------------------------------------ */
   /* Improved responsive breakpoints (mobile -> tablet -> desktop -> wide) */
   /* These override and refine earlier rules to ensure consistent layout */
@@ -621,14 +608,14 @@
   /* Base adjustments for very small phones */
   @media (max-width: 420px) {
     html { font-size: 14px; }
-    header { height: 72px; padding: 10px 14px; position: fixed; width: 100%; top: 0; left: 0; box-sizing: border-box; backdrop-filter: blur(16px) }
+    header { height: 72px; padding: 10px 14px; position: fixed; width: 100%; top: 0; left: 0; box-sizing: border-box;}
     .brand-text { display: none; }
     .hamburger-button { display: block; }
-    .desktop-nav { display: none }
+    .desktop-nav {display: none; }
     .panel { 
       padding: 20px;
       height: 100vh;
-      min-height: -webkit-fill-available; /* iOS fix */
+      min-height: -webkit-fill-available;
       overflow: hidden;
       display: flex;
       align-items: center;
@@ -649,7 +636,6 @@
     p { font-size: 0.9rem; }
     .obrazek { width: 80%; }
     .three-wrap { display: none; }
-    
     /* Zajistí, že obsah je vždy viditelný pod fixed header */
     .app { padding-top: 72px; }
   }
@@ -664,18 +650,65 @@
 
   /* Wide desktop / large screens */
   @media (min-width: 1025px) {
-    .card { 
-      width: min(1100px, 76%); 
-      padding: 32px; 
-      border-radius: 20px;
+    .card {
+      display: block;
+      color:#ccccccff;
+      justify-content: center;
+      align-items: center;
+      width: min(1100px, 45%); 
+      margin: auto;
+      padding: 32px;
       backdrop-filter: none;
+      backdrop-filter: blur(5px);
+      border-radius: 16px;
       background: none;
+
+    }
+    .modern_text {
+      text-align: center;
+      font-size: 25px;
+      font-weight: 500;
+      cursor: default;
+    }
+    .scorpio_odkaz {
+      color:#ccccccff;
+      font-size: 18px;
+      font-weight: 600;
+      text-decoration: none;
+      margin-left: 20px;
+      border-radius: 16px;
+    }
+    .scorpio_odkaz:hover {
+        color:#ffffff;
+        text-shadow: #ffffff 0 0 8px;
+        text-decoration: none;
+    }
+    .modern {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+      font-size: 48px;
+      display: flex;
+      margin: 10px 0;
+      opacity:30%;
+      justify-content: center;
+      align-items: center;
+      cursor: default;
+      font-weight: 800;
     }
     .desktop-nav {
-          backdrop-filter: blur(16px);
+          backdrop-filter:blur(16px);
           border-radius: 16px;
+          cursor: default;
+          color:#ccccccff;
     }
-    .modern_text {backdrop-filter: blur(16px); margin:2px; padding:2px; border-radius: 16px; text-align: center; }
+    .desktop-nav a:hover {
+      color: #ffffff;
+      text-shadow: #ffffff 0 0 8px;
+      cursor: default;
+    }
+    .nav a {
+      opacity: .8px;
+    }
     
     .panel { 
       padding: 64px;
@@ -684,26 +717,61 @@
     }
     .three-wrap { 
       display: block !important;
+      padding-bottom: -220px !important;
+      margin-bottom: -200px !important;
       z-index: 1;
     }
-    .la box-icon {
-      backdrop-filter: blur(16px);
-      margin:2px;
-      padding:2px;
-      border-radius: 16px;
+    .vojta{
+      color:#ccccccff;
+    }
+    .vojta:hover{
+      color:#ffffff;
+      text-shadow: #ffffff 0 0 8px;
+      cursor: pointer;
     }
     .brand-text {
       backdrop-filter: blur(16px);
-      margin:2px;
-      padding:2px;
+      margin:4px;
+      padding:6px;
       border-radius: 16px;
     }
     .logo-rotate {
       backdrop-filter: blur(16px);
-      margin:2px;
-      padding:2px;
-      border-radius: 16px;
+      margin:1px;
+      border-radius: 50%;
+      position: relative;
+      cursor: default !important;
+      top: 3px;
+    }
+    .logo-rotate:hover {
+      animation: none !important;
+      transform: rotate(360deg);
+      transition: transform 0.6s ease;
+      cursor: default !important;
+    }
+    body {
+      background-color: #2362de;
+    }
+    .scorpio_odkaz {
+      color:#ccccccff;
+      margin: 10px 5px;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .sesty_nadpis {
+      font-size: 700;
+      color: #ffffff;
+      cursor: default;
+    }
+    .cta {
+      color:#ccccccff;
+      cursor: default;
+      border: none;
+
+    }
+    .cta:hover {
+      color:#ffffff;
+      text-shadow: #ccccccff 0 0 8px;
+      cursor: default;
     }
   }
-
-
