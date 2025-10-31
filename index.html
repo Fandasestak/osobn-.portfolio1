@@ -20,14 +20,14 @@
             
             <div id="logoHolder" class="logo-scratch" title="Scorpio Holding owner">
               <div id="logoSVGWrap" class="logo-rotate" style="width:72px;height:72px;display:grid;place-items:center">
-                <a href="https://sesty.dev"><img src="fsLogo5.svg" alt="Logo" id="sestySVG" style="width:48px;height:48px;user-select:none;pointer-events:none"></a>
+                <a href="https://sesty.dev"><img src="fsLogo10.svg" alt="Logo" id="sestySVG" style="width:48px;height:48px;user-select:none;pointer-events:none"></a>
               </div>
             </div>
           </div>
 
           <div class="brand-text">
             <div class="sesty_nadpis">Šesty</div>
-            <div style="font-size:12px;color:rgba(255,255,255,0.6)">František Šesták</div>
+            <div style="font-size:12px;color: #ccccccff; cursor:default;">František Šesták</div>
           </div>
         </div>
 
@@ -50,7 +50,7 @@
       </header>
 
       <nav class="mobile-menu" id="mobileMenu">
-        <a href="https://sesty.dev">Domů</a>
+        <a href="https://sesty.dev" class="navs">Domů</a>
         <a href="#aboutme">O mně</a>
         <a href="#projects">Projekty</a>
         <a href="#contact">Kontakt</a>
@@ -66,8 +66,8 @@
             </div>
            
             <div style="margin-top:18px;display:flex;gap:12px;justify-content:center">
-              <a class="cta" href="#projects" style="text-decoration:none">Projekty</a>
-              <a class="cta" href="#aboutme" style="text-decoration:none"><box-icon name='right-arrow-alt' animation='tada' color='#aa8541' width="100px"></box-icon></a>
+              <a class="cta" href="#projects" style="text-decoration:none; color: #ccccccff;">Projekty</a>
+              <a class="cta" href="#aboutme" style="text-decoration:none">-></a>
             </div>
           </div>
         </section>
@@ -78,7 +78,7 @@
           <div class="card">
             <h1 class="modern">O mně</h1>
             <div class="modern_text" style="display: flex; justify-content: center; align-items: center;">
-               <p class="modern_text">Takže... Učím se programovat a designovat webové stránky (HTML, CSS, JS), i programovat v ☕︎ webové aplikace. Zde je i reference na mého kamaráda <a href="https://skymmel.eu/" style="color: #aa8541">Vojtu Wilhelma Skybu</a>, který mi s webem pomáhal.</p>
+               <p class="modern_text">Takže... má profese se zaměřuje na programování a design web. stránky/aplikace. Zde je reference na mého kamaráda <a href="https://skymmel.eu/" style="color: #ccccccff; text-decoration: none; cursor: pointer;" class="vojta">Vojtěcha Wilhelma Skybu.</a></p>
             </div>
             <div class="ref" style="margin-top:18px;display:flex;gap:12px;justify-content:center">
               <button class="cta" onclick="downloadCV()">Životopis (𝟐𝟎𝟐𝟓)</button>
@@ -90,9 +90,8 @@
           <div class="card">
             <h1 class="modern">Projekty</h1>
             <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
-              <h2 style="align-items: left; justify-content: left;" class="modern_text">Moje firma</h2>
-              <img src="projekt1.png" width="80%" class="obrazek" style="border:5px solid #2362de; border-radius: 10px;">
-              <a href="" style="color:#aa8541" >Scorpio.company</a>
+              <img src="projekt1.png" width="80%" class="obrazek" style="border-radius: 10px;">
+              <a href="#" class="scorpio_odkaz" >Scorpio.company</a>
             </div>
           </div>
         </section>
@@ -100,11 +99,11 @@
         <section class="panel" id="contact">
           <div class="card obrazek">
             <h1 class="modern">Kontaktuj mě...</h1>
-              <div class="social-media" style="display: flex; justify-content: center; align-items: center; gap: 30px; margin-top: 20px; width: 100%;">
-                <a href="mailto:frantisek.sestak@tutamail.com" class="la" title="frantisek.sestak@tutamail.com"><box-icon name='gmail' type='logo' animation='tada' color='#aa8541' ></box-icon></a>
-                <a href="tel:+420602813911" class="la" title="+420 602 813 911"><box-icon name='phone-call' type='solid' animation='tada' color='#ffffff' ></box-icon></a>
-                <a href="https://www.instagram.com/fsestak9" class="la" title="@fsestak9"><box-icon name='instagram' type='logo' color='#aa8541'animation="tada"></box-icon></a>
-                <a href="https://github.com/Fandasestak" class="la" title="Github link:"><box-icon name='github' type='logo' color='#ffffff'animation="tada"></box-icon></a>
+              <div class="social-media" style="display: flex; justify-content: center; align-items: center; gap: 30px; margin: 20px 10px; width: 100%; flex-wrap: wrap;">
+                <a href="mailto:frantisek.sestak@tutamail.com" class="la" title="frantisek.sestak@tutamail.com"><box-icon name='gmail' type='logo'  color='#ccccccff' ></box-icon></a>
+                <a href="tel:+420602813911" class="la" title="+420 602 813 911"><box-icon name='phone-call' type='solid'  color='#ccccccff' ></box-icon></a>
+                <a href="https://www.instagram.com/fsestak9" class="la" title="@fsestak9"><box-icon name='instagram' type='logo' color='#ccccccff'></box-icon></a>
+                <a href="https://github.com/Fandasestak" class="la" title="Github link:"><box-icon name='github' type='logo' color='#ccccccff'></box-icon></a>
               </div> 
           </div>
         </section>
@@ -114,346 +113,257 @@
       <div class="blob a"></div>
       <div class="blob b"></div>
     </div>
-  <!-- THREE.js pro 3D pozadí -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<!-- THREE.js pro 3D pozadí -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
-  <script>
-      document.addEventListener('DOMContentLoaded', () => {
-            const hamburgerButton = document.getElementById('hamburgerButton');
-            const mobileMenu = document.getElementById('mobileMenu');
-            
-            // Získáme odkazy uvnitř mobilního menu pro automatické zavření
-            const mobileMenuLinks = mobileMenu ? mobileMenu.querySelectorAll('a') : [];
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const hamburgerButton = document.getElementById('hamburgerButton');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileMenuLinks = mobileMenu ? mobileMenu.querySelectorAll('a') : [];
 
-            function toggleMenu() {
-                if (!hamburgerButton || !mobileMenu) return;
-
-                // Přepíná třídu 'open' (pro animaci X)
-                hamburgerButton.classList.toggle('open');
-                // Přepíná třídu 'open' (pro vysunutí/zasunutí menu)
-                mobileMenu.classList.toggle('open');
-                
-                // Zabrání scrollování stránky pod menu
-                document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
-            }
-
-            // 1. Přidání posluchače na kliknutí pro hamburger tlačítko
-            if (hamburgerButton) {
-                hamburgerButton.addEventListener('click', toggleMenu);
-            }
-
-            // 2. Zavření menu po kliknutí na odkaz
-            mobileMenuLinks.forEach(link => {
-                link.addEventListener('click', () => {
-                    setTimeout(() => {
-                        if (mobileMenu.classList.contains('open')) {
-                            toggleMenu(); 
-                        }
-                    }, 200); 
-                });
-            });
-        });
-
-
-
-
-
-      // 1) Vertical wheel -> horizontal scroll mapping (desktop)
-      const scroller = document.getElementById('scroller');
-
-
-      let wheelLock = false;
-      let wheelAccum = 0;
-      let wheelTimer = null;
-      let lastScrollLeft = scroller.scrollLeft;
-      const WHEEL_THRESHOLD = 80;
-      const panelCount = document.querySelectorAll('.panel').length;
-
-      scroller.addEventListener('wheel', (e) => {
-        if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
-        e.preventDefault();
-        if (wheelLock) return;
-
-        wheelAccum += e.deltaY;
-        clearTimeout(wheelTimer);
-        wheelTimer = setTimeout(() => {
-          if (Math.abs(wheelAccum) >= WHEEL_THRESHOLD) {
-            wheelLock = true;
-            
-            const currentPanel = Math.round(scroller.scrollLeft / scroller.clientWidth);
-            const isFirstPanel = currentPanel <= 0;
-            const isLastPanel = currentPanel >= panelCount - 1;
-            
-            // Povolení scrollování v obou směrech
-            if (wheelAccum < 0) { // scroll nahoru/zpět
-              if (!isFirstPanel) { // není první panel, můžeme jít zpět
-                scroller.scrollBy({left: -scroller.clientWidth, behavior: 'smooth'});
-              }
-            } else { // scroll dolů/vpřed
-              if (!isLastPanel) { // není poslední panel, můžeme jít vpřed
-                scroller.scrollBy({left: scroller.clientWidth, behavior: 'smooth'});
-              }
-            }
-            
-            setTimeout(() => { wheelLock = false; }, 100); // delší pauza pro plynulejší scrollování
-          }
-          wheelAccum = 0;
-        }, 10);
-      }, {passive:false});
-
-      // 2) Mobile: swipe/scroll in both directions based on touch movement
-      let touchStartX = 0;
-      let touchStartY = 0;
-      let touchMoved = false;
-      scroller.addEventListener('touchstart', function(e) {
-        if (e.touches.length === 1) {
-          touchStartX = e.touches[0].clientX;
-          touchStartY = e.touches[0].clientY;
-          touchMoved = false;
-        }
-      });
-      scroller.addEventListener('touchmove', function(e) {
-        if (e.touches.length === 1) {
-          const touchEndX = e.touches[0].clientX;
-          const diffX = touchStartX - touchEndX;
-          
-          // Určí směr scrollu podle rozdílu v X souřadnici
-          if (Math.abs(diffX) > 50) { // minimální práh pro scroll
-            touchMoved = true;
-          }
-        }
-      });
-      scroller.addEventListener('touchend', function(e) {
-        if (!touechMovd) return;
-        const touchEndX = e.changedTouches[0].clientX;
-        const diffX = touchStartX - touchEndX;
-        
-        // Scroll podle směru swipe
-        if (diffX > 50) { // swipe doleva
-          scroller.scrollBy({left: scroller.clientWidth, behavior: 'smooth'});
-        } else if (diffX < -50) { // swipe doprava
-          scroller.scrollBy({left: -scroller.clientWidth, behavior: 'smooth'});
-        }
-      });
-
-      // keyboard navigation
-      window.addEventListener('keydown', (e)=>{ if(e.key==='ArrowRight') scroller.scrollBy({left: scroller.clientWidth, behavior:'smooth'}); if(e.key==='ArrowLeft') scroller.scrollBy({left:-scroller.clientWidth, behavior:'smooth'}) });
-      function scrollNext(){ scroller.scrollBy({left: scroller.clientWidth, behavior: 'smooth'}) }
-      window.scrollNext = scrollNext;
-
-      function downloadCV() {
-    const link = document.createElement('a');
-    link.href = 'zivotopis.pdf'; // název a cesta k tvému PDF
-    link.download = 'Životopis';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  function toggleMenu() {
+    if (!hamburgerButton || !mobileMenu) return;
+    hamburgerButton.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
   }
-  window.downloadCV = downloadCV;
-      
-      // 3D background only for desktop (width >= 1025px)
-      (function createBackground() {
-        // Check screen width before initializing 3D effect
-        if (window.innerWidth < 1025) {
-          const container = document.getElementById('three-bg');
-          if (container) container.style.display = 'none';
-          return;
+
+  if (hamburgerButton) {
+    hamburgerButton.addEventListener('click', toggleMenu);
+  }
+
+  mobileMenuLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      setTimeout(() => {
+        if (mobileMenu.classList.contains('open')) toggleMenu();
+      }, 200);
+    });
+  });
+});
+
+
+// horizontální scroll + klávesy
+const scroller = document.getElementById('scroller');
+let wheelLock = false, wheelAccum = 0, wheelTimer = null;
+const WHEEL_THRESHOLD = 80;
+const panelCount = document.querySelectorAll('.panel').length;
+
+scroller.addEventListener('wheel', (e) => {
+  if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
+  e.preventDefault();
+  if (wheelLock) return;
+
+  wheelAccum += e.deltaY;
+  clearTimeout(wheelTimer);
+  wheelTimer = setTimeout(() => {
+    if (Math.abs(wheelAccum) >= WHEEL_THRESHOLD) {
+      wheelLock = true;
+      const currentPanel = Math.round(scroller.scrollLeft / scroller.clientWidth);
+      const isFirstPanel = currentPanel <= 0;
+      const isLastPanel = currentPanel >= panelCount - 1;
+      if (wheelAccum < 0 && !isFirstPanel) {
+        scroller.scrollBy({left: -scroller.clientWidth, behavior: 'smooth'});
+      } else if (wheelAccum > 0 && !isLastPanel) {
+        scroller.scrollBy({left: scroller.clientWidth, behavior: 'smooth'});
+      }
+      setTimeout(() => { wheelLock = false; }, 100);
+    }
+    wheelAccum = 0;
+  }, 10);
+}, {passive:false});
+
+window.addEventListener('keydown', (e)=>{
+  if(e.key==='ArrowRight') scroller.scrollBy({left: scroller.clientWidth, behavior:'smooth'});
+  if(e.key==='ArrowLeft') scroller.scrollBy({left:-scroller.clientWidth, behavior:'smooth'});
+});
+function scrollNext(){ scroller.scrollBy({left: scroller.clientWidth, behavior: 'smooth'}) }
+window.scrollNext = scrollNext;
+
+
+// Funkce pro stáhnutí PDF
+function downloadCV() {
+  const link = document.createElement('a');
+  link.href = 'zivotopis.pdf';
+  link.download = 'Životopis';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+window.downloadCV = downloadCV;
+
+
+// === 3D POZADÍ THREE.JS ===
+(function createBackground() {
+  if (window.innerWidth < 1025) {
+    const container = document.getElementById('three-bg');
+    if (container) container.style.display = 'none';
+    return;
+  }
+
+  const container = document.getElementById('three-bg');
+  if (container) container.style.display = 'block';
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  
+  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(window.devicePixelRatio);
+  container.appendChild(renderer.domElement);
+
+  // Světla
+  scene.add(new THREE.AmbientLight(0xffffff, 1.0));
+  const dirLight = new THREE.DirectionalLight(0xffffff, 1.0);
+  dirLight.position.set(1,1,1);
+  scene.add(dirLight);
+
+  // Částice písmena F
+  const particles = [];
+  const particleCount = 1500;
+  const colors = [0xffffff, 0x3b82f6, 0xaa8541];
+
+  function generateLetterPoints() {
+    const points = [];
+    const letterHeight = 10.0;
+    const letterWidth = 5.0;
+    const thickness = 1;
+    for(let y=-letterHeight/2;y<=letterHeight/2;y+=0.05){
+      for(let x=-thickness/2;x<=thickness/2;x+=0.05){
+        points.push([x,y,0]);
+      }
+    }
+    for(let x=-thickness/2;x<=letterWidth;x+=0.05){
+      for(let y=letterHeight/2-thickness/2;y<=letterHeight/2+thickness/2;y+=0.05){
+        points.push([x,y,0]);
+      }
+    }
+    for(let x=-thickness/2;x<=letterWidth*0.7;x+=0.05){
+      for(let y=-thickness/2;y<=thickness/2;y+=0.05){
+        points.push([x,y,0]);
+      }
+    }
+    return points;
+  }
+
+  const letterPoints = generateLetterPoints();
+  const geometry = new THREE.SphereGeometry(0.03, 32, 32);
+  for (let i = 0; i < particleCount; i++) {
+    const material = new THREE.MeshPhongMaterial({
+      color: colors[Math.floor(Math.random() * colors.length)],
+      shininess: 250,
+      emissive: colors[Math.floor(Math.random() * colors.length)],
+      emissiveIntensity: 0.3
+    });
+    const particle = new THREE.Mesh(geometry, material);
+    particle.position.set(Math.random()*20-10, Math.random()*20-10, Math.random()*10-5);
+    const targetPoint = letterPoints[i % letterPoints.length];
+    particle.targetPosition = new THREE.Vector3(...targetPoint);
+    particle.originalPosition = particle.position.clone();
+    particle.velocity = new THREE.Vector3(
+      (Math.random()-0.5)*0.05,
+      (Math.random()-0.5)*0.05,
+      (Math.random()-0.5)*0.05
+    );
+    particles.push(particle);
+    scene.add(particle);
+  }
+
+  camera.position.z = 10;
+  let isMouseMoving = false, mouseTimer, transitionProgress = 0;
+
+  // Černá koule pro slučování
+  const dotGeometry = new THREE.SphereGeometry(0.2, 32, 32);
+  const dotMaterial = new THREE.MeshBasicMaterial({ color: 0x2362de });
+  const dot = new THREE.Mesh(dotGeometry, dotMaterial);
+  dot.visible = false;
+  scene.add(dot);
+
+  let mouseX = 0, mouseY = 0, mouse3D = new THREE.Vector3(), merged = false;
+
+  document.addEventListener('mousemove', (event) => {
+    mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+    mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+
+    const vector = new THREE.Vector3(mouseX, mouseY, 0.5);
+    vector.unproject(camera);
+    const dir = vector.sub(camera.position).normalize();
+    const distance = -camera.position.z / dir.z;
+    mouse3D = camera.position.clone().add(dir.multiplyScalar(distance));
+
+    merged = true;
+    dot.visible = true;
+    dot.position.copy(mouse3D);
+
+    clearTimeout(mouseTimer);
+    mouseTimer = setTimeout(() => {
+      merged = false;
+      dot.visible = false;
+    }, 1000);
+
+    camera.position.x += (mouseX * 2 - camera.position.x) * 0.05;
+    camera.position.y += (mouseY * 2 - camera.position.y) * 0.05;
+    camera.lookAt(scene.position);
+  });
+
+  function animate() {
+    requestAnimationFrame(animate);
+
+    if (isMouseMoving && transitionProgress < 1) transitionProgress = Math.min(1, transitionProgress + 0.02);
+    else if (!isMouseMoving && transitionProgress > 0) transitionProgress = Math.max(0, transitionProgress - 0.01);
+
+    particles.forEach(p => {
+      if (merged) {
+        p.position.lerp(mouse3D, 0.1);
+      } else if (isMouseMoving) {
+        p.position.lerp(p.targetPosition, transitionProgress * 0.1);
+        p.rotation.x += 0.005;
+        p.rotation.y += 0.005;
+      } else {
+        if (transitionProgress < 0.3) {
+          p.position.add(p.velocity);
+          p.velocity.add(new THREE.Vector3(
+            (Math.random()-0.5)*0.01,
+            (Math.random()-0.5)*0.01,
+            (Math.random()-0.5)*0.01
+          ));
+          p.velocity.multiplyScalar(0.99);
+          p.rotation.x += p.velocity.length() * 0.2;
+          p.rotation.y += p.velocity.length() * 0.2;
         }
+      }
+    });
 
-        const container = document.getElementById('three-bg');
-        if (container) container.style.display = 'block';
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        
-        const renderer = new THREE.WebGLRenderer({ 
-          alpha: true,
-          antialias: true 
-        });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
-        container.appendChild(renderer.domElement);
+    renderer.render(scene, camera);
+  }
+  animate();
 
-        // Světla
-        const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
-        scene.add(ambientLight);
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+})();
 
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
-        directionalLight.position.set(1, 1, 1);
-        scene.add(directionalLight);
 
-        const pointLight = new THREE.PointLight(0xffffff, 1.0);
-        pointLight.position.set(0, 0, 5);
-        scene.add(pointLight);
+// === MOBILNÍ GESTA: dolů → vlevo, nahoru → vpravo ===
+let startY = 0;
+let endY = 0;
+document.addEventListener('touchstart', (e) => {
+  startY = e.touches[0].clientY;
+});
+document.addEventListener('touchend', (e) => {
+  endY = e.changedTouches[0].clientY;
+  const diffY = startY - endY;
+  const threshold = 50;
+  if (Math.abs(diffY) > threshold) {
+    if (diffY > 0) {
+      scroller.scrollBy({ left: scroller.clientWidth, behavior: 'smooth' }); // nahoru -> vpravo
+    } else {
+      scroller.scrollBy({ left: -scroller.clientWidth, behavior: 'smooth' }); // dolů -> vlevo
+    }
+  }
+});
+</script>
 
-        // Vytvoření částic
-        const particles = [];
-        const particleCount = 1500; // Zvýšený počet částic pro lepší detail písmena F
-        const colors = [0xffffff, 0x3b82f6, 0xaa8541]; // Bílá, modrá, zlatá
-        
-        // Vytvoření sítě bodů pro písmeno "F"
-        function generateLetterPoints() {
-          const points = [];
-          const letterHeight = 3.0; // Větší výška pro výraznější písmeno
-          const letterWidth = 2.0; // Širší písmeno pro lepší čitelnost
-          const thickness = 0.4; // Tloušťka čar písmena
-          
-          // Vertikální čára
-          for(let y = -letterHeight/2; y <= letterHeight/2; y += 0.05) {
-            for(let x = -thickness/2; x <= thickness/2; x += 0.05) {
-              points.push([x, y, 0]);
-            }
-          }
-          
-          // Horní horizontální čára
-          for(let x = -thickness/2; x <= letterWidth; x += 0.05) {
-            for(let y = letterHeight/2 - thickness/2; y <= letterHeight/2 + thickness/2; y += 0.05) {
-              points.push([x, y, 0]);
-            }
-          }
-          
-          // Střední horizontální čára (kratší)
-          for(let x = -thickness/2; x <= letterWidth * 0.7; x += 0.05) {
-            for(let y = 0 - thickness/2; y <= 0 + thickness/2; y += 0.05) {
-              points.push([x, y, 0]);
-            }
-          }
-          return points;
-          return points;
-        }
-
-        const letterPoints = generateLetterPoints();
-          const geometry = new THREE.SphereGeometry(0.03, 32, 32); // Ještě větší a detailnější kuličky
-        
-        for (let i = 0; i < particleCount; i++) {
-          const material = new THREE.MeshPhongMaterial({
-            color: colors[Math.floor(Math.random() * colors.length)],
-            shininess: 250,
-            opacity: 1,
-            transparent: false,
-            emissive: colors[Math.floor(Math.random() * colors.length)],
-            emissiveIntensity: 0.3
-          });          const particle = new THREE.Mesh(geometry, material);
-          
-          // Náhodná počáteční pozice v užším prostoru pro rychlejší formování
-          particle.position.set(
-            Math.random() * 20 - 10,
-            Math.random() * 20 - 10,
-            Math.random() * 10 - 5
-          );
-          
-          // Každá částice dostane cílovou pozici z písmen
-          const targetPoint = letterPoints[i % letterPoints.length];
-          particle.targetPosition = new THREE.Vector3(...targetPoint);
-          
-          // Uložení původní pozice pro návrat
-          particle.originalPosition = particle.position.clone();
-          
-          // Přidání náhodné rychlosti pro rozlet
-          particle.velocity = new THREE.Vector3(
-            (Math.random() - 0.5) * 0.05,
-            (Math.random() - 0.5) * 0.05,
-            (Math.random() - 0.5) * 0.05
-          );
-          
-          particles.push(particle);
-          scene.add(particle);
-        }
-
-        camera.position.z = 10;
-
-        let isMouseMoving = false;
-        let mouseTimer;
-        let transitionProgress = 0;
-
-        // Animace
-        function animate() {
-          requestAnimationFrame(animate);
-          
-          // Aktualizace přechodu
-          if (isMouseMoving && transitionProgress < 1) {
-            transitionProgress = Math.min(1, transitionProgress + 0.02);
-          } else if (!isMouseMoving && transitionProgress > 0) {
-            transitionProgress = Math.max(0, transitionProgress - 0.01);
-          }
-
-          // Aktualizace částic
-          particles.forEach((particle) => {
-            if (isMouseMoving) {
-              // Když se hýbe myš, všechny částice směřují k písmenům
-              particle.position.lerp(particle.targetPosition, transitionProgress * 0.1);
-              // Mírná rotace během formování písmen
-              particle.rotation.x += 0.005;
-              particle.rotation.y += 0.005;
-            } else {
-              // Když se myš nehýbe, částice se rozletí
-              if (transitionProgress < 0.3) {
-                // Aplikuj uloženou rychlost
-                particle.position.add(particle.velocity);
-                
-                // Přidej náhodný pohyb
-                particle.velocity.x += (Math.random() - 0.5) * 0.01;
-                particle.velocity.y += (Math.random() - 0.5) * 0.01;
-                particle.velocity.z += (Math.random() - 0.5) * 0.01;
-                
-                // Omez rychlost
-                particle.velocity.multiplyScalar(0.99);
-                
-                // Rotace částic při rozletu
-                particle.rotation.x += particle.velocity.length() * 0.2;
-                particle.rotation.y += particle.velocity.length() * 0.2;
-                
-                // Omezení prostoru
-                if (Math.abs(particle.position.x) > 15) {
-                  particle.velocity.x *= -0.8;
-                  particle.position.x *= 0.95;
-                }
-                if (Math.abs(particle.position.y) > 15) {
-                  particle.velocity.y *= -0.8;
-                  particle.position.y *= 0.95;
-                }
-                if (Math.abs(particle.position.z) > 10) {
-                  particle.velocity.z *= -0.8;
-                  particle.position.z *= 0.95;
-                }
-              }
-            }
-          });
-          
-          renderer.render(scene, camera);
-        }
-        
-        animate();
-
-        // Responzivita
-        window.addEventListener('resize', () => {
-          camera.aspect = window.innerWidth / window.innerHeight;
-          camera.updateProjectionMatrix();
-          renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-
-        // Interaktivita s myší
-        let mouseX = 0;
-        let mouseY = 0;
-        
-        document.addEventListener('mousemove', (event) => {
-          mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-          mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
-          
-          // Nastavení příznaku pohybu myši
-          isMouseMoving = true;
-          clearTimeout(mouseTimer);
-          
-          // Timer pro detekci ukončení pohybu
-          mouseTimer = setTimeout(() => {
-            isMouseMoving = false;
-          }, 100);
-
-          camera.position.x += (mouseX * 2 - camera.position.x) * 0.05;
-          camera.position.y += (mouseY * 2 - camera.position.y) * 0.05;
-          camera.lookAt(scene.position);
-        });
-      })();
-      
-      </script>
   </body>
   </html>
