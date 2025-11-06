@@ -1,4 +1,4 @@
-
+// === MOBILNÍ MENU ===
 document.addEventListener('DOMContentLoaded', () => {
   const hamburgerButton = document.getElementById('hamburgerButton');
   const mobileMenu = document.getElementById('mobileMenu');
@@ -55,10 +55,7 @@ scroller.addEventListener('wheel', (e) => {
   }, 10);
 }, {passive:false});
 
-window.addEventListener('keydown', (e)=>{
-  if(e.key==='ArrowRight') scroller.scrollBy({left: scroller.clientWidth, behavior:'smooth'});
-  if(e.key==='ArrowLeft') scroller.scrollBy({left:-scroller.clientWidth, behavior:'smooth'});
-});
+
 function scrollNext(){ scroller.scrollBy({left: scroller.clientWidth, behavior: 'smooth'}) }
 window.scrollNext = scrollNext;
 
