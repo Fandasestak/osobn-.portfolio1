@@ -5,20 +5,20 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Šesty</title>
     <link rel="shortcut icon" href="fsLogo4.svg" type="image/x-icon">
-    <link href='https://cdn.boxicons.com/fonts/brands/boxicons-brands.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href='https://cdn.boxicons.com/fonts/brands/boxicons-brands.min.css' rel='stylesheet'>
     <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
   </head>
   <body>
     <div class="app">
       <!-- three-bg je teď v popředí s vyšším z-indexem -->
-      <div id="three-bg" class="three-wrap" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:10;pointer-events:none;overflow:hidden;"></div>
+      <div id="three-bg" class="three-wrap"></div>
       <header>
         <div class="brand">
           <div class="logo-wrap">
 
-                <a href="https://sesty.dev"><img src="fsLogo10.svg" alt="Logo" id="sestySVG" style="width:48px;height:48px;user-select:none;pointer-events:none"></a>
+                <a href="https://sesty.dev"><img src="fsLogo10.svg" alt="Logo" id="sestySVG" style="width:48px;height:48px;"></a>
               </div>
 
           <div class="brand-text">
@@ -26,11 +26,9 @@
             <div style="font-size:12px;color: #ccccccff; cursor:default;">František Šesták</div>
           </div>
         </div>
-
-
-        <div style="display:flex;gap:10px;align-items:center" class="desktop-nav">
+        
+        <div class="desktop-nav">
           <nav class="nav">
-            
             <a href="#home">Domů</a>
             <a href="#aboutme">O mně</a>
             <a href="#projects">Projekty</a>
@@ -57,11 +55,11 @@
         <section class="panel" id="home">
           <div class="card">
             <h1 class="modern">Domů</h1>
-            <div class="modern_text" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+            <div class="modern_text">
                <p class="modern_text">Vítejte v mém portfoliu, v rychlosti se vám představím:</p>
             </div>
            
-            <div style="margin-top:18px;display:flex;gap:12px;justify-content:center">
+            <div class="button">
               <a class="cta" href="#aboutme" style="text-decoration:none">-></a>
             </div>
           </div>
@@ -72,10 +70,10 @@
           
           <div class="card">
             <h1 class="modern">O mně</h1>
-            <div class="modern_text" style="display: flex; justify-content: center; align-items: center;">
+            <div class="modern_text">
                <p class="modern_text">Takže... má profese se zaměřuje na programování a design web. stránky/aplikace. Zde je reference na mého kamaráda <a href="https://skymmel.eu/" style="color: #ccccccff; text-decoration: none; cursor: pointer;" class="vojta">Vojtěcha Wilhelma Skybu.</a></p>
             </div>
-            <div class="ref" style="margin-top:18px;display:flex;gap:12px;justify-content:center">
+            <div class="button">
               <button class="cta" onclick="downloadCV()">Životopis (𝟐𝟎𝟐𝟓)</button>
             </div>
           </div>
@@ -84,8 +82,8 @@
         <section class="panel" id="projects">
           <div class="card">
             <h1 class="modern">Projekty</h1>
-            <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
-              <img src="projekt1.png" width="80%" class="obrazek" style="border-radius: 10px;">
+            <div class="div_obrazek">
+              <img src="projekt1.png">
               <a href="#" class="scorpio_odkaz" >Scorpio.company</a>
             </div>
           </div>
@@ -94,7 +92,7 @@
         <section class="panel" id="contact">
           <div class="card obrazek">
             <h1 class="modern">Kontaktuj mě...</h1>
-              <div class="social-media" style="display: flex; justify-content: center; align-items: center; gap: 30px; margin: 20px 10px; width: 100%; flex-wrap: wrap;">
+              <div class="social-media">
                 <a href="mailto:frantisek.sestak@tutamail.com" class="la" title="frantisek.sestak@tutamail.com"><box-icon name='gmail' type='logo'  color='#ccccccff' ></box-icon></a>
                 <a href="tel:+420602813911" class="la" title="+420 602 813 911"><box-icon name='phone-call' type='solid'  color='#ccccccff' ></box-icon></a>
                 <a href="https://www.instagram.com/fsestak9" class="la" title="@fsestak9"><box-icon name='instagram' type='logo' color='#ccccccff'></box-icon></a>
