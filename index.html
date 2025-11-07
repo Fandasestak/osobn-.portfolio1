@@ -186,6 +186,7 @@ window.downloadCV = downloadCV;
 (function createBackground() {
   if (window.innerWidth < 1025) {
     const container = document.getElementById('three-bg');
+    if (container) container.style.display = 'none';
     return;
   }
 
@@ -207,8 +208,8 @@ window.downloadCV = downloadCV;
 
   // Částice písmena F
   const particles = [];
-  const particleCount = 50;
-  const colors = [0x2362de];
+  const particleCount = 1500;
+  const colors = [0xffffff, 0x3b82f6, 0xaa8541];
 
   function generateLetterPoints() {
     const points = [];
@@ -241,7 +242,7 @@ window.downloadCV = downloadCV;
       shininess: 250,
       emissive: colors[Math.floor(Math.random() * colors.length)],
       emissiveIntensity: 0.3
-    };
+    });
     const particle = new THREE.Mesh(geometry, material);
     particle.position.set(Math.random()*20-10, Math.random()*20-10, Math.random()*10-5);
     const targetPoint = letterPoints[i % letterPoints.length];
@@ -258,6 +259,13 @@ window.downloadCV = downloadCV;
 
   camera.position.z = 10;
   let isMouseMoving = false, mouseTimer, transitionProgress = 0;
+
+  // Černá koule pro slučování
+  const dotGeometry = new THREE.SphereGeometry(0.2, 32, 32);
+  const dotMaterial = new THREE.MeshBasicMaterial({ color: 0x2362de });
+  const dot = new THREE.Mesh(dotGeometry, dotMaterial);
+  dot.visible = false;
+  scene.add(dot);
 
   let mouseX = 0, mouseY = 0, mouse3D = new THREE.Vector3(), merged = false;
 
