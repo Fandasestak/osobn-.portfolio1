@@ -292,33 +292,7 @@ window.downloadCV = downloadCV;
     camera.lookAt(scene.position);
   });
 
-  function animate() {
-    requestAnimationFrame(animate);
-
-    if (isMouseMoving && transitionProgress < 1) transitionProgress = Math.min(1, transitionProgress + 0.02);
-    else if (!isMouseMoving && transitionProgress > 0) transitionProgress = Math.max(0, transitionProgress - 0.01);
-
-    particles.forEach(p => {
-      if (merged) {
-        p.position.lerp(mouse3D, 0.1);
-      } else if (isMouseMoving) {
-        p.position.lerp(p.targetPosition, transitionProgress * 0.1);
-        p.rotation.x += 0.005;
-        p.rotation.y += 0.005;
-      } else {
-        if (transitionProgress < 0.3) {
-          p.position.add(p.velocity);
-          p.velocity.add(new THREE.Vector3(
-            (Math.random()-0.5)*0.01,
-            (Math.random()-0.5)*0.01,
-            (Math.random()-0.5)*0.01
-          ));
-          p.velocity.multiplyScalar(0.99);
-          p.rotation.x += p.velocity.length() * 0.2;
-          p.rotation.y += p.velocity.length() * 0.2;
-        }
-      }
-    });
+ 
 
     renderer.render(scene, camera);
   }
