@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
     link.addEventListener('click', () => {
       setTimeout(() => {
         if (mobileMenu.classList.contains('open')) toggleMenu();
-      }, 200);
+      }, 50);
     });
   });
 });
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // horizontální scroll + klávesy
 const scroller = document.getElementById('scroller');
 let wheelLock = false, wheelAccum = 0, wheelTimer = null;
-const WHEEL_THRESHOLD = 80;
+const WHEEL_THRESHOLD = 50;
 const panelCount = document.querySelectorAll('.panel').length;
 
 scroller.addEventListener('wheel', (e) => {
@@ -158,7 +158,7 @@ scroller.addEventListener('wheel', (e) => {
       if (wheelAccum < 0 && !isFirstPanel) {
         scroller.scrollBy({left: -scroller.clientWidth, behavior: 'smooth'});
       } else if (wheelAccum > 0 && !isLastPanel) {
-        scroller.scrollBy({left: scroller.clientWidth, behavior: 'smooth'});
+        scroller.scrollBy({right: scroller.clientWidth, behavior: 'smooth'});
       }
       setTimeout(() => { wheelLock = false; }, 100);
     }
@@ -185,11 +185,6 @@ window.downloadCV = downloadCV;
 
 // === 3D POZADÍ THREE.JS ===
 (function createBackground() {
-  if (window.innerWidth < 1025) {
-    const container = document.getElementById('three-bg');
-    if (container) container.style.display = 'none';
-    return;
-  }
 
   const container = document.getElementById('three-bg');
   if (container) container.style.display = 'block';
@@ -209,7 +204,7 @@ window.downloadCV = downloadCV;
 
   // Částice písmena F
   const particles = [];
-  const particleCount = 1500;
+  const particleCount = 50;
   const colors = [0xffffff, 0x3b82f6, 0xaa8541];
 
   function generateLetterPoints() {
@@ -263,7 +258,7 @@ window.downloadCV = downloadCV;
 
   // Černá koule pro slučování
   const dotGeometry = new THREE.SphereGeometry(0.2, 32, 32);
-  const dotMaterial = new THREE.MeshBasicMaterial({ color: 0x2362de });
+  const dotMaterial = new THREE.MeshBasicMaterial({ color: none });
   const dot = new THREE.Mesh(dotGeometry, dotMaterial);
   dot.visible = false;
   scene.add(dot);
