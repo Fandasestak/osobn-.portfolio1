@@ -1,4 +1,4 @@
-:root{
+          :root{
         --bg:#1a1a1a; --glass-1:#f7f8fa21; --glass-2:#3b83f621;
         --accentA:#ffffff; --accentB:#3b82f6;
         --mono: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
@@ -11,20 +11,36 @@
       }
 .three-wrap {
        position:fixed;
-        top:0;left:0;
+        top:0;
+        left:0;
         width:100vw;
         height:100vh;
-        z-index:10;
+        z-index:1;
         pointer-events:none;
         overflow:hidden;
         display: block !important;
-        padding-bottom: -220px !important;
-        margin-bottom: -200px !important;
+}
+.cta {
+      color:#ccccccff;
+      cursor: default;
+      border: none;
+
+}
+.cta:hover {
+      color:#ffffff;
+      text-shadow: #ccccccff 0 0 8px;
+      cursor: default;
 }
 .desktop-nav {
         display:flex;
         gap:10px;
         align-items:center
+}
+.scorpio_odkaz {
+      color:#ccccccff;
+      margin: 10px 5px;
+      font-size: 16px;
+      font-weight: 600;
 }
       .app {
         height:100vh;
@@ -47,6 +63,12 @@
         align-items:center;
         gap:14px;
       }
+    .sesty_nadpis {
+      font-size: 700;
+      color: #ffffff;
+      cursor: default;
+    }
+
 .modern_text {
         display: flex;
         justify-content: center;
@@ -790,28 +812,7 @@
     body {
       background-color: #2362de;
     }
-    .scorpio_odkaz {
-      color:#ccccccff;
-      margin: 10px 5px;
-      font-size: 16px;
-      font-weight: 600;
-    }
-    .sesty_nadpis {
-      font-size: 700;
-      color: #ffffff;
-      cursor: default;
-    }
-    .cta {
-      color:#ccccccff;
-      cursor: default;
-      border: none;
-
-    }
-    .cta:hover {
-      color:#ffffff;
-      text-shadow: #ccccccff 0 0 8px;
-      cursor: default;
-    }
   }
+
 
 
