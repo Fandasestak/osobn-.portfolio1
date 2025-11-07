@@ -261,13 +261,6 @@ window.downloadCV = downloadCV;
   camera.position.z = 10;
   let isMouseMoving = false, mouseTimer, transitionProgress = 0;
 
-  // Černá koule pro slučování
-  const dotGeometry = new THREE.SphereGeometry(0.2, 32, 32);
-  const dotMaterial = new THREE.MeshBasicMaterial({ color: 0x2362de });
-  const dot = new THREE.Mesh(dotGeometry, dotMaterial);
-  dot.visible = false;
-  scene.add(dot);
-
   let mouseX = 0, mouseY = 0, mouse3D = new THREE.Vector3(), merged = false;
 
   document.addEventListener('mousemove', (event) => {
