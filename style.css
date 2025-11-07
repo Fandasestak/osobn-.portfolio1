@@ -3,16 +3,14 @@
         --accentA:#ffffff; --accentB:#3b82f6;
         --mono: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
       }
-      html,body {
-        height:100%;
-        margin:0;background:var(--bg);
-        font-family:var(--mono);
-        color:#ffffff;
-      }
+html,body {
+          height:100%;
+          background:var(--bg);
+          font-family:var(--mono);
+          color:#ffffff;
+}
 .three-wrap {
        position:fixed;
-        top:0;
-        left:0;
         width:100vw;
         height:100vh;
         z-index:1;
@@ -813,6 +811,7 @@
       background-color: #2362de;
     }
   }
+
 
 
 
