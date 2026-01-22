@@ -1,113 +1,321 @@
 <!doctype html>
-  <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="description" content="Sesty's Portfolio"> </meta>
-    <meta name="keywords" content="sesty,portfolio,CV,web,design"></meta>
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Šesty</title>
-    <link rel="shortcut icon" href="fsLogo4.svg" type="image/x-icon">
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <link href='https://cdn.boxicons.com/fonts/brands/boxicons-brands.min.css' rel='stylesheet'>
-    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
-    <script src="script.js"></script>
-  </head>
-  <body>
-    <div class="app">
-      <!-- three-bg je teď v popředí s vyšším z-indexem -->
-      <div id="three-bg" class="three-wrap"></div>
-      <header>
-        <div class="brand">
-          <div class="logo-wrap">
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#030508" />
+  <title>Šesty | Design & Vývoj - Portfolio (Acnod)</title>
 
-                <a href="https://sesty.dev"><img src="fsLogo10.svg" alt="Logo" id="sestySVG" height="auto" width="50px"></a>
-              </div>
+  <meta name="description" content="Šesty – Profesionální web design a vývoj. Tvořím digitální ekosystémy a vizuální identity. Prohlédněte si projekty včetně Acnod." />
+  <meta name="keywords" content="Šesty, sesty, Acnod, web design, vývoj webů, portfolio, UI/UX" />
+  <meta name="author" content="Šesty" />
+  <meta name="robots" content="index, follow" />
 
-          <div class="brand-text">
-            <div class="sesty_nadpis">Šesty</div>
-            <div style="font-size:12px;color: #ccccccff; cursor:default;">František Šesták</div>
-          </div>
-        </div>
-        
-        <div class="desktop-nav">
-          <nav class="nav">
-            <a href="#home">Domů</a>
-            <a href="#aboutme">O mně</a>
-            <a href="#projects">Projekty</a>
-            <a href="#contact">Kontakt</a>
-          </nav>
-          
-        </div>
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://sesty.dev" />
+  <meta property="og:title" content="Šesty | Design & Vývoj" />
+  <meta property="og:description" content="Digitální vize, které mění trh. Strategický design a precizní inženýrství." />
+  <meta property="twitter:card" content="summary_large_image" />
 
-        <div class="hamburger-button" id="hamburgerButton">
-                <span class="hamburger-icon"></span>
-            </div>
+  <link id="favicon" rel="icon" type="image/svg+xml">
+  <script src="favicon.js"></script>
 
-      </header>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap');
 
-      <nav class="mobile-menu" id="mobileMenu">
-        <a href="https://sesty.dev" class="navs">Domů</a>
-        <a href="#aboutme">O mně</a>
-        <a href="#projects">Projekty</a>
-        <a href="#contact">Kontakt</a>
-      </nav>
+    :root {
+      --bg: #030508;
+      --accent: #02ffb4;
+      --accent-soft: rgba(2, 255, 180, 0.1);
+      --text: #ffffff;
+      --text-muted: #94a3b8;
+      --glass: rgba(255, 255, 255, 0.03);
+      --border: rgba(255, 255, 255, 0.08);
+    }
 
+    * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
 
-      <div class="hscroller" id="scroller" tabindex="0">
-        <section class="panel" id="home">
-          <div class="card">
-            <h1 class="modern">Domů</h1>
-            <div class="modern_text">
-               <p class="modern_text">Vítejte v mém portfoliu, v rychlosti se vám představím:</p>
-            </div>
-           
-            <div class="button">
-              <a class="cta" href="#aboutme" style="text-decoration:none">-></a>
-            </div>
-          </div>
-        </section>
-</header>
-       
-        <section class="panel" id="aboutme">
-          
-          <div class="card">
-            <h1 class="modern">O mně</h1>
-            <div class="modern_text">
-               <p class="modern_text">Takže... má profese se zaměřuje na programování a design web. stránky/aplikace. Zde je reference na mého kamaráda <a href="https://skymmel.eu/" style="color: #ccccccff; text-decoration: none; cursor: pointer;" class="vojta">Vojtěcha Wilhelma Skybu.</a></p>
-            </div>
-            <div class="button">
-              <button class="cta" onclick="downloadCV()">Životopis (𝟐𝟎𝟐𝟓)</button>
-            </div>
-          </div>
-        </section>
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Montserrat', sans-serif;
+      overflow: hidden;
+      height: 100vh;
+      perspective: 1500px;
+      -webkit-font-smoothing: antialiased;
+    }
 
-        <section class="panel" id="projects">
-          <div class="card">
-            <h1 class="modern">Projekty</h1>
-            <div class="div_obrazek">
-              <img src="projekt1.png">
-              <a href="#" class="scorpio_odkaz" >Scorpio.company</a>
-            </div>
-          </div>
-        </section>
+    /* --- OFFLINE LOADER --- */
+    .offline-overlay {
+      position: fixed; inset: 0; background: var(--bg); z-index: 9999;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
+    }
+    .offline-overlay.active { opacity: 1; pointer-events: all; }
+    .loader-logo-svg { width: 100px; height: 100px; margin-bottom: 20px; animation: pulse-glow 2s infinite ease-in-out; }
 
-        <section class="panel" id="contact">
-          <div class="card obrazek">
-            <h1 class="modern">Kontaktuj mě...</h1>
-              <div class="social-media">
-                <a href="mailto:frantisek.sestak@tutamail.com" class="la" title="frantisek.sestak@tutamail.com"><box-icon name='gmail' type='logo'  color='#ccccccff' ></box-icon></a>
-                <a href="tel:+420602813911" class="la" title="+420 602 813 911"><box-icon name='phone-call' type='solid'  color='#ccccccff' ></box-icon></a>
-                <a href="https://www.instagram.com/fsestak9" class="la" title="@fsestak9"><box-icon name='instagram' type='logo' color='#ccccccff'></box-icon></a>
-                <a href="https://github.com/Fandasestak" class="la" title="Github link:"><box-icon name='github' type='logo' color='#ccccccff'></box-icon></a>
-              </div> 
-          </div>
-        </section>
-        
-      </div>
-      
-      <div class="blob a"></div>
-      <div class="blob b"></div>
+    @keyframes pulse-glow {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--accent-soft)); }
+      50% { transform: scale(1.1); filter: drop-shadow(0 0 25px var(--accent)); }
+    }
+
+    /* --- COOKIE BANNER --- */
+    .cookie-banner {
+      position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(150%);
+      width: 90%; max-width: 500px; background: rgba(3, 5, 8, 0.95); backdrop-filter: blur(20px);
+      border: 1px solid var(--accent); padding: 25px; border-radius: 20px; z-index: 10000;
+      display: flex; flex-direction: column; gap: 15px; box-shadow: 0 0 30px rgba(2, 255, 180, 0.15);
+      transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .cookie-banner.show { transform: translateX(-50%) translateY(0); }
+    .cookie-buttons { display: flex; gap: 10px; }
+    .cookie-btn { flex: 1; padding: 12px; border-radius: 10px; font-size: 0.8rem; font-weight: 700; cursor: pointer; text-transform: uppercase; transition: 0.3s; border: none; }
+    .cookie-btn.accept { background: var(--accent); color: #000; }
+    .cookie-btn.decline { background: transparent; border: 1px solid var(--border); color: var(--text-muted); }
+
+    /* --- UI ELEMENTS --- */
+    .progress-container { position: fixed; top: 90px; left: 60px; width: calc(100% - 120px); height: 2px; background: var(--border); z-index: 1001; }
+    .progress-bar { height: 100%; width: 25%; background: var(--accent); box-shadow: 0 0 15px var(--accent); transition: width 0.4s cubic-bezier(0.23, 1, 0.32, 1); }
+
+    .lang-switch { position: fixed; top: 105px; right: 60px; display: flex; gap: 12px; z-index: 1005; }
+    .lang-btn { background: none; border: none; color: var(--text-muted); font-size: 0.7rem; font-weight: 800; cursor: pointer; transition: 0.3s; letter-spacing: 1.5px; }
+    .lang-btn.active { color: var(--accent); }
+
+    /* --- 3D SCENE --- */
+    .canvas-3d { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+    .scene { width: 100%; height: 100%; transform-style: preserve-3d; will-change: transform; }
+    .grid-plane {
+      position: absolute; top: 50%; left: 50%; width: 300vw; height: 300vh;
+      background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 80px 80px; transform: translate(-50%, -50%) rotateX(90deg) translateZ(-600px);
+      mask-image: radial-gradient(circle, black, transparent 75%);
+    }
+
+    /* --- NAVIGATION --- */
+    header { position: fixed; top: 0; width: 100%; padding: 30px 60px; display: flex; justify-content: space-between; align-items: center; z-index: 1100; }
+    .brand { display: flex; align-items: center; gap: 15px; text-decoration: none; color: white; }
+    .logo-svg { width: 40px; height: 40px; transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    .brand:hover .logo-svg { transform: rotate(-60deg); }
+    .brand-text .name { font-weight: 800; font-size: 1.2rem; display: block; }
+    .brand-text .tagline { font-size: 0.7rem; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; }
+
+    nav a { margin-left: 35px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; position: relative; transition: color 0.3s; }
+    nav a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.4s; }
+    nav a:hover::after { width: 100%; }
+    nav a:hover { color: var(--accent); }
+
+    /* --- MAIN --- */
+    .main-container { display: flex; height: 100vh; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+    .main-container::-webkit-scrollbar { display: none; }
+    .section { min-width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; scroll-snap-align: start; }
+
+    .glass-card {
+      background: var(--glass); backdrop-filter: blur(25px); border: 1px solid var(--border);
+      padding: clamp(30px, 5vw, 60px); border-radius: 40px; max-width: 850px; position: relative;
+      will-change: transform; transform-style: preserve-3d; box-shadow: 0 40px 100px rgba(0,0,0,0.4);
+    }
+
+    .badge { display: inline-block; padding: 6px 14px; background: var(--accent-soft); color: var(--accent); border-radius: 100px; font-size: 0.75rem; font-weight: 700; margin-bottom: 25px; text-transform: uppercase; }
+    h1 { font-size: clamp(2.2rem, 5vw, 4.2rem); font-weight: 800; line-height: 1.1; margin-bottom: 25px; }
+    p { font-size: 1.1rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 35px; max-width: 600px; }
+    .cta-button { color: var(--accent); text-decoration: none; text-transform: uppercase; font-weight: 700; border-bottom: 2px solid transparent; transition: 0.3s; }
+    .cta-button:hover { border-bottom-color: var(--accent); }
+
+    .counter { position: absolute; bottom: 40px; right: 40px; font-size: 4rem; font-weight: 900; color: rgba(255,255,255,0.03); }
+
+    .menu-toggle { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 1200; }
+    .menu-toggle span { width: 25px; height: 2px; background: white; transition: 0.3s; }
+
+    @media (max-width: 768px) {
+      header { padding: 20px; }
+      .progress-container { top: auto; bottom: 80px; left: 20px; width: calc(100% - 40px); }
+      .lang-switch { top: auto; bottom: 40px; left: 20px; right: auto; }
+      .menu-toggle { display: flex; }
+      nav {
+        position: fixed; inset: 0; background: var(--bg); transform: translateX(100%);
+        display: flex; flex-direction: column; justify-content: center; align-items: center; transition: 0.5s; z-index: 1100;
+      }
+      nav.open { transform: translateX(0); }
+      nav a { margin: 20px 0; font-size: 1.8rem; font-weight: 800; }
+      .glass-card { padding: 30px; margin: 0 20px; border-radius: 25px; }
+      .counter { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="offline-loader" class="offline-overlay">
+  <div class="loader-logo-svg">
+    <svg viewBox="0 0 4500 4500"><path d="M1429.687,3259.243c-742.688,0 -1345.657,-602.969 -1345.657,-1345.657l1345.657,1345.657Z" fill="#fff"/><path d="M2775.344,1913.586c0,742.688 -602.969,1345.657 -1345.657,1345.657l1345.657,-1345.657Z" fill="#fff"/><path d="M3064.064,1240.757c742.688,0 1345.657,602.969 1345.657,1345.657l-1345.657,-1345.657Z" fill="#fff"/><path d="M1718.407,2586.414c0,-742.688 602.969,-1345.657 1345.657,-1345.657l-1345.657,1345.657Z" fill="#fff"/></svg>
+  </div>
+  <div class="offline-text">MOD OFFLINE</div>
+</div>
+
+<header>
+  <a href="#home" class="brand">
+    <div class="logo-svg">
+      <svg viewBox="0 0 4500 4500"><path d="M1429.687,3259.243c-742.688,0 -1345.657,-602.969 -1345.657,-1345.657l1345.657,1345.657Z" fill="#fff"/><path d="M2775.344,1913.586c0,742.688 -602.969,1345.657 -1345.657,1345.657l1345.657,-1345.657Z" fill="#fff"/><path d="M3064.064,1240.757c742.688,0 1345.657,602.969 1345.657,1345.657l-1345.657,-1345.657Z" fill="#fff"/><path d="M1718.407,2586.414c0,-742.688 602.969,-1345.657 1345.657,-1345.657l-1345.657,1345.657Z" fill="#fff"/></svg>
     </div>
-  </body>
-  </html>
+    <div class="brand-text">
+      <span class="name">ŠESTY</span>
+      <span class="tagline" data-key="brand-tagline">Design & vývoj</span>
+    </div>
+  </a>
+  <div class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></div>
+  <nav id="navMenu">
+    <a href="#about" data-key="nav-services">Služby</a>
+    <a href="#projects" data-key="nav-work">Portfolio</a>
+    <a href="#contact" data-key="nav-contact">Kontakt</a>
+  </nav>
+  <div class="lang-switch">
+    <button class="lang-btn active" id="btn-cz" onclick="setLang('cz')">CZ</button>
+    <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+  </div>
+</header>
+
+<div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+
+<div id="cookie-banner" class="cookie-banner">
+  <div>
+    <span class="cookie-title" data-key="cookie-title">Soubory Cookies</span>
+    <p class="cookie-text" data-key="cookie-text">Používáme cookies k zajištění nejlepšího zážitku z prohlížení portfolia.</p>
+  </div>
+  <div class="cookie-buttons">
+    <button id="btn-decline" class="cookie-btn decline" data-key="cookie-decline">Odmítnout</button>
+    <button id="btn-accept" class="cookie-btn accept" data-key="cookie-accept">Přijmout</button>
+  </div>
+</div>
+
+<div class="canvas-3d"><div class="scene" id="scene"><div class="grid-plane"></div></div></div>
+
+<main class="main-container" id="scroller">
+  <section class="section" id="home">
+    <div class="glass-card" data-speed="2">
+      <div class="badge" data-key="badge-available">Připraven k realizaci</div>
+      <h1 data-key="h1-home">Digitální vize,<br>které mění trh.</h1>
+      <p data-key="p-home">Strategický design a precizní inženýrství. Tvořím digitální ekosystémy pro vaše podnikání.</p>
+      <div class="counter">01</div>
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <div class="glass-card" data-speed="1.5">
+      <div class="badge" data-key="badge-offer">Expertíza</div>
+      <h1 data-key="h1-about">Estetika & <br>Výkon.</h1>
+      <p data-key="p-about">Komplexní řešení od vizuální identity po robustní backend. Architektura zaměřená na prožitek.</p>
+      <div class="counter" style="bottom: 20px;">02</div>
+    </div>
+  </section>
+
+  <section class="section" id="projects">
+    <div class="glass-card" data-speed="2.5">
+      <div class="badge" data-key="badge-work">Vybrané práce</div>
+      <h1 data-key="h1-projects">Excelence v <br>každém detailu.</h1>
+      <p data-key="p-projects">Prohlédněte si výběr projektů (včetně Acnod), kde se snoubí inovace s funkčností.</p>
+      <a href="#" class="cta-button" data-key="btn-projects">Zobrazit portfolio</a>
+      <div class="counter">03</div>
+    </div>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="glass-card" data-speed="2">
+      <div class="badge" data-key="nav-contact">Kontakt</div>
+      <h1 data-key="h1-contact">Zahajte svou <br>transformaci.</h1>
+      <p data-key="p-contact">Spojme se a vytvořme společně digitální produkt světové úrovně.</p>
+      <a href="mailto:frantisek.sestak@tutamail.com" class="cta-button" data-key="btn-email">Sjednat konzultaci</a>
+      <div class="counter">04</div>
+    </div>
+  </section>
+</main>
+
+<script>
+  const translations = {
+    cz: {
+      "brand-tagline": "Design & Vývoj", "nav-services": "Služby", "nav-work": "Portfolio", "nav-contact": "Kontakt",
+      "badge-available": "Připraven k realizaci", "h1-home": "Digitální vize,<br>které mění trh.", "p-home": "Strategický design a precizní inženýrství. Tvořím digitální ekosystémy pro vaše podnikání.",
+      "badge-offer": "Expertíza", "h1-about": "Estetika & <br>Výkon.", "p-about": "Komplexní řešení od vizuální identity po robustní backend. Architektura zaměřená na prožitek.",
+      "badge-work": "Vybrané práce", "h1-projects": "Excelence v <br>každém detailu.", "p-projects": "Prohlédněte si výběr projektů (včetně Acnod), kde se snoubí inovace s funkčností.", "btn-projects": "Zobrazit portfolio",
+      "h1-contact": "Zahajte svou <br>transformaci.", "p-contact": "Spojme se a vytvořme společně digitální produkt světové úrovně.", "btn-email": "Sjednat konzultaci",
+      "cookie-title": "Soubory Cookies", "cookie-text": "Používáme cookies k zajištění nejlepšího zážitku z prohlížení portfolia.", "cookie-accept": "Přijmout", "cookie-decline": "Odmítnout"
+    },
+    en: {
+      "brand-tagline": "Design & Dev", "nav-services": "Services", "nav-work": "Work", "nav-contact": "Contact",
+      "badge-available": "Ready for work", "h1-home": "Digital visions<br>shaping markets.", "p-home": "Strategic design and precision engineering. I build digital ecosystems for your business.",
+      "badge-offer": "Expertise", "h1-about": "Aesthetics & <br>Performance.", "p-about": "Comprehensive solutions from visual identity to robust backend. Architecture focused on experience.",
+      "badge-work": "Selected work", "h1-projects": "Excellence in <br>every detail.", "p-projects": "Explore a selection of projects (including Acnod) where innovation meets functionality.", "btn-projects": "View portfolio",
+      "h1-contact": "Start your <br>transformation.", "p-contact": "Let's connect and create a world-class digital product together.", "btn-email": "Get in touch",
+      "cookie-title": "Cookies Policy", "cookie-text": "We use cookies to ensure the best browsing experience on this portfolio.", "cookie-accept": "Accept", "cookie-decline": "Decline"
+    }
+  };
+
+  const scroller = document.getElementById("scroller");
+  const progressBar = document.getElementById("progressBar");
+  const scene = document.getElementById('scene');
+  const cards = document.querySelectorAll('.glass-card');
+  const cookieBanner = document.getElementById('cookie-banner');
+
+  function setLang(lang) {
+    document.querySelectorAll('[data-key]').forEach(el => {
+      const key = el.getAttribute('data-key');
+      if(translations[lang][key]) el.innerHTML = translations[lang][key];
+    });
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.id === `btn-${lang}`));
+    localStorage.setItem('sesty_lang', lang);
+  }
+
+  // 3D Parallax with rAF
+  let mx = 0, my = 0;
+  window.addEventListener('mousemove', (e) => {
+    mx = (e.clientX / window.innerWidth - 0.5);
+    my = (e.clientY / window.innerHeight - 0.5);
+  });
+
+  function animate() {
+    scene.style.transform = `rotateY(${mx * 10}deg) rotateX(${-my * 10}deg)`;
+    cards.forEach(card => {
+      const speed = card.dataset.speed || 1;
+      card.style.transform = `translate3d(${mx * 45 * speed}px, ${my * 45 * speed}px, 80px) rotateY(${-mx * 5}deg) rotateX(${my * 5}deg)`;
+    });
+    requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
+
+  // Scroll Logic
+  let isThrottled = false;
+  function scrollSlide(dir) {
+    if (isThrottled) return;
+    isThrottled = true;
+    const step = scroller.clientWidth;
+    const target = Math.max(0, Math.min(Math.round(scroller.scrollLeft / step) + dir, 3));
+    scroller.scrollTo({ left: target * step, behavior: 'smooth' });
+    setTimeout(() => isThrottled = false, 800);
+  }
+
+  scroller.onwheel = (e) => { e.preventDefault(); if(Math.abs(e.deltaY) > 18) scrollSlide(e.deltaY > 0 ? 1 : -1); };
+  scroller.onscroll = () => {
+    const max = scroller.scrollWidth - scroller.clientWidth;
+    const p = max > 0 ? (scroller.scrollLeft / max) * 75 + 25 : 25;
+    progressBar.style.width = `${p}%`;
+  };
+
+  // Cookies
+  document.getElementById('btn-accept').onclick = () => { localStorage.setItem('sesty_cookie', 'ok'); cookieBanner.classList.remove('show'); };
+  document.getElementById('btn-decline').onclick = () => { localStorage.setItem('sesty_cookie', 'no'); cookieBanner.classList.remove('show'); };
+
+  // Init
+  window.onload = () => {
+    setLang(localStorage.getItem('sesty_lang') || 'cz');
+    if(!localStorage.getItem('sesty_cookie')) setTimeout(() => cookieBanner.classList.add('show'), 2000);
+    updateOnlineStatus();
+  };
+
+  function updateOnlineStatus() { document.getElementById('offline-loader').classList.toggle('active', !navigator.onLine); }
+  window.addEventListener('online', updateOnlineStatus);
+  window.addEventListener('offline', updateOnlineStatus);
+
+  document.getElementById('menuToggle').onclick = () => {
+    document.getElementById('navMenu').classList.toggle('open');
+  };
+</script>
+</body>
+</html>
