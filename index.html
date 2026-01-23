@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="cz">
+<html lang="cs">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
   <meta name="theme-color" content="#030508" />
-  <title>Šesty's portfolio</title>
+  <title>Šesty | Design & Vývoj - Portfolio (Acnod)</title>
 
   <meta name="description" content="Šesty – Profesionální web design a vývoj. Tvořím digitální ekosystémy a vizuální identity. Prohlédněte si projekty včetně Acnod." />
   <meta name="keywords" content="Šesty, sesty, Acnod, web design, vývoj webů, portfolio, UI/UX" />
@@ -33,13 +33,13 @@
       --border: rgba(255, 255, 255, 0.08);
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       background: var(--bg);
       color: var(--text);
       font-family: 'Montserrat', sans-serif;
-      overflow: hidden;
+      overflow: hidden; /* Zabrání scrollování body, scrollovat bude jen main-container */
       height: 100vh;
       perspective: 1500px;
       -webkit-font-smoothing: antialiased;
@@ -105,9 +105,30 @@
     nav a:hover { color: var(--accent); }
 
     /* --- MAIN --- */
-    .main-container { display: flex; height: 100vh; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+    .main-container {
+      display: flex;
+      height: 100vh;
+      overflow-x: auto;
+
+      /* Optimalizace scrollu */
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch; /* Pro iOS plynulost */
+      scrollbar-width: none;
+    }
     .main-container::-webkit-scrollbar { display: none; }
-    .section { min-width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; scroll-snap-align: start; }
+
+    .section {
+      min-width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      /* Snap nastavení */
+      scroll-snap-align: center;
+      scroll-snap-stop: always; /* Zastaví vždy přesně na sekci, nepřeskočí */
+    }
 
     .glass-card {
       background: var(--glass); backdrop-filter: blur(25px); border: 1px solid var(--border);
@@ -123,8 +144,22 @@
 
     .counter { position: absolute; bottom: 40px; right: 40px; font-size: 4rem; font-weight: 900; color: rgba(255,255,255,0.03); }
 
-    .menu-toggle { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 1200; }
-    .menu-toggle span { width: 25px; height: 2px; background: white; transition: 0.3s; }
+    /* --- HAMBURGER ANIMATION --- */
+    .menu-toggle { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 1200; width: 30px; }
+    .menu-toggle span {
+      width: 100%; height: 2px; background: white;
+      transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+      transform-origin: center;
+    }
+
+    /* Prostřední čára je zelená */
+    .menu-toggle span:nth-child(2) { background: var(--accent); width: 70%; margin-left: auto; margin-right: auto; }
+
+    /* Stav otevřeno */
+    .menu-toggle.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .menu-toggle.open span:nth-child(2) { opacity: 0; transform: translateX(-20px); }
+    .menu-toggle.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
 
     @media (max-width: 768px) {
       header { padding: 20px; }
@@ -137,7 +172,7 @@
       }
       nav.open { transform: translateX(0); }
       nav a { margin: 20px 0; font-size: 1.8rem; font-weight: 800; }
-      .glass-card { padding: 30px; margin: 0 20px; border-radius: 25px; }
+      .glass-card { padding: 30px; margin: 0 20px; border-radius: 25px; transform: none !important; /* Vypnutí 3D na mobilu pro rychlost */ }
       .counter { display: none; }
     }
   </style>
@@ -253,6 +288,8 @@
   const scene = document.getElementById('scene');
   const cards = document.querySelectorAll('.glass-card');
   const cookieBanner = document.getElementById('cookie-banner');
+  const menuToggle = document.getElementById('menuToggle');
+  const navMenu = document.getElementById('navMenu');
 
   function setLang(lang) {
     document.querySelectorAll('[data-key]').forEach(el => {
@@ -263,24 +300,30 @@
     localStorage.setItem('sesty_lang', lang);
   }
 
-  // 3D Parallax with rAF
+  // 3D Parallax - OPTIMALIZOVÁNO PRO VÝKON
   let mx = 0, my = 0;
   window.addEventListener('mousemove', (e) => {
-    mx = (e.clientX / window.innerWidth - 0.5);
-    my = (e.clientY / window.innerHeight - 0.5);
+    // Parallax počítáme jen pokud není mobil (šetříme baterii a výkon)
+    if(window.innerWidth > 768) {
+      mx = (e.clientX / window.innerWidth - 0.5);
+      my = (e.clientY / window.innerHeight - 0.5);
+    }
   });
 
   function animate() {
-    scene.style.transform = `rotateY(${mx * 10}deg) rotateX(${-my * 10}deg)`;
-    cards.forEach(card => {
-      const speed = card.dataset.speed || 1;
-      card.style.transform = `translate3d(${mx * 45 * speed}px, ${my * 45 * speed}px, 80px) rotateY(${-mx * 5}deg) rotateX(${my * 5}deg)`;
-    });
+    // Pokud je to mobil, animaci 3D efektu přeskočíme úplně = plynulejší scroll
+    if(window.innerWidth > 768) {
+      scene.style.transform = `rotateY(${mx * 10}deg) rotateX(${-my * 10}deg)`;
+      cards.forEach(card => {
+        const speed = card.dataset.speed || 1;
+        card.style.transform = `translate3d(${mx * 45 * speed}px, ${my * 45 * speed}px, 80px) rotateY(${-mx * 5}deg) rotateX(${my * 5}deg)`;
+      });
+    }
     requestAnimationFrame(animate);
   }
   requestAnimationFrame(animate);
 
-  // Scroll Logic
+  // Scroll Logic - Desktop "wheel hijacking", Mobile native smooth snap
   let isThrottled = false;
   function scrollSlide(dir) {
     if (isThrottled) return;
@@ -291,7 +334,14 @@
     setTimeout(() => isThrottled = false, 800);
   }
 
-  scroller.onwheel = (e) => { e.preventDefault(); if(Math.abs(e.deltaY) > 18) scrollSlide(e.deltaY > 0 ? 1 : -1); };
+  // Custom scroll jen pro desktop
+  scroller.onwheel = (e) => {
+    if(window.innerWidth > 768) {
+      e.preventDefault();
+      if(Math.abs(e.deltaY) > 18) scrollSlide(e.deltaY > 0 ? 1 : -1);
+    }
+  };
+
   scroller.onscroll = () => {
     const max = scroller.scrollWidth - scroller.clientWidth;
     const p = max > 0 ? (scroller.scrollLeft / max) * 75 + 25 : 25;
@@ -301,6 +351,20 @@
   // Cookies
   document.getElementById('btn-accept').onclick = () => { localStorage.setItem('sesty_cookie', 'ok'); cookieBanner.classList.remove('show'); };
   document.getElementById('btn-decline').onclick = () => { localStorage.setItem('sesty_cookie', 'no'); cookieBanner.classList.remove('show'); };
+
+  // Menu Animation
+  menuToggle.onclick = () => {
+    menuToggle.classList.toggle('open');
+    navMenu.classList.toggle('open');
+  };
+
+  // Zavření menu po kliknutí na odkaz
+  document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', () => {
+      menuToggle.classList.remove('open');
+      navMenu.classList.remove('open');
+    });
+  });
 
   // Init
   window.onload = () => {
@@ -312,10 +376,6 @@
   function updateOnlineStatus() { document.getElementById('offline-loader').classList.toggle('active', !navigator.onLine); }
   window.addEventListener('online', updateOnlineStatus);
   window.addEventListener('offline', updateOnlineStatus);
-
-  document.getElementById('menuToggle').onclick = () => {
-    document.getElementById('navMenu').classList.toggle('open');
-  };
 </script>
 </body>
 </html>
