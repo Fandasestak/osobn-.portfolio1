@@ -65,20 +65,6 @@
       0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--accent-soft)); }
       50% { transform: scale(1.1); filter: drop-shadow(0 0 25px var(--accent)); }
     }
-
-    .cookie-banner {
-      position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(150%);
-      width: 90%; max-width: 500px; background: rgba(3, 5, 8, 0.95); backdrop-filter: blur(20px);
-      border: 1px solid var(--accent); padding: 25px; border-radius: 20px; z-index: 10000;
-      display: flex; flex-direction: column; gap: 15px; box-shadow: 0 0 30px rgba(2, 255, 180, 0.15);
-      transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-    }
-    .cookie-banner.show { transform: translateX(-50%) translateY(0); }
-    .cookie-buttons { display: flex; gap: 10px; }
-    .cookie-btn { flex: 1; padding: 12px; border-radius: 10px; font-size: 0.8rem; font-weight: 700; cursor: pointer; text-transform: uppercase; transition: 0.3s; border: none; }
-    .cookie-btn.accept { background: var(--accent); color: #000; }
-    .cookie-btn.decline { background: transparent; border: 1px solid var(--border); color: var(--text-muted); }
-
     .progress-container { position: fixed; top: 90px; left: 60px; width: calc(100% - 120px); height: 2px; background: var(--border); z-index: 1001; }
     .progress-bar { height: 100%; width: 25%; background: var(--accent); box-shadow: 0 0 15px var(--accent); transition: width 0.4s cubic-bezier(0.23, 1, 0.32, 1); }
 
@@ -195,7 +181,7 @@
   <div class="loader-logo-svg">
     <svg viewBox="0 0 4500 4500" aria-hidden="true" focusable="false"><path d="M1429.687,3259.243c-742.688,0 -1345.657,-602.969 -1345.657,-1345.657l1345.657,1345.657Z" fill="#fff"/><path d="M2775.344,1913.586c0,742.688 -602.969,1345.657 -1345.657,1345.657l1345.657,-1345.657Z" fill="#fff"/><path d="M3064.064,1240.757c742.688,0 1345.657,602.969 1345.657,1345.657l-1345.657,-1345.657Z" fill="#fff"/><path d="M1718.407,2586.414c0,-742.688 602.969,-1345.657 1345.657,-1345.657l-1345.657,1345.657Z" fill="#fff"/></svg>
   </div>
-  <div class="offline-text">MOD OFFLINE</div>
+  <div class="offline-text">OFFLINE</div>
 </div>
 
 <header>
@@ -290,7 +276,6 @@
   const progressBar = document.getElementById("progressBar");
   const scene = document.getElementById('scene');
   const cards = document.querySelectorAll('.glass-card');
-  const cookieBanner = document.getElementById('cookie-banner');
   const menuToggle = document.getElementById('menuToggle');
   const navMenu = document.getElementById('navMenu');
 
@@ -351,13 +336,7 @@
     progressBar.style.width = `${p}%`;
   };
 
-  // Cookies - PŘIDÁNY PODMÍNKY, ABY SKRIPT NEPADAL
-  const bAcc = document.getElementById('btn-accept');
-  const bDec = document.getElementById('btn-decline');
-  if(bAcc) bAcc.onclick = () => { localStorage.setItem('sesty_cookie', 'ok'); if(cookieBanner) cookieBanner.classList.remove('show'); };
-  if(bDec) bDec.onclick = () => { localStorage.setItem('sesty_cookie', 'no'); if(cookieBanner) cookieBanner.classList.remove('show'); };
-
-  // Menu Animation - OPRAVENO
+  // Menu Animation
   menuToggle.onclick = () => {
     const isOpen = menuToggle.classList.toggle('open');
     navMenu.classList.toggle('open');
