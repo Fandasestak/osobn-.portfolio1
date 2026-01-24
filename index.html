@@ -1,213 +1,245 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="theme-color" content="#030508" />
-  <title>Šesty | Design & Vývoj</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#030508" />
+  <title>Šesty | Design & Vývoj</title>
 
-  <meta name="description" content="Šesty – Profesionální web design a vývoj. Tvořím digitální ekosystémy a vizuální identity. Prohlédněte si projekty včetně Acnod." />
-  <meta name="keywords" content="Šesty, sesty, Acnod, web design, vývoj webů, portfolio, UI/UX" />
-  <meta name="author" content="Šesty" />
-  <meta name="robots" content="index, follow" />
+  <meta name="description" content="Šesty – Profesionální web design a vývoj. Tvořím digitální ekosystémy a vizuální identity. Prohlédněte si projekty včetně Acnod." />
+  <meta name="keywords" content="Šesty, sesty, Acnod, web design, vývoj webů, portfolio, UI/UX" />
+  <meta name="author" content="Šesty" />
+  <meta name="robots" content="index, follow" />
 
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://sesty.dev" />
-  <meta property="og:title" content="Šesty | Design & Vývoj" />
-  <meta property="og:description" content="Digitální vize, které mění trh. Strategický design a precizní inženýrství." />
-  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://sesty.dev" />
+  <meta property="og:title" content="Šesty | Design & Vývoj" />
+  <meta property="og:description" content="Digitální vize, které mění trh. Strategický design a precizní inženýrství." />
+  <meta property="twitter:card" content="summary_large_image" />
 
-  <link id="favicon" rel="icon" type="image/svg+xml">
-  <script src="favicon.js"></script>
+  <link id="favicon" rel="icon" type="image/svg+xml">
+  <script src="favicon.js"></script>
 
-  <style>
-    :root {
-      --bg: #030508;
-      --accent: #02ffb4;
-      --accent-soft: rgba(2, 255, 180, 0.1);
-      --text: #ffffff;
-      --text-muted: #94a3b8;
-      --glass: rgba(255, 255, 255, 0.03);
-      --border: rgba(255, 255, 255, 0.08);
-    }
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap');
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #030508;
+      --accent: #02ffb4;
+      --accent-soft: rgba(2, 255, 180, 0.1);
+      --text: #ffffff;
+      --text-muted: #94a3b8;
+      --glass: rgba(255, 255, 255, 0.03);
+      --border: rgba(255, 255, 255, 0.08);
+    }
 
-    *:focus-visible {
-      outline: 2px solid var(--accent);
-      outline-offset: 4px;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    html, body {
-      overscroll-behavior-y: none;
-      overflow: hidden;
-      height: 100vh;
-      width: 100vw;
-    }
+    /* Focus styl pro klávesnici (myší vidět nebude) - nutné pro Accessibility */
+    *:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+    }
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Montserrat', sans-serif;
-      perspective: 1500px;
-      -webkit-font-smoothing: antialiased;
-    }
+    html, body {
+      /* Zajištění, že se scroluje jen horizontálně i na mobilu */
+      overscroll-behavior-y: none;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
 
-    .offline-overlay {
-      position: fixed; inset: 0; background: var(--bg); z-index: 9999;
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
-      opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
-    }
-    .offline-overlay.active { opacity: 1; pointer-events: all; }
-    .loader-logo-svg { width: 100px; height: 100px; margin-bottom: 20px; animation: pulse-glow 2s infinite ease-in-out; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Montserrat', sans-serif;
+      perspective: 1500px;
+      -webkit-font-smoothing: antialiased;
+    }
 
-    @keyframes pulse-glow {
-      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--accent-soft)); }
-      50% { transform: scale(1.1); filter: drop-shadow(0 0 25px var(--accent)); }
-    }
-    .progress-container { position: fixed; top: 90px; left: 60px; width: calc(100% - 120px); height: 2px; background: var(--border); z-index: 1001; }
-    .progress-bar { height: 100%; width: 25%; background: var(--accent); box-shadow: 0 0 15px var(--accent); transition: width 0.4s cubic-bezier(0.23, 1, 0.32, 1); }
+    /* --- OFFLINE LOADER --- */
+    .offline-overlay {
+      position: fixed; inset: 0; background: var(--bg); z-index: 9999;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
+    }
+    .offline-overlay.active { opacity: 1; pointer-events: all; }
+    .loader-logo-svg { width: 100px; height: 100px; margin-bottom: 20px; animation: pulse-glow 2s infinite ease-in-out; }
 
-    .lang-switch { position: fixed; top: 105px; right: 60px; display: flex; gap: 12px; z-index: 1005; }
-    .lang-btn { background: none; border: none; color: var(--text-muted); font-size: 0.7rem; font-weight: 800; cursor: pointer; transition: 0.3s; letter-spacing: 1.5px; }
-    .lang-btn.active { color: var(--accent); }
+    @keyframes pulse-glow {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--accent-soft)); }
+      50% { transform: scale(1.1); filter: drop-shadow(0 0 25px var(--accent)); }
+    }
 
-    .canvas-3d { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
-    .scene { width: 100%; height: 100%; transform-style: preserve-3d; will-change: transform; }
-    .grid-plane {
-      position: absolute; top: 50%; left: 50%; width: 300vw; height: 300vh;
-      background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
-      background-size: 80px 80px; transform: translate(-50%, -50%) rotateX(90deg) translateZ(-600px);
-      mask-image: radial-gradient(circle, black, transparent 75%);
-    }
+    /* --- COOKIE BANNER --- */
+    .cookie-banner {
+      position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(150%);
+      width: 90%; max-width: 500px; background: rgba(3, 5, 8, 0.95); backdrop-filter: blur(20px);
+      border: 1px solid var(--accent); padding: 25px; border-radius: 20px; z-index: 10000;
+      display: flex; flex-direction: column; gap: 15px; box-shadow: 0 0 30px rgba(2, 255, 180, 0.15);
+      transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    .cookie-banner.show { transform: translateX(-50%) translateY(0); }
+    .cookie-buttons { display: flex; gap: 10px; }
+    .cookie-btn { flex: 1; padding: 12px; border-radius: 10px; font-size: 0.8rem; font-weight: 700; cursor: pointer; text-transform: uppercase; transition: 0.3s; border: none; }
+    .cookie-btn.accept { background: var(--accent); color: #000; }
+    .cookie-btn.decline { background: transparent; border: 1px solid var(--border); color: var(--text-muted); }
 
-    header { position: fixed; top: 0; width: 100%; padding: 30px 60px; display: flex; justify-content: space-between; align-items: center; z-index: 1100; }
-    .brand { display: flex; align-items: center; gap: 15px; text-decoration: none; color: white; }
-    .logo-svg { width: 40px; height: 40px; transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
-    .brand:hover .logo-svg { transform: rotate(-60deg); }
-    .brand-text .name { font-weight: 800; font-size: 1.2rem; display: block; }
-    .brand-text .tagline { font-size: 0.7rem; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; }
+    /* --- UI ELEMENTS --- */
+    .progress-container { position: fixed; top: 90px; left: 60px; width: calc(100% - 120px); height: 2px; background: var(--border); z-index: 1001; }
+    .progress-bar { height: 100%; width: 25%; background: var(--accent); box-shadow: 0 0 15px var(--accent); transition: width 0.4s cubic-bezier(0.23, 1, 0.32, 1); }
 
-    nav a { margin-left: 35px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; position: relative; transition: color 0.3s; }
+    .lang-switch { position: fixed; top: 105px; right: 60px; display: flex; gap: 12px; z-index: 1005; }
+    .lang-btn { background: none; border: none; color: var(--text-muted); font-size: 0.7rem; font-weight: 800; cursor: pointer; transition: 0.3s; letter-spacing: 1.5px; }
+    .lang-btn.active { color: var(--accent); }
 
-    nav a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.4s; }
-    nav a:hover::after { width: 100%; }
-    nav a:hover { color: var(--accent); }
+    /* --- 3D SCENE --- */
+    .canvas-3d { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+    .scene { width: 100%; height: 100%; transform-style: preserve-3d; will-change: transform; }
+    .grid-plane {
+      position: absolute; top: 50%; left: 50%; width: 300vw; height: 300vh;
+      background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 80px 80px; transform: translate(-50%, -50%) rotateX(90deg) translateZ(-600px);
+      mask-image: radial-gradient(circle, black, transparent 75%);
+    }
 
-    .main-container {
-      display: flex;
-      flex-direction: row;
-      height: 100vh;
-      width: 100vw;
-      overflow-x: auto;
-      overflow-y: hidden;
-      scroll-snap-type: x mandatory;
-      scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-    }
-    .main-container::-webkit-scrollbar { display: none; }
+    /* --- NAVIGATION --- */
+    header { position: fixed; top: 0; width: 100%; padding: 30px 60px; display: flex; justify-content: space-between; align-items: center; z-index: 1100; }
+    .brand { display: flex; align-items: center; gap: 15px; text-decoration: none; color: white; }
+    .logo-svg { width: 40px; height: 40px; transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    .brand:hover .logo-svg { transform: rotate(-60deg); }
+    .brand-text .name { font-weight: 800; font-size: 1.2rem; display: block; }
+    .brand-text .tagline { font-size: 0.7rem; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; }
 
-    .section {
-      min-width: 100vw;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      scroll-snap-align: center;
-      scroll-snap-stop: always;
-    }
+    nav a { margin-left: 35px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; position: relative; transition: color 0.3s; }
 
-    .glass-card {
-      background: var(--glass); backdrop-filter: blur(25px); border: 1px solid var(--border);
-      padding: clamp(30px, 5vw, 60px); border-radius: 40px; max-width: 850px; position: relative;
-      will-change: transform; transform-style: preserve-3d; box-shadow: 0 40px 100px rgba(0,0,0,0.4);
-    }
+    /* Původní animace linků v navigaci */
+    nav a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.4s; }
+    nav a:hover::after { width: 100%; }
+    nav a:hover { color: var(--accent); }
 
-    .badge { display: inline-block; padding: 6px 14px; background: var(--accent-soft); color: var(--accent); border-radius: 100px; font-size: 0.75rem; font-weight: 700; margin-bottom: 25px; text-transform: uppercase; }
+    /* --- MAIN --- */
+    .main-container {
+      display: flex;
+      flex-direction: row; /* Vynucení řádku i pro mobil */
+      height: 100vh;
+      width: 100vw;
+      overflow-x: auto;
+      overflow-y: hidden; /* Zákaz vertikálního scrollování */
 
-    h1, h2 { font-size: clamp(2.2rem, 5vw, 4.2rem); font-weight: 800; line-height: 1.1; margin-bottom: 25px; color: white; }
+      /* Optimalizace scrollu */
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .main-container::-webkit-scrollbar { display: none; }
 
-    p { font-size: 1.1rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 35px; max-width: 600px; }
+    .section {
+      min-width: 100vw; /* Každá sekce zabírá celou šířku */
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-    .cta-button {
-      color: var(--accent);
-      text-decoration: none;
-      text-transform: uppercase;
-      font-weight: 700;
-      position: relative;
-      transition: 0.3s;
-    }
-    .cta-button::after {
-      content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.4s;
-    }
-    .cta-button:hover::after { width: 100%; }
+      /* Snap nastavení */
+      scroll-snap-align: center;
+      scroll-snap-stop: always;
+    }
 
-    .counter { position: absolute; bottom: 40px; right: 40px; font-size: 4rem; font-weight: 900; color: rgba(255,255,255,0.03); }
+    .glass-card {
+      background: var(--glass); backdrop-filter: blur(25px); border: 1px solid var(--border);
+      padding: clamp(30px, 5vw, 60px); border-radius: 40px; max-width: 850px; position: relative;
+      will-change: transform; transform-style: preserve-3d; box-shadow: 0 40px 100px rgba(0,0,0,0.4);
+    }
 
-    .menu-toggle {
-      display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 1200; width: 30px;
-      background: transparent; border: none; padding: 0;
-    }
-    .menu-toggle span {
-      width: 100%; height: 2px; background: white;
-      transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-      transform-origin: center; display: block;
-    }
-    .menu-toggle span:nth-child(2) { background: var(--accent); width: 70%; margin-left: auto; margin-right: auto; }
-    .menu-toggle.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-    .menu-toggle.open span:nth-child(2) { opacity: 0; transform: translateX(-20px); }
-    .menu-toggle.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+    .badge { display: inline-block; padding: 6px 14px; background: var(--accent-soft); color: var(--accent); border-radius: 100px; font-size: 0.75rem; font-weight: 700; margin-bottom: 25px; text-transform: uppercase; }
 
-    @media (max-width: 768px) {
-      header { padding: 20px; }
-      .progress-container { top: auto; bottom: 80px; left: 20px; width: calc(100% - 40px); }
-      .lang-switch { top: auto; bottom: 40px; left: 20px; right: auto; }
-      .menu-toggle { display: flex; }
-      nav {
-        position: fixed; inset: 0; background: var(--bg); transform: translateX(100%);
-        display: flex; flex-direction: column; justify-content: center; align-items: center; transition: 0.5s; z-index: 1100;
-      }
-      nav.open { transform: translateX(0); }
-      nav a { margin: 20px 0; font-size: 1.8rem; font-weight: 800; }
-      .glass-card { padding: 30px; margin: 0 20px; border-radius: 25px; transform: none !important; }
-      .counter { display: none; }
-    }
-  </style>
+    h1, h2 { font-size: clamp(2.2rem, 5vw, 4.2rem); font-weight: 800; line-height: 1.1; margin-bottom: 25px; color: white; }
+
+    p { font-size: 1.1rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 35px; max-width: 600px; }
+
+    /* --- CTA BUTTON ANIMATION --- */
+    .cta-button {
+      color: var(--accent);
+      text-decoration: none;
+      text-transform: uppercase;
+      font-weight: 700;
+      position: relative;
+      transition: 0.3s;
+    }
+    .cta-button::after {
+      content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.4s;
+    }
+    .cta-button:hover::after { width: 100%; }
+
+    .counter { position: absolute; bottom: 40px; right: 40px; font-size: 4rem; font-weight: 900; color: rgba(255,255,255,0.03); }
+
+    /* --- HAMBURGER ANIMATION & BTN RESET --- */
+    .menu-toggle {
+      display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 1200; width: 30px;
+      background: transparent; border: none; padding: 0;
+    }
+    .menu-toggle span {
+      width: 100%; height: 2px; background: white;
+      transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+      transform-origin: center; display: block;
+    }
+    .menu-toggle span:nth-child(2) { background: var(--accent); width: 70%; margin-left: auto; margin-right: auto; }
+    .menu-toggle.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .menu-toggle.open span:nth-child(2) { opacity: 0; transform: translateX(-20px); }
+    .menu-toggle.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+
+    @media (max-width: 768px) {
+      header { padding: 20px; }
+      .progress-container { top: auto; bottom: 80px; left: 20px; width: calc(100% - 40px); }
+      .lang-switch { top: auto; bottom: 40px; left: 20px; right: auto; }
+      .menu-toggle { display: flex; }
+      nav {
+        position: fixed; inset: 0; background: var(--bg); transform: translateX(100%);
+        display: flex; flex-direction: column; justify-content: center; align-items: center; transition: 0.5s; z-index: 1100;
+      }
+      nav.open { transform: translateX(0); }
+      nav a { margin: 20px 0; font-size: 1.8rem; font-weight: 800; }
+      .glass-card { padding: 30px; margin: 0 20px; border-radius: 25px; transform: none !important; }
+      .counter { display: none; }
+    }
+  </style>
 </head>
 <body>
 
 <div id="offline-loader" class="offline-overlay" aria-hidden="true">
-  <div class="loader-logo-svg">
-    <svg viewBox="0 0 4500 4500" aria-hidden="true" focusable="false"><path d="M1429.687,3259.243c-742.688,0 -1345.657,-602.969 -1345.657,-1345.657l1345.657,1345.657Z" fill="#fff"/><path d="M2775.344,1913.586c0,742.688 -602.969,1345.657 -1345.657,1345.657l1345.657,-1345.657Z" fill="#fff"/><path d="M3064.064,1240.757c742.688,0 1345.657,602.969 1345.657,1345.657l-1345.657,-1345.657Z" fill="#fff"/><path d="M1718.407,2586.414c0,-742.688 602.969,-1345.657 1345.657,-1345.657l-1345.657,1345.657Z" fill="#fff"/></svg>
-  </div>
-  <div class="offline-text">OFFLINE</div>
+  <div class="loader-logo-svg">
+    <svg viewBox="0 0 4500 4500" aria-hidden="true" focusable="false"><path d="M1429.687,3259.243c-742.688,0 -1345.657,-602.969 -1345.657,-1345.657l1345.657,1345.657Z" fill="#fff"/><path d="M2775.344,1913.586c0,742.688 -602.969,1345.657 -1345.657,1345.657l1345.657,-1345.657Z" fill="#fff"/><path d="M3064.064,1240.757c742.688,0 1345.657,602.969 1345.657,1345.657l-1345.657,-1345.657Z" fill="#fff"/><path d="M1718.407,2586.414c0,-742.688 602.969,-1345.657 1345.657,-1345.657l-1345.657,1345.657Z" fill="#fff"/></svg>
+  </div>
+  <div class="offline-text">MOD OFFLINE</div>
 </div>
 
 <header>
-  <a href="#home" class="brand" aria-label="Domů - Šesty Portfolio">
-    <div class="logo-svg">
-      <svg viewBox="0 0 4500 4500" aria-hidden="true" focusable="false"><path d="M1429.687,3259.243c-742.688,0 -1345.657,-602.969 -1345.657,-1345.657l1345.657,1345.657Z" fill="#fff"/><path d="M2775.344,1913.586c0,742.688 -602.969,1345.657 -1345.657,1345.657l1345.657,-1345.657Z" fill="#fff"/><path d="M3064.064,1240.757c742.688,0 1345.657,602.969 1345.657,1345.657l-1345.657,-1345.657Z" fill="#fff"/><path d="M1718.407,2586.414c0,-742.688 602.969,-1345.657 1345.657,-1345.657l-1345.657,1345.657Z" fill="#fff"/></svg>
-    </div>
-    <div class="brand-text">
-      <span class="name">ŠESTY</span>
-      <span class="tagline" data-key="brand-tagline">Design & vývoj</span>
-    </div>
-  </a>
+  <a href="#home" class="brand" aria-label="Domů - Šesty Portfolio">
+    <div class="logo-svg">
+      <svg viewBox="0 0 4500 4500" aria-hidden="true" focusable="false"><path d="M1429.687,3259.243c-742.688,0 -1345.657,-602.969 -1345.657,-1345.657l1345.657,1345.657Z" fill="#fff"/><path d="M2775.344,1913.586c0,742.688 -602.969,1345.657 -1345.657,1345.657l1345.657,-1345.657Z" fill="#fff"/><path d="M3064.064,1240.757c742.688,0 1345.657,602.969 1345.657,1345.657l-1345.657,-1345.657Z" fill="#fff"/><path d="M1718.407,2586.414c0,-742.688 602.969,-1345.657 1345.657,-1345.657l-1345.657,1345.657Z" fill="#fff"/></svg>
+    </div>
+    <div class="brand-text">
+      <span class="name">ŠESTY</span>
+      <span class="tagline" data-key="brand-tagline">Design & vývoj</span>
+    </div>
+  </a>
 
-  <button class="menu-toggle" id="menuToggle" aria-label="Otevřít menu" aria-expanded="false" aria-controls="navMenu">
-    <span></span><span></span><span></span>
-  </button>
+  <button class="menu-toggle" id="menuToggle" aria-label="Otevřít menu" aria-expanded="false" aria-controls="navMenu">
+    <span></span><span></span><span></span>
+  </button>
 
-  <nav id="navMenu" aria-label="Hlavní navigace">
-    <a href="#about" data-key="nav-services">Služby</a>
-    <a href="#projects" data-key="nav-work">Portfolio</a>
-    <a href="#contact" data-key="nav-contact">Kontakt</a>
-  </nav>
-  <div class="lang-switch">
-    <button class="lang-btn active" id="btn-cz" onclick="setLang('cz')" aria-label="Přepnout do češtiny">CZ</button>
-    <button class="lang-btn" id="btn-en" onclick="setLang('en')" aria-label="Switch to English">EN</button>
-  </div>
+  <nav id="navMenu" aria-label="Hlavní navigace">
+    <a href="#about" data-key="nav-services">Služby</a>
+    <a href="#projects" data-key="nav-work">Portfolio</a>
+    <a href="#contact" data-key="nav-contact">Kontakt</a>
+  </nav>
+  <div class="lang-switch">
+    <button class="lang-btn active" id="btn-cz" onclick="setLang('cz')" aria-label="Přepnout do češtiny">CZ</button>
+    <button class="lang-btn" id="btn-en" onclick="setLang('en')" aria-label="Switch to English">EN</button>
+  </div>
 </header>
 
 <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
@@ -215,155 +247,164 @@
 <div class="canvas-3d" aria-hidden="true"><div class="scene" id="scene"><div class="grid-plane"></div></div></div>
 
 <main class="main-container" id="scroller">
-  <section class="section" id="home">
-    <div class="glass-card" data-speed="2">
-      <div class="badge" data-key="badge-available">Připraven k realizaci</div>
-      <h1 data-key="h1-home">Digitální vize,<br>které mění trh.</h1>
-      <p data-key="p-home">Strategický design a precizní inženýrství. Tvořím digitální ekosystémy pro vaše podnikání.</p>
-      <div class="counter" aria-hidden="true">01</div>
-    </div>
-  </section>
+  <section class="section" id="home">
+    <div class="glass-card" data-speed="2">
+      <div class="badge" data-key="badge-available">Připraven k realizaci</div>
+      <h1 data-key="h1-home">Digitální vize,<br>které mění trh.</h1>
+      <p data-key="p-home">Strategický design a precizní inženýrství. Tvořím digitální ekosystémy pro vaše podnikání.</p>
+      <div class="counter" aria-hidden="true">01</div>
+    </div>
+  </section>
 
-  <section class="section" id="about">
-    <div class="glass-card" data-speed="1.5">
-      <div class="badge" data-key="badge-offer">Expertíza</div>
-      <h2 data-key="h1-about">Estetika & <br>Výkon.</h2>
-      <p data-key="p-about">Komplexní řešení od vizuální identity po robustní backend. Architektura zaměřená na prožitek.</p>
-      <div class="counter" style="bottom: 20px;" aria-hidden="true">02</div>
-    </div>
-  </section>
+  <section class="section" id="about">
+    <div class="glass-card" data-speed="1.5">
+      <div class="badge" data-key="badge-offer">Expertíza</div>
+      <h2 data-key="h1-about">Estetika & <br>Výkon.</h2>
+      <p data-key="p-about">Komplexní řešení od vizuální identity po robustní backend. Architektura zaměřená na prožitek.</p>
+      <div class="counter" style="bottom: 20px;" aria-hidden="true">02</div>
+    </div>
+  </section>
 
-  <section class="section" id="projects">
-    <div class="glass-card" data-speed="2.5">
-      <div class="badge" data-key="badge-work">Vybrané práce</div>
-      <h2 data-key="h1-projects">Excelence v <br>každém detailu.</h2>
-      <p data-key="p-projects">Prohlédněte si výběr projektů, kde se snoubí inovace s funkčností.</p>
-      <a href="#" class="cta-button" data-key="btn-projects">Zobrazit portfolio</a>
-      <div class="counter" aria-hidden="true">03</div>
-    </div>
-  </section>
+  <section class="section" id="projects">
+    <div class="glass-card" data-speed="2.5">
+      <div class="badge" data-key="badge-work">Vybrané práce</div>
+      <h2 data-key="h1-projects">Excelence v <br>každém detailu.</h2>
+      <p data-key="p-projects">Prohlédněte si výběr projektů, kde se snoubí inovace s funkčností.</p>
+      <a href="#" class="cta-button" data-key="btn-projects">Zobrazit portfolio</a>
+      <div class="counter" aria-hidden="true">03</div>
+    </div>
+  </section>
 
-  <section class="section" id="contact">
-    <div class="glass-card" data-speed="2">
-      <div class="badge" data-key="nav-contact">Kontakt</div>
-      <h2 data-key="h1-contact">Zahajte svou <br>transformaci.</h2>
-      <p data-key="p-contact">Spojme se a vytvořme společně digitální produkt světové úrovně.</p>
-      <a href="mailto:frantisek.sestak@tutamail.com" class="cta-button" data-key="btn-email">Sjednat konzultaci</a>
-      <div class="counter" aria-hidden="true">04</div>
-    </div>
-  </section>
+  <section class="section" id="contact">
+    <div class="glass-card" data-speed="2">
+      <div class="badge" data-key="nav-contact">Kontakt</div>
+      <h2 data-key="h1-contact">Zahajte svou <br>transformaci.</h2>
+      <p data-key="p-contact">Spojme se a vytvořme společně digitální produkt světové úrovně.</p>
+      <a href="mailto:frantisek.sestak@tutamail.com" class="cta-button" data-key="btn-email">Sjednat konzultaci</a>
+      <div class="counter" aria-hidden="true">04</div>
+    </div>
+  </section>
 </main>
 
 <script>
-  const translations = {
-    cz: {
-      "brand-tagline": "Design & Vývoj", "nav-services": "Služby", "nav-work": "Portfolio", "nav-contact": "Kontakt",
-      "badge-available": "Připraven k realizaci", "h1-home": "Digitální vize,<br>které mění trh.", "p-home": "Strategický design a precizní inženýrství. Tvořím digitální ekosystémy pro vaše podnikání.",
-      "badge-offer": "Expertíza", "h1-about": "Estetika & <br>Výkon.", "p-about": "Komplexní řešení od vizuální identity po robustní backend. Architektura zaměřená na prožitek.",
-      "badge-work": "Vybrané práce", "h1-projects": "Excelence v <br>každém detailu.", "p-projects": "Prohlédněte si výběr projektů, kde se snoubí inovace s funkčností.", "btn-projects": "Zobrazit portfolio",
-      "h1-contact": "Zahajte svou <br>transformaci.", "p-contact": "Spojme se a vytvořme společně digitální produkt světové úrovně.", "btn-email": "Domluvte si konzultaci",
-    },
-    en: {
-      "brand-tagline": "Design & Dev", "nav-services": "Services", "nav-work": "Work", "nav-contact": "Contact",
-      "badge-available": "Ready for work", "h1-home": "Digital visions<br>shaping markets.", "p-home": "Strategic design and precision engineering. I build digital ecosystems for your business.",
-      "badge-offer": "Expertise", "h1-about": "Aesthetics & <br>Performance.", "p-about": "Comprehensive solutions from visual identity to robust backend. Architecture focused on experience.",
-      "badge-work": "Selected work", "h1-projects": "Excellence in <br>every detail.", "p-projects": "Explore a selection of projects, where innovation meets functionality.", "btn-projects": "View portfolio",
-      "h1-contact": "Start your <br>transformation.", "p-contact": "Let's connect and create a world-class digital product together.", "btn-email": "Arrange a consultation",
-    }
-  };
+  const translations = {
+    cz: {
+      "brand-tagline": "Design & Vývoj", "nav-services": "Služby", "nav-work": "Portfolio", "nav-contact": "Kontakt",
+      "badge-available": "Připraven k realizaci", "h1-home": "Digitální vize,<br>které mění trh.", "p-home": "Strategický design a precizní inženýrství. Tvořím digitální ekosystémy pro vaše podnikání.",
+      "badge-offer": "Expertíza", "h1-about": "Estetika & <br>Výkon.", "p-about": "Komplexní řešení od vizuální identity po robustní backend. Architektura zaměřená na prožitek.",
+      "badge-work": "Vybrané práce", "h1-projects": "Excelence v <br>každém detailu.", "p-projects": "Prohlédněte si výběr projektů, kde se snoubí inovace s funkčností.", "btn-projects": "Zobrazit portfolio",
+      "h1-contact": "Zahajte svou <br>transformaci.", "p-contact": "Spojme se a vytvořme společně digitální produkt světové úrovně.", "btn-email": "Domluvte si konzultaci",
+    },
+    en: {
+      "brand-tagline": "Design & Dev", "nav-services": "Services", "nav-work": "Work", "nav-contact": "Contact",
+      "badge-available": "Ready for work", "h1-home": "Digital visions<br>shaping markets.", "p-home": "Strategic design and precision engineering. I build digital ecosystems for your business.",
+      "badge-offer": "Expertise", "h1-about": "Aesthetics & <br>Performance.", "p-about": "Comprehensive solutions from visual identity to robust backend. Architecture focused on experience.",
+      "badge-work": "Selected work", "h1-projects": "Excellence in <br>every detail.", "p-projects": "Explore a selection of projects, where innovation meets functionality.", "btn-projects": "View portfolio",
+      "h1-contact": "Start your <br>transformation.", "p-contact": "Let's connect and create a world-class digital product together.", "btn-email": "Arrange a consultation",
+    }
+  };
 
-  const scroller = document.getElementById("scroller");
-  const progressBar = document.getElementById("progressBar");
-  const scene = document.getElementById('scene');
-  const cards = document.querySelectorAll('.glass-card');
-  const menuToggle = document.getElementById('menuToggle');
-  const navMenu = document.getElementById('navMenu');
+  const scroller = document.getElementById("scroller");
+  const progressBar = document.getElementById("progressBar");
+  const scene = document.getElementById('scene');
+  const cards = document.querySelectorAll('.glass-card');
+  const menuToggle = document.getElementById('menuToggle');
+  const navMenu = document.getElementById('navMenu');
 
-  if ('scrollRestoration' in history) {
-    history.scrollRestoration = 'manual';
-  }
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
 
-  function setLang(lang) {
-    document.querySelectorAll('[data-key]').forEach(el => {
-      const key = el.getAttribute('data-key');
-      if(translations[lang][key]) el.innerHTML = translations[lang][key];
-    });
-    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.id === `btn-${lang}`));
-    localStorage.setItem('sesty_lang', lang);
-    document.documentElement.lang = lang;
-  }
+  function setLang(lang) {
+    document.querySelectorAll('[data-key]').forEach(el => {
+      const key = el.getAttribute('data-key');
+      if(translations[lang][key]) el.innerHTML = translations[lang][key];
+    });
+    const btns = document.querySelectorAll('.lang-btn');
+    if(btns.length) btns.forEach(btn => btn.classList.toggle('active', btn.id === `btn-${lang}`));
+    localStorage.setItem('sesty_lang', lang);
+    document.documentElement.lang = lang;
+  }
 
-  let mx = 0, my = 0;
-  window.addEventListener('mousemove', (e) => {
-    if(window.innerWidth > 768) {
-      mx = (e.clientX / window.innerWidth - 0.5);
-      my = (e.clientY / window.innerHeight - 0.5);
-    }
-  });
+  let mx = 0, my = 0;
+  window.addEventListener('mousemove', (e) => {
+    if(window.innerWidth > 768) {
+      mx = (e.clientX / window.innerWidth - 0.5);
+      my = (e.clientY / window.innerHeight - 0.5);
+    }
+  });
 
-  function animate() {
-    if(window.innerWidth > 768) {
-      scene.style.transform = `rotateY(${mx * 10}deg) rotateX(${-my * 10}deg)`;
-      cards.forEach(card => {
-        const speed = card.dataset.speed || 1;
-        card.style.transform = `translate3d(${mx * 45 * speed}px, ${my * 45 * speed}px, 80px) rotateY(${-mx * 5}deg) rotateX(${my * 5}deg)`;
-      });
-    }
-    requestAnimationFrame(animate);
-  }
-  requestAnimationFrame(animate);
+  function animate() {
+    if(window.innerWidth > 768) {
+      scene.style.transform = `rotateY(${mx * 10}deg) rotateX(${-my * 10}deg)`;
+      cards.forEach(card => {
+        const speed = card.dataset.speed || 1;
+        card.style.transform = `translate3d(${mx * 45 * speed}px, ${my * 45 * speed}px, 80px) rotateY(${-mx * 5}deg) rotateX(${my * 5}deg)`;
+      });
+    }
+    requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
 
-  let isThrottled = false;
-  function scrollSlide(dir) {
-    if (isThrottled) return;
-    isThrottled = true;
-    const step = scroller.clientWidth;
-    const target = Math.max(0, Math.min(Math.round(scroller.scrollLeft / step) + dir, 3));
-    scroller.scrollTo({ left: target * step, behavior: 'smooth' });
-    setTimeout(() => isThrottled = false, 800);
-  }
+  let isThrottled = false;
+  function scrollSlide(dir) {
+    if (isThrottled) return;
+    isThrottled = true;
+    const step = scroller.clientWidth;
+    const target = Math.max(0, Math.min(Math.round(scroller.scrollLeft / step) + dir, 3));
+    scroller.scrollTo({ left: target * step, behavior: 'smooth' });
+    setTimeout(() => isThrottled = false, 800);
+  }
 
-  scroller.onwheel = (e) => {
-    if(window.innerWidth > 768) {
-      e.preventDefault();
-      if(Math.abs(e.deltaY) > 18) scrollSlide(e.deltaY > 0 ? 1 : -1);
-    }
-  };
+  scroller.onwheel = (e) => {
+    if(window.innerWidth > 768) {
+      e.preventDefault();
+      if(Math.abs(e.deltaY) > 18) scrollSlide(e.deltaY > 0 ? 1 : -1);
+    }
+  };
 
-  scroller.onscroll = () => {
-    const max = scroller.scrollWidth - scroller.clientWidth;
-    const p = max > 0 ? (scroller.scrollLeft / max) * 75 + 25 : 25;
-    progressBar.style.width = `${p}%`;
-  };
+  scroller.onscroll = () => {
+    const max = scroller.scrollWidth - scroller.clientWidth;
+    const p = max > 0 ? (scroller.scrollLeft / max) * 75 + 25 : 25;
+    progressBar.style.width = `${p}%`;
+  };
 
-  // Menu Animation
-  menuToggle.onclick = () => {
-    const isOpen = menuToggle.classList.toggle('open');
-    navMenu.classList.toggle('open');
-    menuToggle.setAttribute('aria-expanded', isOpen);
-  };
+  // Cookies - POJISTKA PROTI CHYBĚ (pokud banner v HTML chybí)
+  const acceptBtn = document.getElementById('btn-accept');
+  const declineBtn = document.getElementById('btn-decline');
+  const cookieBanner = document.getElementById('cookie-banner');
 
-  document.querySelectorAll('nav a').forEach(link => {
-    link.addEventListener('click', () => {
-      menuToggle.classList.remove('open');
-      navMenu.classList.remove('open');
-      menuToggle.setAttribute('aria-expanded', 'false');
-    });
-  });
+  if (acceptBtn) acceptBtn.onclick = () => { localStorage.setItem('sesty_cookie', 'ok'); cookieBanner.classList.remove('show'); };
+  if (declineBtn) declineBtn.onclick = () => { localStorage.setItem('sesty_cookie', 'no'); cookieBanner.classList.remove('show'); };
 
-  window.onload = () => {
-    scroller.scrollLeft = 0;
-    if(window.location.hash) {
-      history.replaceState(null, null, ' ');
-    }
-    setLang(localStorage.getItem('sesty_lang') || 'cz');
-    if(!localStorage.getItem('sesty_cookie') && cookieBanner) setTimeout(() => cookieBanner.classList.add('show'), 2000);
-    updateOnlineStatus();
-  };
+  // Menu Animation - OPRAVENO
+  menuToggle.onclick = () => {
+    const isOpen = menuToggle.classList.toggle('open');
+    navMenu.classList.toggle('open');
+    menuToggle.setAttribute('aria-expanded', isOpen);
+  };
 
-  function updateOnlineStatus() { document.getElementById('offline-loader').classList.toggle('active', !navigator.onLine); }
-  window.addEventListener('online', updateOnlineStatus);
-  window.addEventListener('offline', updateOnlineStatus);
+  document.querySelectorAll('nav a').forEach(link => {
+    link.addEventListener('click', () => {
+      menuToggle.classList.remove('open');
+      navMenu.classList.remove('open');
+      menuToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
+  window.onload = () => {
+    scroller.scrollLeft = 0;
+    if(window.location.hash) {
+      history.replaceState(null, null, ' ');
+    }
+    setLang(localStorage.getItem('sesty_lang') || 'cz');
+    if(!localStorage.getItem('sesty_cookie') && cookieBanner) setTimeout(() => cookieBanner.classList.add('show'), 2000);
+    updateOnlineStatus();
+  };
+
+  function updateOnlineStatus() { document.getElementById('offline-loader').classList.toggle('active', !navigator.onLine); }
+  window.addEventListener('online', updateOnlineStatus);
+  window.addEventListener('offline', updateOnlineStatus);
 </script>
 </body>
 </html>
