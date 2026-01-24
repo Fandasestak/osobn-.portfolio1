@@ -2,7 +2,7 @@
 <html lang="cs">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="theme-color" content="#030508" />
   <title>Šesty | Design & Vývoj</title>
 
@@ -21,6 +21,8 @@
   <script src="favicon.js"></script>
 
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap');
+
     :root {
       --bg: #030508;
       --accent: #02ffb4;
@@ -33,12 +35,24 @@
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
+    /* Focus styl pro klávesnici (myší vidět nebude) - nutné pro Accessibility */
+    *:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    html, body {
+      /* Zajištění, že se scroluje jen horizontálně i na mobilu */
+      overscroll-behavior-y: none;
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+    }
+
     body {
       background: var(--bg);
       color: var(--text);
       font-family: 'Montserrat', sans-serif;
-      overflow: hidden; /* Zabrání scrollování body, scrollovat bude jen main-container */
-      height: 100vh;
       perspective: 1500px;
       -webkit-font-smoothing: antialiased;
     }
@@ -98,6 +112,8 @@
     .brand-text .tagline { font-size: 0.7rem; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; }
 
     nav a { margin-left: 35px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; position: relative; transition: color 0.3s; }
+
+    /* Původní animace linků v navigaci */
     nav a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.4s; }
     nav a:hover::after { width: 100%; }
     nav a:hover { color: var(--accent); }
@@ -105,19 +121,22 @@
     /* --- MAIN --- */
     .main-container {
       display: flex;
+      flex-direction: row; /* Vynucení řádku i pro mobil */
       height: 100vh;
+      width: 100vw;
       overflow-x: auto;
+      overflow-y: hidden; /* Zákaz vertikálního scrollování */
 
       /* Optimalizace scrollu */
       scroll-snap-type: x mandatory;
       scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch; /* Pro iOS plynulost */
+      -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
     }
     .main-container::-webkit-scrollbar { display: none; }
 
     .section {
-      min-width: 100vw;
+      min-width: 100vw; /* Každá sekce zabírá celou šířku */
       height: 100vh;
       display: flex;
       align-items: center;
@@ -125,7 +144,7 @@
 
       /* Snap nastavení */
       scroll-snap-align: center;
-      scroll-snap-stop: always; /* Zastaví vždy přesně na sekci, nepřeskočí */
+      scroll-snap-stop: always;
     }
 
     .glass-card {
@@ -135,25 +154,38 @@
     }
 
     .badge { display: inline-block; padding: 6px 14px; background: var(--accent-soft); color: var(--accent); border-radius: 100px; font-size: 0.75rem; font-weight: 700; margin-bottom: 25px; text-transform: uppercase; }
-    h1 { font-size: clamp(2.2rem, 5vw, 4.2rem); font-weight: 800; line-height: 1.1; margin-bottom: 25px; }
+
+    h1, h2 { font-size: clamp(2.2rem, 5vw, 4.2rem); font-weight: 800; line-height: 1.1; margin-bottom: 25px; color: white; }
+
     p { font-size: 1.1rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 35px; max-width: 600px; }
-    .cta-button { color: var(--accent); text-decoration: none; text-transform: uppercase; font-weight: 700; border-bottom: 2px solid transparent; transition: 0.3s; }
-    .cta-button:hover { border-bottom-color: var(--accent); }
+
+    /* --- CTA BUTTON ANIMATION --- */
+    .cta-button {
+      color: var(--accent);
+      text-decoration: none;
+      text-transform: uppercase;
+      font-weight: 700;
+      position: relative;
+      transition: 0.3s;
+    }
+    .cta-button::after {
+      content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.4s;
+    }
+    .cta-button:hover::after { width: 100%; }
 
     .counter { position: absolute; bottom: 40px; right: 40px; font-size: 4rem; font-weight: 900; color: rgba(255,255,255,0.03); }
 
-    /* --- HAMBURGER ANIMATION --- */
-    .menu-toggle { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 1200; width: 30px; }
+    /* --- HAMBURGER ANIMATION & BTN RESET --- */
+    .menu-toggle {
+      display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 1200; width: 30px;
+      background: transparent; border: none; padding: 0;
+    }
     .menu-toggle span {
       width: 100%; height: 2px; background: white;
       transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-      transform-origin: center;
+      transform-origin: center; display: block;
     }
-
-    /* Prostřední čára je zelená */
     .menu-toggle span:nth-child(2) { background: var(--accent); width: 70%; margin-left: auto; margin-right: auto; }
-
-    /* Stav otevřeno */
     .menu-toggle.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
     .menu-toggle.open span:nth-child(2) { opacity: 0; transform: translateX(-20px); }
     .menu-toggle.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
@@ -170,48 +202,52 @@
       }
       nav.open { transform: translateX(0); }
       nav a { margin: 20px 0; font-size: 1.8rem; font-weight: 800; }
-      .glass-card { padding: 30px; margin: 0 20px; border-radius: 25px; transform: none !important; /* Vypnutí 3D na mobilu pro rychlost */ }
+      .glass-card { padding: 30px; margin: 0 20px; border-radius: 25px; transform: none !important; }
       .counter { display: none; }
     }
   </style>
 </head>
 <body>
 
-<div id="offline-loader" class="offline-overlay">
+<div id="offline-loader" class="offline-overlay" aria-hidden="true">
   <div class="loader-logo-svg">
-    <svg viewBox="0 0 4500 4500"><path d="M1429.687,3259.243c-742.688,0 -1345.657,-602.969 -1345.657,-1345.657l1345.657,1345.657Z" fill="#fff"/><path d="M2775.344,1913.586c0,742.688 -602.969,1345.657 -1345.657,1345.657l1345.657,-1345.657Z" fill="#fff"/><path d="M3064.064,1240.757c742.688,0 1345.657,602.969 1345.657,1345.657l-1345.657,-1345.657Z" fill="#fff"/><path d="M1718.407,2586.414c0,-742.688 602.969,-1345.657 1345.657,-1345.657l-1345.657,1345.657Z" fill="#fff"/></svg>
+    <svg viewBox="0 0 4500 4500" aria-hidden="true" focusable="false"><path d="M1429.687,3259.243c-742.688,0 -1345.657,-602.969 -1345.657,-1345.657l1345.657,1345.657Z" fill="#fff"/><path d="M2775.344,1913.586c0,742.688 -602.969,1345.657 -1345.657,1345.657l1345.657,-1345.657Z" fill="#fff"/><path d="M3064.064,1240.757c742.688,0 1345.657,602.969 1345.657,1345.657l-1345.657,-1345.657Z" fill="#fff"/><path d="M1718.407,2586.414c0,-742.688 602.969,-1345.657 1345.657,-1345.657l-1345.657,1345.657Z" fill="#fff"/></svg>
   </div>
   <div class="offline-text">MOD OFFLINE</div>
 </div>
 
 <header>
-  <a href="#home" class="brand">
+  <a href="#home" class="brand" aria-label="Domů - Šesty Portfolio">
     <div class="logo-svg">
-      <svg viewBox="0 0 4500 4500"><path d="M1429.687,3259.243c-742.688,0 -1345.657,-602.969 -1345.657,-1345.657l1345.657,1345.657Z" fill="#fff"/><path d="M2775.344,1913.586c0,742.688 -602.969,1345.657 -1345.657,1345.657l1345.657,-1345.657Z" fill="#fff"/><path d="M3064.064,1240.757c742.688,0 1345.657,602.969 1345.657,1345.657l-1345.657,-1345.657Z" fill="#fff"/><path d="M1718.407,2586.414c0,-742.688 602.969,-1345.657 1345.657,-1345.657l-1345.657,1345.657Z" fill="#fff"/></svg>
+      <svg viewBox="0 0 4500 4500" aria-hidden="true" focusable="false"><path d="M1429.687,3259.243c-742.688,0 -1345.657,-602.969 -1345.657,-1345.657l1345.657,1345.657Z" fill="#fff"/><path d="M2775.344,1913.586c0,742.688 -602.969,1345.657 -1345.657,1345.657l1345.657,-1345.657Z" fill="#fff"/><path d="M3064.064,1240.757c742.688,0 1345.657,602.969 1345.657,1345.657l-1345.657,-1345.657Z" fill="#fff"/><path d="M1718.407,2586.414c0,-742.688 602.969,-1345.657 1345.657,-1345.657l-1345.657,1345.657Z" fill="#fff"/></svg>
     </div>
     <div class="brand-text">
       <span class="name">ŠESTY</span>
       <span class="tagline" data-key="brand-tagline">Design & vývoj</span>
     </div>
   </a>
-  <div class="menu-toggle" id="menuToggle"><span></span><span></span><span></span></div>
-  <nav id="navMenu">
+
+  <button class="menu-toggle" id="menuToggle" aria-label="Otevřít menu" aria-expanded="false" aria-controls="navMenu">
+    <span></span><span></span><span></span>
+  </button>
+
+  <nav id="navMenu" aria-label="Hlavní navigace">
     <a href="#about" data-key="nav-services">Služby</a>
     <a href="#projects" data-key="nav-work">Portfolio</a>
     <a href="#contact" data-key="nav-contact">Kontakt</a>
   </nav>
   <div class="lang-switch">
-    <button class="lang-btn active" id="btn-cz" onclick="setLang('cz')">CZ</button>
-    <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+    <button class="lang-btn active" id="btn-cz" onclick="setLang('cz')" aria-label="Přepnout do češtiny">CZ</button>
+    <button class="lang-btn" id="btn-en" onclick="setLang('en')" aria-label="Switch to English">EN</button>
   </div>
 </header>
 
 <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
 
-<div id="cookie-banner" class="cookie-banner">
+<div id="cookie-banner" class="cookie-banner" role="dialog" aria-labelledby="cookie-title" aria-describedby="cookie-text">
   <div>
-    <span class="cookie-title" data-key="cookie-title">Soubory Cookies</span>
-    <p class="cookie-text" data-key="cookie-text">Používáme cookies k zajištění nejlepšího zážitku z prohlížení portfolia.</p>
+    <span id="cookie-title" class="cookie-title" data-key="cookie-title">Soubory Cookies</span>
+    <p id="cookie-text" class="cookie-text" data-key="cookie-text">Používáme cookies k zajištění nejlepšího zážitku z prohlížení portfolia.</p>
   </div>
   <div class="cookie-buttons">
     <button id="btn-decline" class="cookie-btn decline" data-key="cookie-decline">Odmítnout</button>
@@ -219,7 +255,7 @@
   </div>
 </div>
 
-<div class="canvas-3d"><div class="scene" id="scene"><div class="grid-plane"></div></div></div>
+<div class="canvas-3d" aria-hidden="true"><div class="scene" id="scene"><div class="grid-plane"></div></div></div>
 
 <main class="main-container" id="scroller">
   <section class="section" id="home">
@@ -227,36 +263,36 @@
       <div class="badge" data-key="badge-available">Připraven k realizaci</div>
       <h1 data-key="h1-home">Digitální vize,<br>které mění trh.</h1>
       <p data-key="p-home">Strategický design a precizní inženýrství. Tvořím digitální ekosystémy pro vaše podnikání.</p>
-      <div class="counter">01</div>
+      <div class="counter" aria-hidden="true">01</div>
     </div>
   </section>
 
   <section class="section" id="about">
     <div class="glass-card" data-speed="1.5">
       <div class="badge" data-key="badge-offer">Expertíza</div>
-      <h1 data-key="h1-about">Estetika & <br>Výkon.</h1>
+      <h2 data-key="h1-about">Estetika & <br>Výkon.</h2>
       <p data-key="p-about">Komplexní řešení od vizuální identity po robustní backend. Architektura zaměřená na prožitek.</p>
-      <div class="counter" style="bottom: 20px;">02</div>
+      <div class="counter" style="bottom: 20px;" aria-hidden="true">02</div>
     </div>
   </section>
 
   <section class="section" id="projects">
     <div class="glass-card" data-speed="2.5">
       <div class="badge" data-key="badge-work">Vybrané práce</div>
-      <h1 data-key="h1-projects">Excelence v <br>každém detailu.</h1>
-      <p data-key="p-projects">Prohlédněte si výběr projektů (včetně Acnod), kde se snoubí inovace s funkčností.</p>
+      <h2 data-key="h1-projects">Excelence v <br>každém detailu.</h2>
+      <p data-key="p-projects">Prohlédněte si výběr projektů, kde se snoubí inovace s funkčností.</p>
       <a href="#" class="cta-button" data-key="btn-projects">Zobrazit portfolio</a>
-      <div class="counter">03</div>
+      <div class="counter" aria-hidden="true">03</div>
     </div>
   </section>
 
   <section class="section" id="contact">
     <div class="glass-card" data-speed="2">
       <div class="badge" data-key="nav-contact">Kontakt</div>
-      <h1 data-key="h1-contact">Zahajte svou <br>transformaci.</h1>
+      <h2 data-key="h1-contact">Zahajte svou <br>transformaci.</h2>
       <p data-key="p-contact">Spojme se a vytvořme společně digitální produkt světové úrovně.</p>
       <a href="mailto:frantisek.sestak@tutamail.com" class="cta-button" data-key="btn-email">Sjednat konzultaci</a>
-      <div class="counter">04</div>
+      <div class="counter" aria-hidden="true">04</div>
     </div>
   </section>
 </main>
@@ -289,6 +325,11 @@
   const menuToggle = document.getElementById('menuToggle');
   const navMenu = document.getElementById('navMenu');
 
+  // !!! DUOLEŽITÉ: Vynucení startu na začátku při reloadu
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+
   function setLang(lang) {
     document.querySelectorAll('[data-key]').forEach(el => {
       const key = el.getAttribute('data-key');
@@ -296,12 +337,12 @@
     });
     document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.id === `btn-${lang}`));
     localStorage.setItem('sesty_lang', lang);
+    document.documentElement.lang = lang;
   }
 
   // 3D Parallax - OPTIMALIZOVÁNO PRO VÝKON
   let mx = 0, my = 0;
   window.addEventListener('mousemove', (e) => {
-    // Parallax počítáme jen pokud není mobil (šetříme baterii a výkon)
     if(window.innerWidth > 768) {
       mx = (e.clientX / window.innerWidth - 0.5);
       my = (e.clientY / window.innerHeight - 0.5);
@@ -309,7 +350,6 @@
   });
 
   function animate() {
-    // Pokud je to mobil, animaci 3D efektu přeskočíme úplně = plynulejší scroll
     if(window.innerWidth > 768) {
       scene.style.transform = `rotateY(${mx * 10}deg) rotateX(${-my * 10}deg)`;
       cards.forEach(card => {
@@ -321,7 +361,7 @@
   }
   requestAnimationFrame(animate);
 
-  // Scroll Logic - Desktop "wheel hijacking", Mobile native smooth snap
+  // Scroll Logic
   let isThrottled = false;
   function scrollSlide(dir) {
     if (isThrottled) return;
@@ -332,7 +372,6 @@
     setTimeout(() => isThrottled = false, 800);
   }
 
-  // Custom scroll jen pro desktop
   scroller.onwheel = (e) => {
     if(window.innerWidth > 768) {
       e.preventDefault();
@@ -352,20 +391,29 @@
 
   // Menu Animation
   menuToggle.onclick = () => {
-    menuToggle.classList.toggle('open');
+    const isOpen = menuToggle.classList.toggle('open');
     navMenu.classList.toggle('open');
+    menuToggle.setAttribute('aria-expanded', isOpen);
   };
 
-  // Zavření menu po kliknutí na odkaz
   document.querySelectorAll('nav a').forEach(link => {
     link.addEventListener('click', () => {
       menuToggle.classList.remove('open');
       navMenu.classList.remove('open');
+      menuToggle.setAttribute('aria-expanded', 'false');
     });
   });
 
   // Init
   window.onload = () => {
+    // 1. Reset pozice na 0
+    scroller.scrollLeft = 0;
+
+    // 2. Vyčištění URL hash (aby to neskákalo na #contact)
+    if(window.location.hash) {
+      history.replaceState(null, null, ' ');
+    }
+
     setLang(localStorage.getItem('sesty_lang') || 'cz');
     if(!localStorage.getItem('sesty_cookie')) setTimeout(() => cookieBanner.classList.add('show'), 2000);
     updateOnlineStatus();
