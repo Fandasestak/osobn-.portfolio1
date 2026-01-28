@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
-  <link id="favicon" rel="icon" type="image/svg+xml">
+  <link id="favicon" rel="icon" type="svg">
   <script src="favicon.js" async></script>
 
   <style>
@@ -38,14 +38,12 @@
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    /* Focus styl pro klávesnici (myší vidět nebude) - nutné pro Accessibility */
     *:focus-visible {
       outline: 2px solid var(--accent);
       outline-offset: 4px;
     }
 
     html, body {
-      /* Zajištění, že se scroluje jen horizontálně i na mobilu */
       overscroll-behavior-y: none;
       overflow: hidden;
       height: 100vh;
@@ -58,46 +56,55 @@
       font-family: 'Montserrat', sans-serif;
       perspective: 1500px;
       -webkit-font-smoothing: antialiased;
+      transition: background 0.5s;
     }
 
-    /* --- OFFLINE LOADER --- */
-    .offline-overlay {
-      position: fixed; inset: 0; background: var(--bg); z-index: 9999;
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
-      opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
+    /* --- HORIZONTÁLNÍ PROGRESS BAR --- */
+    .progress-container {
+      position: fixed; top: 90px; left: 60px; width: calc(100% - 120px); height: 2px;
+      background: var(--border); z-index: 1001;
+      transition: opacity 0.5s ease, transform 0.5s ease;
     }
-    .offline-overlay.active { opacity: 1; pointer-events: all; }
-    .loader-logo-svg { width: 100px; height: 100px; margin-bottom: 20px; animation: pulse-glow 2s infinite ease-in-out; }
-
-    @keyframes pulse-glow {
-      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 10px var(--accent-soft)); }
-      50% { transform: scale(1.1); filter: drop-shadow(0 0 25px var(--accent)); }
-    }
-
-    /* --- COOKIE BANNER --- */
-    .cookie-banner {
-      position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(150%);
-      width: 90%; max-width: 500px; background: rgba(3, 5, 8, 0.95); backdrop-filter: blur(20px);
-      border: 1px solid var(--accent); padding: 25px; border-radius: 20px; z-index: 10000;
-      display: flex; flex-direction: column; gap: 15px; box-shadow: 0 0 30px rgba(2, 255, 180, 0.15);
-      transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-    }
-    .cookie-banner.show { transform: translateX(-50%) translateY(0); }
-    .cookie-buttons { display: flex; gap: 10px; }
-    .cookie-btn { flex: 1; padding: 12px; border-radius: 10px; font-size: 0.8rem; font-weight: 700; cursor: pointer; text-transform: uppercase; transition: 0.3s; border: none; }
-    .cookie-btn.accept { background: var(--accent); color: #000; }
-    .cookie-btn.decline { background: transparent; border: 1px solid var(--border); color: var(--text-muted); }
-
-    /* --- UI ELEMENTS --- */
-    .progress-container { position: fixed; top: 90px; left: 60px; width: calc(100% - 120px); height: 2px; background: var(--border); z-index: 1001; }
     .progress-bar { height: 100%; width: 25%; background: var(--accent); box-shadow: 0 0 15px var(--accent); transition: width 0.4s cubic-bezier(0.23, 1, 0.32, 1); }
 
-    .lang-switch { position: fixed; top: 105px; right: 60px; display: flex; gap: 12px; z-index: 1005; }
+    /* --- VERTIKÁLNÍ PROGRESS BAR (Portfolio) --- */
+    .vertical-progress-container {
+      position: fixed; top: 50%; right: 30px; transform: translateY(-50%);
+      width: 2px; height: 60vh; background: var(--border); z-index: 2005;
+      opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
+    }
+    .vertical-progress-bar {
+      width: 100%; height: 0%; background: var(--accent);
+      box-shadow: 0 0 15px var(--accent);
+      transition: height 0.1s linear;
+    }
+
+    /* --- TLAČÍTKO ZPĚT --- */
+    .back-btn {
+      position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%) translateY(100px);
+      padding: 12px 30px; background: var(--accent); color: #000;
+      font-weight: 800; text-transform: uppercase; border-radius: 50px;
+      text-decoration: none; z-index: 2010; cursor: pointer; border: none;
+      box-shadow: 0 0 20px var(--accent-soft);
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+      opacity: 0; pointer-events: none;
+    }
+    .back-btn:hover {
+      box-shadow: 0 0 40px var(--accent);
+      transform: translateX(-50%) translateY(0) scale(1.1);
+    }
+
+    /* --- LANG SWITCH --- */
+    .lang-switch {
+      position: fixed; top: 105px; right: 60px; display: flex; gap: 12px;
+      z-index: 2100;
+      transition: opacity 0.5s;
+    }
     .lang-btn { background: none; border: none; color: var(--text-muted); font-size: 0.7rem; font-weight: 800; cursor: pointer; transition: 0.3s; letter-spacing: 1.5px; }
     .lang-btn.active { color: var(--accent); }
 
     /* --- 3D SCENE --- */
-    .canvas-3d { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+    .canvas-3d { position: fixed; inset: 0; z-index: 1; pointer-events: none; transition: opacity 0.5s; }
     .scene { width: 100%; height: 100%; transform-style: preserve-3d; will-change: transform; }
     .grid-plane {
       position: absolute; top: 50%; left: 50%; width: 300vw; height: 300vh;
@@ -107,7 +114,7 @@
     }
 
     /* --- NAVIGATION --- */
-    header { position: fixed; top: 0; width: 100%; padding: 30px 60px; display: flex; justify-content: space-between; align-items: center; z-index: 1100; }
+    header { position: fixed; top: 0; width: 100%; padding: 30px 60px; display: flex; justify-content: space-between; align-items: center; z-index: 1100; transition: transform 0.5s; }
     .brand { display: flex; align-items: center; gap: 15px; text-decoration: none; color: white; }
     .logo-svg { width: 40px; height: 40px; transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
     .brand:hover .logo-svg { transform: rotate(-60deg); }
@@ -115,40 +122,20 @@
     .brand-text .tagline { font-size: 0.7rem; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; }
 
     nav a { margin-left: 35px; color: var(--text-muted); text-decoration: none; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; position: relative; transition: color 0.3s; }
-
-    /* Původní animace linků v navigaci */
     nav a::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.4s; }
     nav a:hover::after { width: 100%; }
     nav a:hover { color: var(--accent); }
 
-    /* --- MAIN --- */
+    /* --- MAIN SCROLL --- */
     .main-container {
-      display: flex;
-      flex-direction: row; /* Vynucení řádku i pro mobil */
-      height: 100vh;
-      width: 100vw;
-      overflow-x: auto;
-      overflow-y: hidden; /* Zákaz vertikálního scrollování */
-
-      /* Optimalizace scrollu */
-      scroll-snap-type: x mandatory;
-      scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
+      display: flex; flex-direction: row; height: 100vh; width: 100vw;
+      overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch; scrollbar-width: none;
+      transition: opacity 0.5s ease, transform 0.5s ease;
     }
     .main-container::-webkit-scrollbar { display: none; }
 
-    .section {
-      min-width: 100vw; /* Každá sekce zabírá celou šířku */
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      /* Snap nastavení */
-      scroll-snap-align: center;
-      scroll-snap-stop: always;
-    }
+    .section { min-width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; scroll-snap-align: center; scroll-snap-stop: always; }
 
     .glass-card {
       background: var(--glass); backdrop-filter: blur(25px); border: 1px solid var(--border);
@@ -157,67 +144,171 @@
     }
 
     .badge { display: inline-block; padding: 6px 14px; background: var(--accent-soft); color: var(--accent); border-radius: 100px; font-size: 0.75rem; font-weight: 700; margin-bottom: 25px; text-transform: uppercase; }
-
     h1, h2 { font-size: clamp(2.2rem, 5vw, 4.2rem); font-weight: 800; line-height: 1.1; margin-bottom: 25px; color: white; }
-
     p { font-size: 1.1rem; color: var(--text-muted); line-height: 1.7; margin-bottom: 35px; max-width: 600px; }
 
-    /* --- CTA BUTTON ANIMATION --- */
-    .cta-button {
-      color: var(--accent);
-      text-decoration: none;
-      text-transform: uppercase;
-      font-weight: 700;
-      position: relative;
-      transition: 0.3s;
-    }
-    .cta-button::after {
-      content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.4s;
-    }
+    .cta-button { color: var(--accent); text-decoration: none; text-transform: uppercase; font-weight: 700; position: relative; transition: 0.3s; cursor: pointer; }
+    .cta-button::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.4s; }
     .cta-button:hover::after { width: 100%; }
-
     .counter { position: absolute; bottom: 40px; right: 40px; font-size: 4rem; font-weight: 900; color: rgba(255,255,255,0.03); }
 
-    /* --- HAMBURGER ANIMATION & BTN RESET --- */
-    .menu-toggle {
-      display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 1200; width: 30px;
-      background: transparent; border: none; padding: 0;
+    /* --- PORTFOLIO LAYER --- */
+    #portfolio-layer {
+      position: fixed; inset: 0; z-index: 2000;
+      background: var(--bg);
+      overflow-y: auto; overflow-x: hidden;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+      padding: 120px 60px 120px 60px;
+      scrollbar-width: none;
     }
-    .menu-toggle span {
-      width: 100%; height: 2px; background: white;
-      transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-      transform-origin: center; display: block;
+    #portfolio-layer::-webkit-scrollbar { display: none; }
+
+    .portfolio-header {
+      text-align: center; margin-bottom: 80px; max-width: 1000px; margin-left: auto; margin-right: auto;
     }
+
+    .github-btn {
+      display: inline-flex; justify-content: center; align-items: center;
+      margin-top: 15px; color: var(--text-muted); transition: all 0.3s ease;
+    }
+    .github-btn svg { width: 40px; height: 40px; fill: currentColor; }
+    .github-btn:hover { color: var(--accent); transform: scale(1.1) rotate(5deg); filter: drop-shadow(0 0 8px var(--accent)); }
+
+    .portfolio-grid {
+      max-width: 1400px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 50px;
+    }
+
+    .project-item {
+      background: rgba(255,255,255,0.02); border: 1px solid var(--border);
+      border-radius: 20px; padding: 40px;
+      transition: 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+      display: flex; flex-direction: column; position: relative; overflow: hidden;
+      height: 100%;
+    }
+    .project-item:hover { transform: translateY(-10px); border-color: var(--accent); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+
+    .project-img {
+      width: 100%; aspect-ratio: 16/9; background: #0a0a0a; border-radius: 12px; margin-bottom: 30px; overflow: hidden; position: relative;
+    }
+    .project-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; }
+    .project-item:hover .project-img img { transform: scale(1.05); }
+
+    .project-title { font-size: 1.8rem; font-weight: 700; margin-bottom: 10px; color: white; letter-spacing: -0.5px; }
+    .project-desc { color: var(--text-muted); font-size: 1rem; margin-bottom: 25px; line-height: 1.6; flex-grow: 1; }
+
+    .project-link {
+      display: inline-block;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 1.1rem; position: relative; width: fit-content;
+      margin-top: auto;
+    }
+    .project-link::after {
+      content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px;
+      background: var(--accent); transition: width 0.4s ease;
+    }
+    .project-link:hover::after { width: 100%; }
+    .project-link:hover { color: var(--accent); }
+
+    .project-item.placeholder {
+      border: 1px dashed rgba(255,255,255,0.15);
+      background: transparent;
+    }
+    .project-item.placeholder:hover {
+      border-color: var(--accent);
+      border-style: solid;
+      background: rgba(2, 255, 180, 0.02);
+    }
+
+    .placeholder-content {
+      display: flex; flex-direction: column;
+      height: 100%;
+    }
+
+    .placeholder-visual {
+      width: 100%; aspect-ratio: 16/9;
+      background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 100%);
+      border-radius: 12px; margin-bottom: 30px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .placeholder-visual svg { width: 40px; height: 40px; opacity: 0.3; }
+
+    @keyframes pulse-arrow {
+      0% { transform: translateX(0); opacity: 0.4; }
+      50% { transform: translateX(10px); opacity: 1; color: var(--accent); }
+      100% { transform: translateX(0); opacity: 0.4; }
+    }
+
+    .placeholder-arrow {
+      position: absolute; left: 4px; bottom: 90px;
+      font-size: 1.5rem; color: var(--text-muted); font-weight: 300;
+      animation: pulse-arrow 2s infinite ease-in-out;
+    }
+
+    .placeholder-text {
+      flex-grow: 1; display: flex; flex-direction: column;
+    }
+    .placeholder-text h3 { font-size: 1.8rem; font-weight: 700; color: white; margin-bottom: 10px; letter-spacing: -0.5px; }
+    .placeholder-text p { font-size: 1rem; color: var(--text-muted); margin: 0; line-height: 1.6; }
+
+    /* --- STAVY --- */
+    body.portfolio-open .main-container { opacity: 0; transform: scale(0.95); pointer-events: none; }
+    body.portfolio-open .progress-container { opacity: 0; transform: translateY(-20px); }
+    body.portfolio-open .canvas-3d { opacity: 0.2; }
+    body.portfolio-open #portfolio-layer { opacity: 1; pointer-events: all; }
+    body.portfolio-open .vertical-progress-container { opacity: 1; }
+    body.portfolio-open .back-btn { opacity: 1; pointer-events: all; transform: translateX(-50%) translateY(0); }
+
+    /* --- HAMBURGER --- */
+    .menu-toggle { display: none; flex-direction: column; gap: 6px; cursor: pointer; z-index: 1200; width: 30px; background: transparent; border: none; padding: 0; }
+    .menu-toggle span { width: 100%; height: 2px; background: white; transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1); transform-origin: center; display: block; }
     .menu-toggle span:nth-child(2) { background: var(--accent); width: 70%; margin-left: auto; margin-right: auto; }
     .menu-toggle.open span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
     .menu-toggle.open span:nth-child(2) { opacity: 0; transform: translateX(-20px); }
     .menu-toggle.open span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
-
+    /* --- MEDIA QUERIES --- */
     @media (max-width: 768px) {
       header { padding: 20px; }
       .progress-container { top: auto; bottom: 80px; left: 20px; width: calc(100% - 40px); }
-      .lang-switch { top: auto; bottom: 40px; left: 20px; right: auto; }
+      .vertical-progress-container { height: 40vh; right: 8px; }
+
+      .lang-switch { top: auto; bottom: 40px; left: 20px; right: auto; z-index: 2100; }
+
       .menu-toggle { display: flex; }
-      nav {
-        position: fixed; inset: 0; background: var(--bg); transform: translateX(100%);
-        display: flex; flex-direction: column; justify-content: center; align-items: center; transition: 0.5s; z-index: 1100;
-      }
+      nav { position: fixed; inset: 0; background: var(--bg); transform: translateX(100%); display: flex; flex-direction: column; justify-content: center; align-items: center; transition: 0.5s; z-index: 1100; }
       nav.open { transform: translateX(0); }
       nav a { margin: 20px 0; font-size: 1.8rem; font-weight: 800; }
+
       .glass-card { padding: 30px; margin: 0 20px; border-radius: 25px; transform: none !important; }
       .counter { display: none; }
+
+      #portfolio-layer { padding: 100px 20px 100px 20px; }
+      .portfolio-grid { grid-template-columns: 1fr; gap: 30px; }
+      .back-btn { bottom: 30px; padding: 10px 25px; font-size: 0.8rem; }
+
+      .project-item { padding: 25px; }
+      .project-title, .placeholder-text h3 { font-size: 1.5rem; }
     }
   </style>
 </head>
 <body>
 
-<div id="offline-loader" class="offline-overlay" aria-hidden="true"">
-  <div class="loader-logo-svg">
-    <svg viewBox="0 0 4500 4500" aria-hidden="true" focusable="false"><path d="M1429.687,3259.243c-742.688,0 -1345.657,-602.969 -1345.657,-1345.657l1345.657,1345.657Z" fill="#fff"/><path d="M2775.344,1913.586c0,742.688 -602.969,1345.657 -1345.657,1345.657l1345.657,-1345.657Z" fill="#fff"/><path d="M3064.064,1240.757c742.688,0 1345.657,602.969 1345.657,1345.657l-1345.657,-1345.657Z" fill="#fff"/><path d="M1718.407,2586.414c0,-742.688 602.969,-1345.657 1345.657,-1345.657l-1345.657,1345.657Z" fill="#fff"/></svg>
-  </div>
-  <div class="offline-text">OFFLINE</div>
+<div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+
+<div class="vertical-progress-container">
+  <div class="vertical-progress-bar" id="verticalProgressBar"></div>
 </div>
+
+<button class="back-btn" id="backBtn" data-key="btn-back">Vrátit zpět</button>
+
+<div class="canvas-3d" aria-hidden="true"><div class="scene" id="scene"><div class="grid-plane"></div></div></div>
 
 <header>
   <a href="#home" class="brand" aria-label="Domů - Šesty Portfolio">
@@ -239,15 +330,12 @@
     <a href="#projects" data-key="nav-work">Portfolio</a>
     <a href="#contact" data-key="nav-contact">Kontakt</a>
   </nav>
+
   <div class="lang-switch">
-    <button class="lang-btn active" id="btn-cz" onclick="setLang('cz')" aria-label="Přepnout do češtiny">CZ</button>
-    <button class="lang-btn" id="btn-en" onclick="setLang('en')" aria-label="Switch to English">EN</button>
+    <button class="lang-btn active" id="btn-cz" onclick="setLang('cz')">CZ</button>
+    <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
   </div>
 </header>
-
-<div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
-
-<div class="canvas-3d" aria-hidden="true"><div class="scene" id="scene"><div class="grid-plane"></div></div></div>
 
 <main class="main-container" id="scroller">
   <section class="section" id="home">
@@ -273,7 +361,9 @@
       <div class="badge" data-key="badge-work">Vybrané práce</div>
       <h2 data-key="h1-projects">Excelence v <br>každém detailu.</h2>
       <p data-key="p-projects">Prohlédněte si výběr projektů, kde se snoubí inovace s funkčností.</p>
-      <a href="#You can't see my work in Betta Version " class="cta-button" data-key="btn-projects">Zobrazit portfolio</a>
+
+      <a href="#" class="cta-button" id="openPortfolioBtn" data-key="btn-projects">Zobrazit portfolio</a>
+
       <div class="counter" aria-hidden="true">03</div>
     </div>
   </section>
@@ -289,6 +379,39 @@
   </section>
 </main>
 
+<div id="portfolio-layer">
+  <div class="portfolio-header">
+    <h2 data-key="h2-portfolio">Kompletní Portfolio</h2>
+    <a href="https://github.com/Fandasestak" target="_blank" class="github-btn" aria-label="GitHub Profil">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.419-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+      </svg>
+    </a>
+  </div>
+
+  <div class="portfolio-grid">
+    <div class="project-item">
+      <div class="project-img">
+        <img src="projekt1.png" alt="moje firma" loading="lazy">
+      </div>
+      <div class="project-title" data-key="proj-1-title">Holdingová společnost</div>
+      <p class="project-desc" data-key="proj-1-desc">Korporátní identita, webová prezentace a vizuální systém.</p>
+      <a class="project-link" href="https://sesty.dev">https://sesty.dev</a>
+    </div>
+    <div class="project-item placeholder">
+      <div class="placeholder-content">
+        <div class="placeholder-visual">
+          <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        </div>
+        <div class="placeholder-text">
+          <h3 data-key="placeholder-title">Tvé portfolio?</h3>
+          <p data-key="placeholder-desc">Zde může být tvůj e-shop nebo osobní prezentace.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
   const translations = {
     cz: {
@@ -297,6 +420,11 @@
       "badge-offer": "Expertíza", "h1-about": "Estetika & <br>Výkon.", "p-about": "Komplexní řešení od vizuální identity po robustní backend. Architektura zaměřená na prožitek.",
       "badge-work": "Vybrané práce", "h1-projects": "Excelence v <br>každém detailu.", "p-projects": "Prohlédněte si výběr projektů, kde se snoubí inovace s funkčností.", "btn-projects": "Zobrazit portfolio",
       "h1-contact": "Zahajte svou <br>transformaci.", "p-contact": "Spojme se a vytvořme společně digitální produkt světové úrovně.", "btn-email": "Domluvte si konzultaci",
+      "h2-portfolio": "Kompletní Portfolio", "btn-back": "Vrátit zpět",
+      "proj-1-title": "Holdingová společnost",
+      "proj-1-desc": "Korporátní identita, webová prezentace a vizuální systém.",
+      "placeholder-title": "Tvé portfolio?",
+      "placeholder-desc": "Zde může být tvůj e-shop nebo osobní prezentace."
     },
     en: {
       "brand-tagline": "Design & Dev", "nav-services": "Services", "nav-work": "Work", "nav-contact": "Contact",
@@ -304,19 +432,22 @@
       "badge-offer": "Expertise", "h1-about": "Aesthetics & <br>Performance.", "p-about": "Comprehensive solutions from visual identity to robust backend. Architecture focused on experience.",
       "badge-work": "Selected work", "h1-projects": "Excellence in <br>every detail.", "p-projects": "Explore a selection of projects, where innovation meets functionality.", "btn-projects": "View portfolio",
       "h1-contact": "Start your <br>transformation.", "p-contact": "Let's connect and create a world-class digital product together.", "btn-email": "Arrange a consultation",
+      "h2-portfolio": "Full Portfolio", "btn-back": "Go Back",
+      "proj-1-title": "Holding Company",
+      "proj-1-desc": "Corporate identity, web presentation, and visual system.",
+      "placeholder-title": "Your Portfolio?",
+      "placeholder-desc": "Your e-shop or personal presentation could be here."
     }
   };
 
   const scroller = document.getElementById("scroller");
   const progressBar = document.getElementById("progressBar");
+  const verticalProgressBar = document.getElementById("verticalProgressBar");
   const scene = document.getElementById('scene');
   const cards = document.querySelectorAll('.glass-card');
-  const menuToggle = document.getElementById('menuToggle');
-  const navMenu = document.getElementById('navMenu');
-
-  if ('scrollRestoration' in history) {
-    history.scrollRestoration = 'manual';
-  }
+  const openPortfolioBtn = document.getElementById('openPortfolioBtn');
+  const backBtn = document.getElementById('backBtn');
+  const portfolioLayer = document.getElementById('portfolio-layer');
 
   function setLang(lang) {
     document.querySelectorAll('[data-key]').forEach(el => {
@@ -324,10 +455,49 @@
       if(translations[lang][key]) el.innerHTML = translations[lang][key];
     });
     const btns = document.querySelectorAll('.lang-btn');
-    if(btns.length) btns.forEach(btn => btn.classList.toggle('active', btn.id === `btn-${lang}`));
+    btns.forEach(btn => btn.classList.toggle('active', btn.id === `btn-${lang}`));
     localStorage.setItem('sesty_lang', lang);
-    document.documentElement.lang = lang;
   }
+
+  let isThrottled = false;
+  function scrollSlide(dir) {
+    if (isThrottled) return;
+    isThrottled = true;
+    const step = scroller.clientWidth;
+    const target = Math.max(0, Math.min(Math.round(scroller.scrollLeft / step) + dir, 3));
+    scroller.scrollTo({ left: target * step, behavior: 'smooth' });
+    setTimeout(() => isThrottled = false, 800);
+  }
+
+  scroller.onwheel = (e) => {
+    if(window.innerWidth > 768 && !document.body.classList.contains('portfolio-open')) {
+      e.preventDefault();
+      if(Math.abs(e.deltaY) > 18) scrollSlide(e.deltaY > 0 ? 1 : -1);
+    }
+  };
+
+  scroller.onscroll = () => {
+    const max = scroller.scrollWidth - scroller.clientWidth;
+    const p = max > 0 ? (scroller.scrollLeft / max) * 75 + 25 : 25;
+    progressBar.style.width = `${p}%`;
+  };
+
+  openPortfolioBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.body.classList.add('portfolio-open');
+    portfolioLayer.scrollTop = 0;
+  });
+
+  backBtn.addEventListener('click', () => {
+    document.body.classList.remove('portfolio-open');
+  });
+
+  portfolioLayer.addEventListener('scroll', () => {
+    const scrollTop = portfolioLayer.scrollTop;
+    const scrollHeight = portfolioLayer.scrollHeight - portfolioLayer.clientHeight;
+    const scrollPercent = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+    verticalProgressBar.style.height = `${scrollPercent}%`;
+  });
 
   let mx = 0, my = 0;
   window.addEventListener('mousemove', (e) => {
@@ -349,38 +519,9 @@
   }
   requestAnimationFrame(animate);
 
-  let isThrottled = false;
-  function scrollSlide(dir) {
-    if (isThrottled) return;
-    isThrottled = true;
-    const step = scroller.clientWidth;
-    const target = Math.max(0, Math.min(Math.round(scroller.scrollLeft / step) + dir, 3));
-    scroller.scrollTo({ left: target * step, behavior: 'smooth' });
-    setTimeout(() => isThrottled = false, 800);
-  }
+  const menuToggle = document.getElementById('menuToggle');
+  const navMenu = document.getElementById('navMenu');
 
-  scroller.onwheel = (e) => {
-    if(window.innerWidth > 768) {
-      e.preventDefault();
-      if(Math.abs(e.deltaY) > 18) scrollSlide(e.deltaY > 0 ? 1 : -1);
-    }
-  };
-
-  scroller.onscroll = () => {
-    const max = scroller.scrollWidth - scroller.clientWidth;
-    const p = max > 0 ? (scroller.scrollLeft / max) * 75 + 25 : 25;
-    progressBar.style.width = `${p}%`;
-  };
-
-  // Cookies - POJISTKA PROTI CHYBĚ (pokud banner v HTML chybí)
-  const acceptBtn = document.getElementById('btn-accept');
-  const declineBtn = document.getElementById('btn-decline');
-  const cookieBanner = document.getElementById('cookie-banner');
-
-  if (acceptBtn) acceptBtn.onclick = () => { localStorage.setItem('sesty_cookie', 'ok'); cookieBanner.classList.remove('show'); };
-  if (declineBtn) declineBtn.onclick = () => { localStorage.setItem('sesty_cookie', 'no'); cookieBanner.classList.remove('show'); };
-
-  // Menu Animation - OPRAVENO
   menuToggle.onclick = () => {
     const isOpen = menuToggle.classList.toggle('open');
     navMenu.classList.toggle('open');
@@ -391,24 +532,13 @@
     link.addEventListener('click', () => {
       menuToggle.classList.remove('open');
       navMenu.classList.remove('open');
-      menuToggle.setAttribute('aria-expanded', 'false');
+      document.body.classList.remove('portfolio-open');
     });
   });
 
   window.onload = () => {
-    scroller.scrollLeft = 0;
-    if(window.location.hash) {
-      history.replaceState(null, null, ' ');
-    }
     setLang(localStorage.getItem('sesty_lang') || 'cz');
-    // Bezpečnostní kontrola: Zobraz banner jen pokud element existuje, aby JS nespadl
-    if(!localStorage.getItem('sesty_cookie') && cookieBanner) setTimeout(() => cookieBanner.classList.add('show'), 2000);
-    updateOnlineStatus();
   };
-
-  function updateOnlineStatus() { document.getElementById('offline-loader').classList.toggle('active', !navigator.onLine); }
-  window.addEventListener('online', updateOnlineStatus);
-  window.addEventListener('offline', updateOnlineStatus);
 </script>
 </body>
 </html>
